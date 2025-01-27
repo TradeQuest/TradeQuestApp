@@ -33,7 +33,7 @@ Bienvenido a **TradeQuest**, una plataforma interactiva que actúa como un broke
 
 ### Backend
 
-- **Eloy Pardo Gurrea**: [Linkedin](www.linkedin.com/in/eloypardogurrea)
+- **Eloy Pardo Gurrea**: [Linkedin](https://www.linkedin.com/in/eloypardogurrea)
 - **Jorge García Bono**: [Linkedin](www.linkedin.com/in/jorge-garc%C3%ADa-bono-a764452aa)
 
 ---
