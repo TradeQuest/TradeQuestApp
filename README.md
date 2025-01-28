@@ -28,13 +28,13 @@ Bienvenido a **TradeQuest**, una plataforma interactiva que actúa como un broke
 
 ### Frontend
 
-- **Cristóbal Bustamante Martínez**: [Linkedin](www.linkedin.com/in/crisbustmar)
-- **Youssef El Ouahabi**: [Linkedin](www.linkedin.com/in/youssef-el-ouahabi-aa7981250)
+- **Cristóbal Bustamante Martínez**: [Linkedin](https://www.linkedin.com/in/crisbustmar)
+- **Youssef El Ouahabi**: [Linkedin](https://www.linkedin.com/in/youssef-el-ouahabi-aa7981250)
 
 ### Backend
 
-- **Eloy Pardo Gurrea**: [Linkedin](www.linkedin.com/in/eloypardogurrea)
-- **Jorge García Bono**: [Linkedin](www.linkedin.com/in/jorge-garc%C3%ADa-bono-a764452aa)
+- **Eloy Pardo Gurrea**: [Linkedin](https://www.linkedin.com/in/eloypardogurrea)
+- **Jorge García Bono**: [Linkedin](https://www.linkedin.com/in/jorge-garc%C3%ADa-bono-a764452aa)
 
 ---
 
