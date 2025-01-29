@@ -40,10 +40,10 @@ public class User {
     @Column(name = "role", nullable = false)
     private Role user_role;
 
-    @Column(name = "level")
+    @Column(name = "level", nullable = false)
     private int level;
 
-    @Column(name = "current_lesson")
+    @Column(name = "current_lesson", nullable = false)
     private int current_lesson;
 
     public User(Long user_id, String nickname, String name, String surname, String password, String email, Role user_role, int level, String current_lesson) {
