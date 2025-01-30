@@ -7,7 +7,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@NoArgsConstructor
 
 @Entity
 @Table(name = "Wallet")
@@ -26,8 +25,7 @@ public class Wallet {
     //Relacion 1 a 1 con User
 
 
-    public Wallet(Long wallet_id, float balance) {
-        this.wallet_id = wallet_id;
+    public Wallet() {
         this.balance = 0;
     }
 }
