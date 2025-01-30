@@ -1,21 +1,17 @@
 package org.example.tradequestapp.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
 @NoArgsConstructor
 
 @Entity
 @Table(name = "Transaction")
 public class Transaction {
 
-    enum Type {
+    enum TransactionType {
         COMPRA, VENTA
     }
 
@@ -25,10 +21,9 @@ public class Transaction {
     private Long transaction_id;
 
     @Column(name = "transaction_type", nullable = false)
-    private Type transaction_type;
+    private TransactionType transaction_type;
 
-    //Cantidad de activo comprado/vendido
-    @Column(name = "amount", nullable = false)
+    @Column(name = "amount", nullable = false) //Cantidad de activo comprado/vendido
     private float asset_amount;
 
     @Column(name = "unit_price", nullable = false)
@@ -37,16 +32,78 @@ public class Transaction {
     @Column(name = "transaction_date")
     private LocalDateTime transaction_date;
 
-    //Relación 1 a 1 wallet
+    //RELATIONS
+    @ManyToOne
+    @JoinColumn(name = "wallet_id", nullable = false)
+    private Wallet wallet;
 
-    //Relación 1 a 1 Asset
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "asset_id", referencedColumnName = "asset_id")
+    private Asset asset;
 
-
-    public Transaction(Type transaction_type, float asset_amount, float unit_price, LocalDateTime transaction_date) {
+    //CONSTRUCTOR
+    public Transaction(TransactionType transaction_type, float asset_amount, float unit_price, LocalDateTime transaction_date) {
         this.transaction_type = transaction_type;
         this.asset_amount = asset_amount;
         this.unit_price = unit_price;
         this.transaction_date = LocalDateTime.now();
+    }
+
+    //GETTER Y SETTER
+    public Long getTransaction_id() {
+        return transaction_id;
+    }
+
+    public void setTransaction_id(Long transaction_id) {
+        this.transaction_id = transaction_id;
+    }
+
+    public TransactionType getTransaction_type() {
+        return transaction_type;
+    }
+
+    public void setTransaction_type(TransactionType transaction_type) {
+        this.transaction_type = transaction_type;
+    }
+
+    public float getAsset_amount() {
+        return asset_amount;
+    }
+
+    public void setAsset_amount(float asset_amount) {
+        this.asset_amount = asset_amount;
+    }
+
+    public float getUnit_price() {
+        return unit_price;
+    }
+
+    public void setUnit_price(float unit_price) {
+        this.unit_price = unit_price;
+    }
+
+    public LocalDateTime getTransaction_date() {
+        return transaction_date;
+    }
+
+    public void setTransaction_date(LocalDateTime transaction_date) {
+        this.transaction_date = transaction_date;
+    }
+
+    public Wallet getWallet() {
+        return wallet;
+    }
+
+    public void setWallet(Wallet wallet) {
+        this.wallet = wallet;
+    }
+
+    public Asset getAsset() {
+        return asset;
+    }
+
+    public void setAsset(Asset asset) {
+        this.asset = asset;
     }
 
 

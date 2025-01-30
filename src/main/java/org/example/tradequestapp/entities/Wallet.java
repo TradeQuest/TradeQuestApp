@@ -1,12 +1,9 @@
 package org.example.tradequestapp.entities;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "Wallet")
@@ -20,12 +17,48 @@ public class Wallet {
     @Column(name = "balance", nullable = false)
     private float balance;
 
-    //One to Many con Asset
+    //RELATIONS
+    @OneToOne(mappedBy = "wallet")
+    private User user;
 
-    //Relacion 1 a 1 con User
+    @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transaction> transactions = new ArrayList<>();
 
-
+    //CONSTRUCTOR
     public Wallet() {
         this.balance = 0;
+    }
+
+    //GETTER Y SETTER
+    public Long getWallet_id() {
+        return wallet_id;
+    }
+
+    public void setWallet_id(Long wallet_id) {
+        this.wallet_id = wallet_id;
+    }
+
+    public float getBalance() {
+        return balance;
+    }
+
+    public void setBalance(float balance) {
+        this.balance = balance;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<Transaction> getTransactions() {
+        return transactions;
+    }
+
+    public void setTransactions(List<Transaction> transactions) {
+        this.transactions = transactions;
     }
 }
