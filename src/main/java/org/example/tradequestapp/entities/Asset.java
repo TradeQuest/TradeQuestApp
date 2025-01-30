@@ -45,7 +45,7 @@ public class Asset {
 
     //RELATIONS
     @OneToOne(mappedBy = "asset")
-    private Wallet wallet;
+    private Transaction transaction;
 
     @ManyToOne
     @JoinColumn(name = "company_id", nullable = false)
@@ -123,14 +123,6 @@ public class Asset {
 
     public void setVolume(float volume) {
         this.volume = volume;
-    }
-
-    public Wallet getWallet() {
-        return wallet;
-    }
-
-    public void setWallet(Wallet wallet) {
-        this.wallet = wallet;
     }
 
     public Company getCompany() {
