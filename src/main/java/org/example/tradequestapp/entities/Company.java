@@ -27,7 +27,7 @@ public class Company {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "official_site")
-    private String official_site;
+    @Column(name = "official_website")
+    private String official_website;
 
 }
