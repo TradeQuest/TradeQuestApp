@@ -14,7 +14,7 @@ import lombok.Setter;
 public class Asset {
 
     enum AssetType {
-        ACCIÓN, BONO, MATERIA_PRIMA
+        ACCIÓN, ETF
     }
 
     @Id
