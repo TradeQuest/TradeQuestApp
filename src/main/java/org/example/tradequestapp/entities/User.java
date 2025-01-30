@@ -1,6 +1,13 @@
 package org.example.tradequestapp.entities;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
 
 @Entity
 @Table(name = "User")
@@ -12,27 +19,42 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "user_id", nullable = false, unique = true)
+    private Long user_id;
 
-    @Column(name = "Nombre", nullable = false)
+    @Column(name = "nickname", nullable = false, unique = true)
+    private String nickname;
+
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "Apellido1", nullable = false)
-    private String surname_1;
-    @Column(name = "Apellido2", nullable = false)
-    private String surname_2;
+    @Column(name = "surname", nullable = false)
+    private String surname;
 
-    @Column(name = "Contrasena", nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "Email", unique = true, nullable = false)
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "Rol", nullable = false)
+    @Column(name = "role", nullable = false)
     private Role user_role;
 
-    @Column(name = "Nivel")
+    @Column(name = "level", nullable = false)
     private int level;
 
+    @Column(name = "current_lesson", nullable = false)
+    private int current_lesson;
 
+    public User(Long user_id, String nickname, String name, String surname, String password, String email, Role user_role, int level, String current_lesson) {
+        this.user_id = user_id;
+        this.nickname = nickname;
+        this.name = name;
+        this.surname = surname;
+        this.password = password;
+        this.email = email;
+        this.user_role = Role.STUDENT;
+        this.level = 0;
+        this.current_lesson = 0;
+    }
 }
