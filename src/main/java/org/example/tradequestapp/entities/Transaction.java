@@ -42,8 +42,7 @@ public class Transaction {
     //Relación 1 a 1 Asset
 
 
-    public Transaction(Long transaction_id, Type transaction_type, float asset_amount, float unit_price, LocalDateTime transaction_date) {
-        this.transaction_id = transaction_id;
+    public Transaction(Type transaction_type, float asset_amount, float unit_price, LocalDateTime transaction_date) {
         this.transaction_type = transaction_type;
         this.asset_amount = asset_amount;
         this.unit_price = unit_price;

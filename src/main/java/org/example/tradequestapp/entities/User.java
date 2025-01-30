@@ -46,8 +46,7 @@ public class User {
     @Column(name = "current_lesson", nullable = false)
     private int current_lesson;
 
-    public User(Long user_id, String nickname, String name, String surname, String password, String email, Role user_role, int level, String current_lesson) {
-        this.user_id = user_id;
+    public User(String nickname, String name, String surname, String password, String email, Role user_role, int level, String current_lesson) {
         this.nickname = nickname;
         this.name = name;
         this.surname = surname;
