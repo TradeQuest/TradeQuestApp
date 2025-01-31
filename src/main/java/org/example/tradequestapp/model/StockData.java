@@ -2,7 +2,7 @@ package org.example.tradequestapp.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class DailyStockData {
+public class StockData {
     @JsonProperty("1. open")
     private String open;
     @JsonProperty("2. high")
