@@ -1,6 +1,8 @@
 package org.example.tradequestapp;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.example.tradequestapp.model.DailyStockData;
+
 import java.util.Map;
 
 public class APIResponse {

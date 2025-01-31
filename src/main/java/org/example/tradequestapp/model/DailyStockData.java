@@ -1,4 +1,4 @@
-package org.example.tradequestapp;
+package org.example.tradequestapp.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
