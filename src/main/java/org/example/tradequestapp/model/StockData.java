@@ -4,25 +4,53 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class StockData {
     @JsonProperty("1. open")
-    private String open;
+    private float open;
     @JsonProperty("2. high")
-    private String high;
+    private float high;
     @JsonProperty("3. low")
-    private String low;
+    private float low;
     @JsonProperty("4. close")
-    private String close;
+    private float close;
     @JsonProperty("5. volume")
-    private String volume;
+    private float volume;
 
-    public String getOpen() { return open; }
-    public String getHigh() { return high; }
-    public String getLow() { return low; }
-    public String getClose() { return close; }
-    public String getVolume() { return volume; }
+    public float getHigh() {
+        return high;
+    }
 
-    public void setOpen(String open) { this.open = open; }
-    public void setHigh(String high) { this.high = high; }
-    public void setLow(String low) { this.low = low; }
-    public void setClose(String close) { this.close = close; }
-    public void setVolume(String volume) { this.volume = volume; }
+    public void setHigh(float high) {
+        this.high = high;
+    }
+
+    public float getOpen() {
+        return open;
+    }
+
+    public void setOpen(float open) {
+        this.open = open;
+    }
+
+    public float getLow() {
+        return low;
+    }
+
+    public void setLow(float low) {
+        this.low = low;
+    }
+
+    public float getClose() {
+        return close;
+    }
+
+    public void setClose(float close) {
+        this.close = close;
+    }
+
+    public float getVolume() {
+        return volume;
+    }
+
+    public void setVolume(float volume) {
+        this.volume = volume;
+    }
 }

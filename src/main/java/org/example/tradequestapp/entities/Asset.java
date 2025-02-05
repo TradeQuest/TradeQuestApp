@@ -28,11 +28,11 @@ public class Asset {
     @Column(name = "asset_type", nullable = false)
     private String asset_type;
 
-    @Column(name = "current_value")
-    private float current_value;
-
     @Column(name = "opening_value")
     private float opening_value;
+
+    @Column(name = "close_value")
+    private float close_value;
 
     @Column(name = "lowest_value")
     private float lowest_value;
@@ -52,8 +52,7 @@ public class Asset {
     private Company company;
 
     //CONSTRUCTOR
-    public Asset(float opening_value, float lowest_value, float highest_value, float volume) {
-        this.current_value = opening_value; //Porque no podemos coger el valor in real time
+    public Asset(float opening_value, float lowest_value, float highest_value, float volume) {//Porque no podemos coger el valor in real time
         this.opening_value = opening_value;
         this.lowest_value = lowest_value;
         this.highest_value = highest_value;
@@ -83,14 +82,6 @@ public class Asset {
 
     public void setAsset_type(String asset_type) {
         this.asset_type = asset_type;
-    }
-
-    public float getCurrent_value() {
-        return current_value;
-    }
-
-    public void setCurrent_value(float current_value) {
-        this.current_value = current_value;
     }
 
     public float getOpening_value() {
