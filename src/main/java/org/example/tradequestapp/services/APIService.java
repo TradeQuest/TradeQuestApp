@@ -1,6 +1,9 @@
 package org.example.tradequestapp.services;
 
 import org.example.tradequestapp.APIResponse;
+import org.example.tradequestapp.entities.Company;
+import org.example.tradequestapp.model.CompanyData;
+import org.example.tradequestapp.model.StockData;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -21,7 +24,7 @@ public class APIService {
         this.webClient = webClient;
     }
 
-    public Mono<APIResponse> getStockData(String function, String symbol) {
+    public StockData getStockData(String function, String symbol) {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/query")
@@ -30,6 +33,18 @@ public class APIService {
                         .queryParam("apikey", API_KEY)
                         .build())
                 .retrieve()
-                .bodyToMono(APIResponse.class);
+                .bodyToMono(StockData.class).block();
+    }
+
+    public CompanyData getCompanyData(String symbol) {
+        return webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/query")
+                        .queryParam("function", FUNCTION_OVERVIEW)
+                        .queryParam("symbol", symbol)
+                        .queryParam("apikey", API_KEY)
+                        .build())
+                .retrieve()
+                .bodyToMono(CompanyData.class).block();
     }
 }
