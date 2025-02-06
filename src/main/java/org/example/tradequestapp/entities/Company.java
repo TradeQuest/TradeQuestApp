@@ -23,9 +23,6 @@ public class Company {
     @Column(name = "symbol", nullable = false, unique = true)
     private String symbol;
 
-    @Column(name = "description", nullable = false)
-    private String description;
-
     @Column(name = "official_website")
     private String official_website;
 
@@ -37,7 +34,6 @@ public class Company {
     public Company(String name, String symbol, String description, String official_website) {
         this.name = name;
         this.symbol = symbol;
-        this.description = description;
         this.official_website = official_website;
     }
 
@@ -64,14 +60,6 @@ public class Company {
 
     public void setSymbol(String symbol) {
         this.symbol = symbol;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getOfficial_website() {

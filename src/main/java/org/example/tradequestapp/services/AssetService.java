@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AssetService {
-    public AssetRepository assetRepository;
+    /*public AssetRepository assetRepository;
     public CompanyRepository companyRepository;
     public APIService apiService;
 
@@ -21,7 +21,7 @@ public class AssetService {
         this.apiService = apiService;
     }
 
-    public void saveCompanyFromAPI(String function, String symbol){
+    public void saveAssetFromAPI(String function, String symbol){
         StockData assetData = apiService.getStockData(function, symbol);
         CompanyData companyData = apiService.getCompanyData(symbol);
         Asset asset = convertToAsset(assetData, companyData);
@@ -39,5 +39,5 @@ public class AssetService {
         asset.setClose_value(assetData.getClose());
         asset.setVolume(assetData.getVolume());
         return asset;
-    }
+    }*/
 }

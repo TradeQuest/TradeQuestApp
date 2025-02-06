@@ -1,17 +1,15 @@
 package org.example.tradequestapp.controllers;
 
 
-import org.example.tradequestapp.APIResponse;
 import org.example.tradequestapp.model.CompanyData;
 import org.example.tradequestapp.model.StockData;
 import org.example.tradequestapp.services.APIService;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/stocks")
 public class APIController {
-    private final APIService apiService;
+    /* private final APIService apiService;
 
     public APIController(APIService apiService) {
         this.apiService = apiService;
@@ -35,6 +33,6 @@ public class APIController {
     @GetMapping("/{symbol}/overview")
     public CompanyData getOverviewData(@PathVariable String symbol) {
         return apiService.getCompanyData(symbol);
-    }
+    } */
 
 }

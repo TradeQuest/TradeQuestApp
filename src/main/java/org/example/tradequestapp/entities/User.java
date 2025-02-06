@@ -9,7 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 
 @Entity
-@Table(name = "User")
+@Table(name = "Usuario")
 public class User {
 
     enum Role {
@@ -18,31 +18,31 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id", nullable = false, unique = true)
+    @Column(name = "user_id", unique = true)
     private Long user_id;
 
-    @Column(name = "nickname", nullable = false, unique = true)
+    @Column(name = "nickname", unique = true)
     private String nickname;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name")
     private String name;
 
-    @Column(name = "surname", nullable = false)
+    @Column(name = "surname")
     private String surname;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     private String password;
 
-    @Column(name = "email", unique = true, nullable = false)
+    @Column(name = "email", unique = true)
     private String email;
 
-    @Column(name = "role", nullable = false)
+    @Column(name = "role")
     private Role user_role;
 
-    @Column(name = "level", nullable = false)
+    @Column(name = "level")
     private int level;
 
-    @Column(name = "current_lesson", nullable = false)
+    @Column(name = "current_lesson")
     private int current_lesson;
 
     //RELATIONS
