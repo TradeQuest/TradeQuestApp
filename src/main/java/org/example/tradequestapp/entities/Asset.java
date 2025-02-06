@@ -13,8 +13,8 @@ import lombok.Setter;
 @Table(name = "Asset")
 public class Asset {
 
-    enum AssetType {
-        ACCIÓN, ETF
+    public enum AssetType {
+        ACCION, ETF
     }
 
     @Id
@@ -26,7 +26,7 @@ public class Asset {
     private String company_symbol;
 
     @Column(name = "asset_type", nullable = false)
-    private String asset_type;
+    private AssetType asset_type;
 
     @Column(name = "opening_value")
     private float opening_value;
@@ -76,11 +76,11 @@ public class Asset {
         this.company_symbol = company_symbol;
     }
 
-    public String getAsset_type() {
+    public AssetType getAsset_type() {
         return asset_type;
     }
 
-    public void setAsset_type(String asset_type) {
+    public void setAsset_type(AssetType asset_type) {
         this.asset_type = asset_type;
     }
 
