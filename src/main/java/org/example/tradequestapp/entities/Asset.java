@@ -13,9 +13,9 @@ import lombok.Setter;
 @Table(name = "Asset")
 public class Asset {
 
-    public enum AssetType {
+    /*public enum AssetType {
         ACCION, ETF
-    }
+    }*/
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,8 +25,8 @@ public class Asset {
     @Column(name = "company_symbol", nullable = false)
     private String company_symbol;
 
-    @Column(name = "asset_type", nullable = false)
-    private AssetType asset_type;
+    /*@Column(name = "asset_type", nullable = false)
+    private AssetType asset_type;*/
 
     @Column(name = "opening_value")
     private float opening_value;
@@ -74,14 +74,6 @@ public class Asset {
 
     public void setCompany_symbol(String company_symbol) {
         this.company_symbol = company_symbol;
-    }
-
-    public AssetType getAsset_type() {
-        return asset_type;
-    }
-
-    public void setAsset_type(AssetType asset_type) {
-        this.asset_type = asset_type;
     }
 
     public float getOpening_value() {

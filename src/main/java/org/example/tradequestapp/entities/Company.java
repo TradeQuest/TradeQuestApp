@@ -17,7 +17,7 @@ public class Company {
     @Column(name = "company_id", nullable = false, unique = true)
     private Long company_id;
 
-    @Column(name = "name", nullable = false, unique = true)
+    @Column(name = "name", unique = true)
     private String name;
 
     @Column(name = "symbol", nullable = false, unique = true)

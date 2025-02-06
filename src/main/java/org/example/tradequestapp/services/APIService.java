@@ -9,14 +9,27 @@ import org.example.tradequestapp.respositories.CompanyRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.example.tradequestapp.entities.Asset.AssetType;
 
 @Service
 public class APIService {
     // ENUM
     public static final String[] FUNCTIONs = {"TIME_SERIES_DAILY", "TIME_SERIES_WEEKLY", "TIME_SERIES_MONTHLY"};
     public static final String FUNCTION_OVERVIEW = "OVERVIEW";
-    private static final String[] SYMBOls = {"IBM"};
+    private static final String[] SYMBOLs = {
+            "AAPL",  // Apple Inc.
+            "MSFT",  // Microsoft Corporation
+            "GOOGL", // Alphabet Inc. (Google)
+            "AMZN",  // Amazon.com Inc.
+            "TSLA",  // Tesla Inc.
+            "FB",    // Meta Platforms Inc. (Facebook)
+            "NFLX",  // Netflix Inc.
+            "NVDA",  // NVIDIA Corporation
+            "AMD",   // Advanced Micro Devices Inc.
+            "INTC",  // Intel Corporation
+            "IBM",   // International Business Machines Corporation
+            "NKE",   // Nike Inc.
+            "MCD",   // McDonald's Corporation
+    };
     private static final String API_KEY = "RI1SFBDF2XGFS8MR";
 
     private final WebClient webClient;
@@ -53,9 +66,9 @@ public class APIService {
                 .bodyToMono(CompanyData.class).block();
     }
 
-
+    @Scheduled(fixedRate = 60000)
     public void convertToCompany() {
-        for (String symbol : SYMBOls) {
+        for (String symbol : SYMBOLs) {
             CompanyData companyData = getCompanyData(symbol);
 
             Company company = companyRepository.findBySymbol(companyData.getSymbol());
@@ -69,17 +82,16 @@ public class APIService {
         }
     }
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 60000)
     public void convertToAsset() {
         for (String function : FUNCTIONs) {
-            for (String symbol : SYMBOls) {
+            for (String symbol : SYMBOLs) {
                 StockData assetData = getStockData(function, symbol);
                 Company company = companyRepository.findBySymbol(symbol);
                 if (company != null) {
                     Asset asset = assetRepository.findByCompany_symbol(symbol);
                     if (asset == null) {
                         Asset asset1 = new Asset();
-                        asset1.setAsset_type(AssetType.ACCION);
                         asset1.setCompany_symbol(symbol);
                         asset1.setCompany(company);
                         asset1.setOpening_value(assetData.getOpen());
