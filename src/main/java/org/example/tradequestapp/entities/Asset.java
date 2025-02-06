@@ -25,6 +25,8 @@ public class Asset {
     @Column(name = "company_symbol", nullable = false)
     private String company_symbol;
 
+    @Column(name = "date", nullable = false)
+    private String date;
     /*@Column(name = "asset_type", nullable = false)
     private AssetType asset_type;*/
 

@@ -4,11 +4,16 @@ import org.example.tradequestapp.entities.Asset;
 import org.example.tradequestapp.entities.Company;
 import org.example.tradequestapp.model.CompanyData;
 import org.example.tradequestapp.model.StockData;
+import org.example.tradequestapp.model.StockResponse;
 import org.example.tradequestapp.respositories.AssetRepository;
 import org.example.tradequestapp.respositories.CompanyRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class APIService {
@@ -21,7 +26,6 @@ public class APIService {
             "GOOGL", // Alphabet Inc. (Google)
             "AMZN",  // Amazon.com Inc.
             "TSLA",  // Tesla Inc.
-            "FB",    // Meta Platforms Inc. (Facebook)
             "NFLX",  // Netflix Inc.
             "NVDA",  // NVIDIA Corporation
             "AMD",   // Advanced Micro Devices Inc.
@@ -42,7 +46,36 @@ public class APIService {
         this.assetRepository = assetRepository;
     }
 
-    public StockData getStockData(String function, String symbol) {
+    public Map<String, StockData> getStockData(String function, String symbol) {
+        StockResponse response = webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/query")
+                        .queryParam("function", function)
+                        .queryParam("symbol", symbol)
+                        .queryParam("apikey", API_KEY)
+                        .build())
+                .retrieve()
+                .bodyToMono(StockResponse.class).block();
+
+        if (response == null) return new LinkedHashMap<>();
+
+        // Determinar cuál "Time Series" usar
+        Map<String, StockData> timeSeries = switch (function) {
+            case "TIME_SERIES_DAILY" -> response.getTimeSeriesDaily();
+            case "TIME_SERIES_WEEKLY" -> response.getTimeSeriesWeekly();
+            case "TIME_SERIES_MONTHLY" -> response.getTimeSeriesMonthly();
+            default -> new LinkedHashMap<>();
+        };
+
+        if (timeSeries == null) return new LinkedHashMap<>();
+
+        // Obtener los últimos 40 registros
+        return timeSeries.entrySet().stream()
+                .limit(40)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    /*public StockData getStockData(String function, String symbol) {
         return webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/query")
@@ -52,7 +85,7 @@ public class APIService {
                         .build())
                 .retrieve()
                 .bodyToMono(StockData.class).block();
-    }
+    }*/
 
     public CompanyData getCompanyData(String symbol) {
         return webClient.get()
@@ -75,9 +108,11 @@ public class APIService {
             if (company == null) {
                 Company company1 = new Company();
                 company1.setName(companyData.getName());
-                company1.setSymbol(companyData.getSymbol());
+                company1.setSymbol(symbol);
                 company1.setOfficial_website(companyData.getOfficial_website());
                 companyRepository.save(company1);
+            }else{
+                throw new RuntimeException("Company already exists");
             }
         }
     }
@@ -86,21 +121,31 @@ public class APIService {
     public void convertToAsset() {
         for (String function : FUNCTIONs) {
             for (String symbol : SYMBOLs) {
-                StockData assetData = getStockData(function, symbol);
+                Map<String, StockData> stockDataMap = getStockData(function, symbol);
                 Company company = companyRepository.findBySymbol(symbol);
+
                 if (company != null) {
-                    Asset asset = assetRepository.findByCompany_symbol(symbol);
-                    if (asset == null) {
-                        Asset asset1 = new Asset();
-                        asset1.setCompany_symbol(symbol);
-                        asset1.setCompany(company);
-                        asset1.setOpening_value(assetData.getOpen());
-                        asset1.setHighest_value(assetData.getHigh());
-                        asset1.setLowest_value(assetData.getLow());
-                        asset1.setClose_value(assetData.getClose());
-                        asset1.setVolume(assetData.getVolume());
-                        assetRepository.save(asset1);
+                    for (Map.Entry<String, StockData> entry : stockDataMap.entrySet()) {
+                        String date = entry.getKey(); // Fecha del stock data
+                        StockData stockData = entry.getValue();
+
+                        // Verificar si el Asset ya existe para esta fecha y empresa
+                        Asset existingAsset = assetRepository.findByCompany_symbolAndDate(symbol, date);
+                        if (existingAsset == null) {
+                            Asset asset = new Asset();
+                            asset.setCompany_symbol(symbol);
+                            asset.setCompany(company);
+                            asset.setOpening_value(stockData.getOpen());
+                            asset.setHighest_value(stockData.getHigh());
+                            asset.setLowest_value(stockData.getLow());
+                            asset.setClose_value(stockData.getClose());
+                            asset.setVolume(stockData.getVolume());
+
+                            assetRepository.save(asset);
+                        }
                     }
+                } else {
+                    throw new RuntimeException("Company not found for symbol: " + symbol);
                 }
             }
         }
