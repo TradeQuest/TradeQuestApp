@@ -2,24 +2,23 @@ package org.example.tradequestapp.services;
 
 import org.example.tradequestapp.entities.Asset;
 import org.example.tradequestapp.entities.Company;
-import org.example.tradequestapp.model.CompanyData;
-import org.example.tradequestapp.model.StockData;
-import org.example.tradequestapp.model.StockResponse;
+import org.example.tradequestapp.model.*;
 import org.example.tradequestapp.respositories.AssetRepository;
 import org.example.tradequestapp.respositories.CompanyRepository;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
 public class APIService {
-    // ENUM
-    public static final String[] FUNCTIONs = {"TIME_SERIES_DAILY", "TIME_SERIES_WEEKLY", "TIME_SERIES_MONTHLY"};
-    public static final String FUNCTION_OVERVIEW = "OVERVIEW";
+    private static final int MAX_DAYS = 20;
+    private static final String[] FUNCTIONs = {"TIME_SERIES_DAILY", "TIME_SERIES_WEEKLY", "TIME_SERIES_MONTHLY"};
+    private static final String FUNCTION_OVERVIEW = "OVERVIEW";
     private static final String[] SYMBOLs = {
             "AAPL",  // Apple Inc.
             "MSFT",  // Microsoft Corporation
@@ -32,7 +31,7 @@ public class APIService {
             "INTC",  // Intel Corporation
             "IBM",   // International Business Machines Corporation
             "NKE",   // Nike Inc.
-            "MCD",   // McDonald's Corporation
+            "MCD"// McDonald's Corporation
     };
     private static final String API_KEY = "RI1SFBDF2XGFS8MR";
 
@@ -46,7 +45,7 @@ public class APIService {
         this.assetRepository = assetRepository;
     }
 
-    public Map<String, StockData> getStockData(String function, String symbol) {
+    public StockDataResult getStockData(String function, String symbol) {
         StockResponse response = webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path("/query")
@@ -57,35 +56,28 @@ public class APIService {
                 .retrieve()
                 .bodyToMono(StockResponse.class).block();
 
-        if (response == null) return new LinkedHashMap<>();
+        if (response == null || response.getMetaData() == null) return new StockDataResult(null, Map.of());
+
+        MetaData metaData = response.getMetaData();
+        LocalDate lastRefreshed = metaData.getParsedLastRefreshed(); // 📌 Ahora se devuelve también
 
         // Determinar cuál "Time Series" usar
         Map<String, StockData> timeSeries = switch (function) {
             case "TIME_SERIES_DAILY" -> response.getTimeSeriesDaily();
             case "TIME_SERIES_WEEKLY" -> response.getTimeSeriesWeekly();
             case "TIME_SERIES_MONTHLY" -> response.getTimeSeriesMonthly();
-            default -> new LinkedHashMap<>();
+            default -> Map.of();
         };
 
-        if (timeSeries == null) return new LinkedHashMap<>();
+        if (timeSeries == null) return new StockDataResult(lastRefreshed, Map.of());
 
-        // Obtener los últimos 40 registros
-        return timeSeries.entrySet().stream()
-                .limit(40)
+        // Filtrar los últimos 40 registros
+        Map<String, StockData> filteredData = timeSeries.entrySet().stream()
+                .limit(MAX_DAYS)
                 .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-    }
 
-    /*public StockData getStockData(String function, String symbol) {
-        return webClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/query")
-                        .queryParam("function", function)
-                        .queryParam("symbol", symbol)
-                        .queryParam("apikey", API_KEY)
-                        .build())
-                .retrieve()
-                .bodyToMono(StockData.class).block();
-    }*/
+        return new StockDataResult(lastRefreshed, filteredData);
+    }
 
     public CompanyData getCompanyData(String symbol) {
         return webClient.get()
@@ -121,20 +113,22 @@ public class APIService {
     public void convertToAsset() {
         for (String function : FUNCTIONs) {
             for (String symbol : SYMBOLs) {
-                Map<String, StockData> stockDataMap = getStockData(function, symbol);
+                StockDataResult stockDataResult = getStockData(function, symbol);
+                Map<String, StockData> stockDataMap = stockDataResult.getStockDataMap();
+                LocalDate lastRefreshed = stockDataResult.getLastRefreshed(); // 📌 Ahora podemos usar esta fecha
                 Company company = companyRepository.findBySymbol(symbol);
 
                 if (company != null) {
                     for (Map.Entry<String, StockData> entry : stockDataMap.entrySet()) {
-                        String date = entry.getKey(); // Fecha del stock data
+                        String date = entry.getKey(); // 📌 Fecha del dato
                         StockData stockData = entry.getValue();
 
-                        // Verificar si el Asset ya existe para esta fecha y empresa
                         Asset existingAsset = assetRepository.findByCompany_symbolAndDate(symbol, date);
                         if (existingAsset == null) {
                             Asset asset = new Asset();
                             asset.setCompany_symbol(symbol);
                             asset.setCompany(company);
+                            asset.setDate(date);
                             asset.setOpening_value(stockData.getOpen());
                             asset.setHighest_value(stockData.getHigh());
                             asset.setLowest_value(stockData.getLow());

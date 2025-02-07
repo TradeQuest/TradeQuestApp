@@ -13,10 +13,6 @@ import lombok.Setter;
 @Table(name = "Asset")
 public class Asset {
 
-    /*public enum AssetType {
-        ACCION, ETF
-    }*/
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "asset_id", nullable = false, unique = true)
@@ -25,10 +21,8 @@ public class Asset {
     @Column(name = "company_symbol", nullable = false)
     private String company_symbol;
 
-    @Column(name = "date", nullable = false)
+    @Column(name = "date")
     private String date;
-    /*@Column(name = "asset_type", nullable = false)
-    private AssetType asset_type;*/
 
     @Column(name = "opening_value")
     private float opening_value;

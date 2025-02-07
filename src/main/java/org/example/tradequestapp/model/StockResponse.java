@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class StockResponse {
     @JsonProperty("Meta Data")
-    private Map<String, String> metaData;
+    private MetaData metaData;
 
     @JsonProperty("Time Series (Daily)")
     private Map<String, StockData> timeSeriesDaily;
@@ -16,7 +16,7 @@ public class StockResponse {
     @JsonProperty("Time Series (Monthly)")
     private Map<String, StockData> timeSeriesMonthly;
 
-    public Map<String, String> getMetaData() {
+    public MetaData getMetaData() {
         return metaData;
     }
 
@@ -32,4 +32,5 @@ public class StockResponse {
         return timeSeriesMonthly;
     }
 }
+
 
