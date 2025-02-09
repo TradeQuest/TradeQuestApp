@@ -1,38 +1,51 @@
 package org.example.tradequestapp.controllers;
 
 
+import org.example.tradequestapp.entities.Asset;
 import org.example.tradequestapp.model.CompanyData;
 import org.example.tradequestapp.model.StockData;
 import org.example.tradequestapp.services.APIService;
+import org.example.tradequestapp.services.AssetService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController
-@RequestMapping("/api/stocks")
+@RequestMapping("/api")
 public class APIController {
-    /* private final APIService apiService;
 
-    public APIController(APIService apiService) {
-        this.apiService = apiService;
+    private final AssetService assetService;
+
+    @Autowired
+    public APIController(AssetService assetService) {
+        this.assetService = assetService;
     }
 
-    @GetMapping("/{symbol}/daily")
-    public StockData getDailyStockData(@PathVariable String symbol) {
-        return apiService.getStockData(APIService.FUNCTION_DAILY, symbol);
+    @PostMapping("/asset")
+    public ResponseEntity<Asset> saveAsset(@RequestBody Asset asset){
+        Asset newAsset = assetService.saveAsset(asset);
+        return ResponseEntity.ok(newAsset);
     }
 
-    @GetMapping("/{symbol}/weekly")
-    public StockData getWeeklyStockData(@PathVariable String symbol) {
-        return apiService.getStockData(APIService.FUNCTION_WEEKLY, symbol);
+
+    @GetMapping("/assets")
+    public List<Asset> getAllAssets(){
+        return assetService.getAllAssets();
     }
 
-    @GetMapping("/{symbol}/monthly")
-    public StockData getMonthlyStockData(@PathVariable String symbol) {
-        return apiService.getStockData(APIService.FUNCTION_MONTHLY, symbol);
+    @GetMapping("/assets/{company_symbol}")
+    public ResponseEntity<Asset> getAssetByCompanySymbol(@PathVariable String symbol){
+        Optional<Asset> asset = Optional.ofNullable(assetService.getAssetByCompanySymbol(symbol));
+        return asset.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/{symbol}/overview")
-    public CompanyData getOverviewData(@PathVariable String symbol) {
-        return apiService.getCompanyData(symbol);
-    } */
+    @DeleteMapping("/assets/{company_symbol}")
+    public ResponseEntity<String> deleteProduct(@PathVariable String symbol){
+        assetService.deleteAsset(symbol);
+        return ResponseEntity.ok("Asset deleted successfully");
+    }
 
 }
