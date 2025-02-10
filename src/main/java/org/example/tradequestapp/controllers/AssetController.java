@@ -1,10 +1,6 @@
 package org.example.tradequestapp.controllers;
 
-
 import org.example.tradequestapp.entities.Asset;
-import org.example.tradequestapp.model.CompanyData;
-import org.example.tradequestapp.model.StockData;
-import org.example.tradequestapp.services.APIService;
 import org.example.tradequestapp.services.AssetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,13 +10,13 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
-public class APIController {
+@RequestMapping("/assetApi")
+public class AssetController {
 
     private final AssetService assetService;
 
     @Autowired
-    public APIController(AssetService assetService) {
+    public AssetController(AssetService assetService) {
         this.assetService = assetService;
     }
 
@@ -29,7 +25,6 @@ public class APIController {
         Asset newAsset = assetService.saveAsset(asset);
         return ResponseEntity.ok(newAsset);
     }
-
 
     @GetMapping("/assets")
     public List<Asset> getAllAssets(){
