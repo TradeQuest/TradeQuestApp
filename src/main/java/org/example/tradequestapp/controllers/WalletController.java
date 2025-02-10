@@ -23,7 +23,7 @@ public class WalletController {
     @PostMapping("/wallet")
     public ResponseEntity<Wallet> saveWallet(@RequestBody Wallet wallet){
         Wallet newWallet = walletService.saveWallet(wallet);
-        return ResponseEntity.ok(wallet);
+        return ResponseEntity.ok(newWallet);
     }
 
     @GetMapping("/wallets")
