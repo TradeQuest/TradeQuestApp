@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Exa&family=Lexend+Zetta&family=Lexend+Peta&family=Handjet:wght@220&display=swap');
+
+/* Estilos específicos para layout.html */
+body {
+  margin: 0;
+  font-family: 'Lexend Exa';
+  background-image: url('../images/Fondo.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+/* Sidebar fijo a la izquierda */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 240px;
+  height: 100vh;
+  background: linear-gradient(0deg, rgba(217, 217, 217, 0.40) 0%, rgba(85, 85, 85, 0.40) 51%, rgba(0, 0, 0, 0.40) 100%);
+  box-shadow: 4px 10px 20px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(25px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: width 0.7s ease-in-out;
+  padding: 15px;
+  align-items: center;
+}
+
+.sidebar.collapsed {
+  width: 60px;
+  overflow: hidden;
+}
+
+/* Ajustar iconos y textos dentro del sidebar */
+.sidebar ul {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+}
+
+.sidebar ul li {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 10px;
+  padding: 10px;
+  transition: all 0.7s ease-in-out;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 13px;
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar ul li img {
+  width: 40px;
+  height: 40px;
+  transition: width 0.7s ease-in-out, height 0.7s ease-in-out;
+}
+
+.sidebar ul li p {
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: transform 0.7s ease-in-out, opacity 0.7s ease-in-out;
+}
+
+.sidebar.collapsed ul li {
+  justify-content: center;
+}
+
+.sidebar.collapsed ul li img {
+  width: 50px;
+  height: 50px;
+}
+
+.sidebar.collapsed ul li p {
+  transform: translateX(-100%);
+  opacity: 0;
+}
+
+.sidebar:not(.collapsed) ul li p {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.sidebar img.rounded-circle {
+  width: 100px;
+  height: 100px;
+  display: block;
+  margin: 0 auto;
+  transition: width 0.7s ease-in-out, height 0.7s ease-in-out;
+}
+
+.sidebar.collapsed img.rounded-circle {
+  width: 50px;
+  height: 50px;
+}
+
+.sidebar .user-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: all 0.7s ease-in-out;
+}
+
+.sidebar.collapsed .user-section {
+  align-items: center;
+  text-align: center;
+}
+
+/* Navbar fija en la parte superior, pegada al sidebar con animación */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 240px; /* Pegada al sidebar */
+  width: calc(100% - 240px);
+  height: 75px;
+  background: linear-gradient(270deg, rgba(217, 217, 217, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(25px);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  z-index: 1000;
+  transition: left 0.7s ease-in-out, width 0.7s ease-in-out;
+}
+
+/* Ajustar el contenido para que no quede detrás de la navbar */
+.main-content {
+  margin-left: 240px;
+  padding-top: 75px; /* Espacio para la navbar fija */
+  transition: margin-left 0.7s ease-in-out;
+}
+
+/* Ajustes cuando el sidebar está colapsado con animación en la navbar y main-content */
+.sidebar.collapsed + .navbar {
+  left: 60px;
+  width: calc(100% - 60px);
+}
+
+.sidebar.collapsed + .main-content {
+  margin-left: 60px;
+  width: calc(100% - 60px);
+}

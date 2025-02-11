@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Exa&family=Lexend+Zetta&family=Lexend+Peta&family=Handjet:wght@220&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Lexend Exa';
+  background-image: url('../images/Fondo.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 13px;
+  border: 1px solid #999595;
+  backdrop-filter: blur(20px);
+}
+
+.text-white {
+  color: white !important;
+}
+
+.text-green {
+  color: #00FF26 !important;
+}
+
+.text-red {
+  color: #F90004 !important;
+}
+
+#NombrePag {
+  display: flex;
+  flex-direction: row;
+}
+
+.custom-table {
+  background: transparent !important;
+  color: white;
+}
+
+.custom-table th,
+.custom-table td {
+  background: transparent !important;
+  border-color: rgba(255, 255, 255, 0.5);
+  border-left: none;
+  border-right: none;
+}
+
+.custom-table thead th {
+  background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.market-font {
+  font-family: 'Handjet', sans-serif;
+  font-weight: 300;
+  font-size: 2.7rem;
+  text-transform: uppercase;
+  height: 40px; 
+  line-height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.market-title {
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+  text-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.apple-logo-container {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.apple-logo {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+}
