@@ -3,7 +3,7 @@
 /* Estilos generales */
 body {
     font-family: 'Lexend Exa', sans-serif;
-    background-image: url('./imagenDasboard/Fondo.png');
+    background-image: url('../images/Fondo.png');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -171,4 +171,17 @@ p {
 /* Estilos para las imágenes */
 .imgNum {
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+#ContenedorInicioSesion{
+    margin-bottom: 100px;
+}
+#registroModal .modal-content {
+    background-color: #949494 !important; /* Color de fondo gris */
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+#registroModal .modal-header,
+#registroModal .modal-footer {
+    border: none; /* Elimina los bordes del header y footer */
 }

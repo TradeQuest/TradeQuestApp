@@ -1,0 +1,98 @@
+body {
+  font-family: 'Lexend Exa', sans-serif;
+  background: linear-gradient(180deg, #1D0062 0%, #0B0024 32%, black 100%);
+  color: white;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+.gradient-body {
+  background: linear-gradient(180deg, black 0%, #014251 50%, #06D1FF 100%);
+}
+
+/* Fondo aurora */
+#aurora-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -1;
+}
+
+/* Capas de luz */
+.aurora-layer {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(0,255,255,0.3) 10%, transparent 80%);
+  opacity: 0.6;
+  mix-blend-mode: screen;
+  filter: blur(50px);
+  animation: moveAurora 10s infinite linear alternate;
+}
+
+/* Animación de movimiento */
+@keyframes moveAurora {
+  0% {
+    transform: translateX(-10%) translateY(-10%) scale(1);
+  }
+  100% {
+    transform: translateX(10%) translateY(10%) scale(1.2);
+  }
+}
+
+
+.BloqueArriba .text-center {
+  position: relative;
+  z-index: 1;
+}
+
+.card-custom {
+  background: #D9D9D9;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.25);
+  border-radius: 16px;
+  color: black;
+}
+
+.footer {
+  color: white;
+}
+
+.btn-primary-custom {
+  background: linear-gradient(180deg, #090CBA 0%, #120447 100%);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  padding: 10px 20px;
+  font-weight: bold;
+}
+
+.btn-secondary-custom {
+  background: linear-gradient(180deg, #BA0909 0%, #FF9500 100%);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  padding: 10px 20px;
+  font-weight: bold;
+}
+
+.icon {
+  width: 50px;
+  height: auto;
+}
+
+.BloqueArriba {
+  margin-bottom: 100px;
+}
+
+.fila {
+  margin-top: 100px;
+}
+
+.foot {
+  margin: 50px;
+}
