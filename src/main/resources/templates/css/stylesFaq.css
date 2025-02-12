@@ -1,0 +1,73 @@
+.custom-table {
+    background: transparent !important;
+    /* Fondo transparente */
+    color: white;
+    /* Texto en blanco */
+  }
+  
+  .custom-table th,
+  .custom-table td {
+    background: transparent !important;
+    /* Fondo transparente */
+    border-color: rgba(255, 255, 255, 0.5);
+    border-left: none;
+    border-right: none;
+    /* Bordes semi-translúcidos */
+  }
+  
+  .custom-table thead th {
+    background: rgba(255, 255, 255, 0.1) !important;
+    /* Encabezado con leve transparencia */
+  }
+  .accordion-item {
+    border-radius: 50px !important; /* Bordes más redondeados */
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+    border: none;
+    margin-bottom: 10px; /* Espacio entre los elementos */
+    overflow: hidden; /* Asegura que los bordes redondeados se apliquen correctamente */
+  }
+  
+  .accordion-button {
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: none;
+    color: white !important;
+    border-radius: 50px !important; /* Bordes más redondeados */
+    font-weight: bold; /* Hace el texto más destacado */
+    font-size: 1.2rem; /* Aumenta el tamaño del texto */
+    padding: 15px 20px; /* Ajuste del padding */
+    justify-content: center; /* Centra el texto */
+  }
+  
+  .accordion-button:focus {
+    box-shadow: none !important;
+  }
+  
+  .accordion-button:not(.collapsed) {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    color: white !important;
+  }
+  
+  .accordion-body {
+    background-color: transparent !important;
+    color: white !important;
+    padding: 15px 20px;
+    font-size: 1rem;
+    border-radius: 0 0 30px 30px;
+  }
+  
+  /* Eliminar el icono de flecha predeterminado */
+  .accordion-button::after {
+    display: none;
+  }
+  
+  #pregunta{
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: none;
+    color: white !important;
+    border-radius: 20px !important; 
+    padding: 15px 20px; /* Ajuste del padding */
+    justify-content: center;
+    text-align: center;
+  
+  }
