@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface WalletRepository extends JpaRepository<Wallet, Long> {
-    void delete(Optional<Wallet> buId);
+    void deleteById(Long id);
 }

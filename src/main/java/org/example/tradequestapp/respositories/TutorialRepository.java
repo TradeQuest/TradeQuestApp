@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface TutorialRepository extends JpaRepository<Tutorial, Long> {
-    void delete(Optional<Tutorial> byId);
+    void deleteById(Long id);
 }

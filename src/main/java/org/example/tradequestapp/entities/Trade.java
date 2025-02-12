@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "Transaction")
-public class Transaction {
+public class Trade {
 
     enum TransactionType {
         COMPRA, VENTA
@@ -42,7 +42,7 @@ public class Transaction {
     private Asset asset;
 
     //CONSTRUCTOR
-    public Transaction(TransactionType transaction_type, float asset_amount, float unit_price, LocalDateTime transaction_date) {
+    public Trade(TransactionType transaction_type, float asset_amount, float unit_price, LocalDateTime transaction_date) {
         this.transaction_type = transaction_type;
         this.asset_amount = asset_amount;
         this.unit_price = unit_price;

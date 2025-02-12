@@ -24,6 +24,6 @@ public class WalletService {
 
     public Optional<Wallet> getWalletById(Long id){return walletRepository.findById(id);}
 
-    public void deleteWallet(Long id){walletRepository.delete(walletRepository.findById(id));}
+    public void deleteWallet(Long id){walletRepository.deleteById(id);}
 
 }

@@ -22,6 +22,6 @@ public class TutorialService {
 
     public Optional<Tutorial> getTutorialById(Long id){return tutorialRepository.findById(id);}
 
-    public void deleteTransaction(Long id){tutorialRepository.delete(tutorialRepository.findById(id));}
+    public void deleteTransaction(Long id){tutorialRepository.deleteById(id);}
 
 }

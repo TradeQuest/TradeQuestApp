@@ -1,7 +1,7 @@
 package org.example.tradequestapp.controllers;
 
-import org.example.tradequestapp.entities.Transaction;
-import org.example.tradequestapp.services.TransactionService;
+import org.example.tradequestapp.entities.Trade;
+import org.example.tradequestapp.services.TradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,25 +11,25 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/transactionApi")
-public class TransactionController {
+public class TradeController {
 
-    private final TransactionService transactionService;
+    private final TradeService transactionService;
 
     @Autowired
-    public TransactionController(TransactionService transactionService){this.transactionService = transactionService;}
+    public TradeController(TradeService transactionService){this.transactionService = transactionService;}
 
     @PostMapping("/transaction")
-    public ResponseEntity<Transaction> saveTransaction(@RequestBody Transaction transaction){
-        Transaction newTransaction = transactionService.saveTransaction(transaction);
+    public ResponseEntity<Trade> saveTransaction(@RequestBody Trade transaction){
+        Trade newTransaction = transactionService.saveTransaction(transaction);
         return ResponseEntity.ok(newTransaction);
     }
 
     @GetMapping("/transactions")
-    public List<Transaction> getAllTransactions(){return transactionService.getAllTransactions();}
+    public List<Trade> getAllTransactions(){return transactionService.getAllTransactions();}
 
     @GetMapping("/transactions/{id}")
-    public ResponseEntity<Transaction> getTransactionById(@PathVariable Long id){
-        Optional<Transaction> transaction = transactionService.getTransactionById(id);
+    public ResponseEntity<Trade> getTransactionById(@PathVariable Long id){
+        Optional<Trade> transaction = transactionService.getTransactionById(id);
         return transaction.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
