@@ -16,22 +16,21 @@ import java.util.stream.Collectors;
 
 @Service
 public class APIService {
-    private static final int MAX_DAYS = 20;
+    private static final int MAX_DAYS = 5;
     private static final String[] FUNCTIONs = {"TIME_SERIES_DAILY", "TIME_SERIES_WEEKLY", "TIME_SERIES_MONTHLY"};
     private static final String FUNCTION_OVERVIEW = "OVERVIEW";
     private static final String[] SYMBOLs = {
             "AAPL",  // Apple Inc.
             "MSFT",  // Microsoft Corporation
-            "GOOGL", // Alphabet Inc. (Google)
-            "AMZN",  // Amazon.com Inc.
-            "TSLA",  // Tesla Inc.
-            "NFLX",  // Netflix Inc.
-            "NVDA",  // NVIDIA Corporation
-            "AMD",   // Advanced Micro Devices Inc.
-            "INTC",  // Intel Corporation
-            "IBM",   // International Business Machines Corporation
-            "NKE",   // Nike Inc.
-            "MCD"// McDonald's Corporation
+            //"AMZN",  // Amazon.com Inc.
+            //"TSLA",  // Tesla Inc.
+            //"NFLX",  // Netflix Inc.
+            //"NVDA",  // NVIDIA Corporation
+            //"AMD",   // Advanced Micro Devices Inc.
+            //"INTC",  // Intel Corporation
+            //"IBM",   // International Business Machines Corporation
+            //"NKE",   // Nike Inc.
+            //"MCD"// McDonald's Corporation
     };
     private static final String API_KEY = "RI1SFBDF2XGFS8MR";
 
