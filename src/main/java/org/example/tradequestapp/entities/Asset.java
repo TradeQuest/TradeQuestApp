@@ -41,7 +41,7 @@ public class Asset {
 
     //RELATIONS
     @OneToOne(mappedBy = "asset")
-    private Transaction transaction;
+    private Trade transaction;
 
     @ManyToOne
     @JoinColumn(name = "company_id", nullable = false)

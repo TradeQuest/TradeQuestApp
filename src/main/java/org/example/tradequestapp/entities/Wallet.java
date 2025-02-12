@@ -22,7 +22,7 @@ public class Wallet {
     private User user;
 
     @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Transaction> transactions = new ArrayList<>();
+    private List<Trade> transactions = new ArrayList<>();
 
     //CONSTRUCTOR
     public Wallet() {
@@ -54,11 +54,11 @@ public class Wallet {
         this.user = user;
     }
 
-    public List<Transaction> getTransactions() {
+    public List<Trade> getTransactions() {
         return transactions;
     }
 
-    public void setTransactions(List<Transaction> transactions) {
+    public void setTransactions(List<Trade> transactions) {
         this.transactions = transactions;
     }
 }

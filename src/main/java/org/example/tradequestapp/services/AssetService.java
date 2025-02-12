@@ -31,12 +31,14 @@ public class AssetService {
         return assetRepository.findAll();
     }
 
-    public Asset getAssetByCompanySymbol(String symbol){
+    public List<Asset> getAssetsByCompanySymbol(String symbol){
         return assetRepository.findByCompany_symbol(symbol);
     }
 
-    public void deleteAsset(String symbol){
-        assetRepository.delete(assetRepository.findByCompany_symbol(symbol));
+    public Asset getAssetBySymbolAndDate(String symbol, String date){return assetRepository.findByCompany_symbolAndDate(symbol, date);}
+
+    public void deleteAsset(String symbol,String date){
+        assetRepository.delete(assetRepository.findByCompany_symbolAndDate(symbol, date));
     }
 
 }
