@@ -24,7 +24,7 @@
                 <h1 class="display-4 fw-bold">¡Conquista los Mercados con TRADEQUEST!</h1>
                 <p class="lead fw-bold mt-3">Aprende a Invertir Jugando con el Simulador de Bolsa Más Realista y
                     Divertido</p>
-                <a href="./IniciarSesion.html">
+                <a th:href="@{/logIn}">
                     <button class="btn btn-primary-custom">Comienza Ahora</button>
                 </a>
             </div>
@@ -72,7 +72,7 @@
 
     <div class="cohete container-fluid vh-100 d-flex flex-column justify-content-center align-items-center text-center">
         <img src="../static/images/cohete.png" alt="TRADEQUEST" class="img-fluid my-4">
-        <a href="./IniciarSesion.html">
+        <a th:href="@{/logIn}">
             <button class="btn btn-secondary-custom">Comienza Ahora</button>
         </a>
     </div>
@@ -91,10 +91,7 @@
         <p class="mt-2">Síguenos</p>
         <p class="mt-4">Copyright © 2023 TRADEQUEST® España</p>
         <div class="d-flex justify-content-center gap-4 mt-3">
-            <a href="#" class="text-white">Política de cookies</a>
-            <a href="#" class="text-white">Política de privacidad</a>
-            <a href="#" class="text-white">Contáctanos</a>
-            <a href="#" class="text-white">Trabaja con nosotros</a>
+            <a th:href="@{/policies}" class="text-white">Políticas y Contacto</a>
         </div>
     </div>
 </div>

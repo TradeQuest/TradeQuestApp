@@ -34,7 +34,13 @@ public class IndexController {
     @GetMapping("/wallet")
     public String wallet(){return "Wallet";}
 
+    @GetMapping("/faq")
+    public String faq(){return "FAQ";}
+
     @GetMapping("/policies")
     public String policies(){return "Policies";}
+
+    @GetMapping("/admin")
+    public String admin(){return "Admin";}
 
 }
