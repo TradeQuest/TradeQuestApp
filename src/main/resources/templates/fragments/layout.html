@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle} ?: 'TradeQuest'">TradeQuest</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+    <link rel="stylesheet" href="../static/css/stylesLayout.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="../static/js/layoutAnimations.js"></script>
+</head>
+<body>
+<div th:fragment="layout">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="text-center mt-3">
+            <img src="../static/images/LogoEmpresa.png" alt="Logo" class="img-fluid">
+        </div>
+        <div class="mt-4 text-center">
+            <h5 class="text-white">TRADEQUEST</h5>
+        </div>
+        <div class="mt-4 text-center">
+            <img src="../static/images/LogoUser.png" alt="User Avatar" class="rounded-circle">
+            <h6 class="text-white mt-2">USER#1325</h6>
+            <p class="text-white">RANKING: #247</p>
+        </div>
+        <div class="mt-4">
+            <ul class="list-unstyled">
+                <a th:href="@{/dashboard}"><li class="text-white mb-3"><img src="../static/images/IconoDashboard.png"><p> MI DASHBOARD</p></li></a>
+                <a th:href="@{/wallet}"><li class="text-white mb-3"><img src="../static/images/IconoWallet.png"><p> MI WALLET</p></li></a>
+                <a th:href="@{/market}"><li class="text-white mb-3"><img src="../static/images/IconoMarket.png"><p> MARKET</p></li></a>
+                <a th:href="@{/tutorials}"><li class="text-white mb-3"><img src="../static/images/IconoAprende.png"><p> APRENDE</p></li></a>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a id="NombrePag" class="navbar-brand d-flex align-items-center" href="#">
+                <img src="../static/images/LogoEsconder.png" alt="Menu Icon" class="me-2">
+                <h4 class="text-white m-0">Todo</h4>
+            </a>
+            <div class="d-flex">
+                <img src="../static/images/IconoMensajes.png" alt="Messages Icon" class="me-3">
+                <img src="../static/images/IconoLogOut.png" alt="Logout Icon">
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido dinámico -->
+    <div class="main-content">
+        <th:block th:insert="~{::content}" />
+    </div>
+</div>
+</body>
+</html>
