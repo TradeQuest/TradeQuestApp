@@ -46,4 +46,7 @@ public class IndexController {
     @GetMapping("/support")
     public String support(){return "Support";}
 
+    @GetMapping("/tutorial")
+    public String tutorial(){return "Tutorial";}
+
 }

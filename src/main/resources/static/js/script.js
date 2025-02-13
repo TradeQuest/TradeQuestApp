@@ -28,3 +28,45 @@ $(document).ready(function () {
         }
     `).appendTo('head');
 });
+
+/*Pagina de configuracion*/
+    function togglePassword() {
+    var passwordField = document.getElementById("password");
+    var icon = event.target;
+    if (passwordField.type === "password") {
+    passwordField.type = "text";
+
+} else {
+    passwordField.type = "password";
+
+}
+}
+/*Pagina de market*/
+
+function increment() {
+    const input = document.getElementById('cantidad');
+    input.value = parseInt(input.value) + 1;
+}
+
+// Función para decrementar el valor
+function decrement() {
+    const input = document.getElementById('cantidad');
+    if (input.value > 1) {
+        input.value = parseInt(input.value) - 1;
+    }
+}
+
+function confirmarCompra() {
+    const compraModal = document.getElementById('compraModal');
+    const confirmacionModal = new bootstrap.Modal(document.getElementById('confirmacionModal'));
+
+    // Intentar cerrar el modal de compra si está activo
+    const bootstrapModal = bootstrap.Modal.getInstance(compraModal);
+    if (bootstrapModal) {
+        bootstrapModal.hide();
+    }
+
+    // Mostrar el modal de confirmación
+    confirmacionModal.show();
+}
+
