@@ -37,4 +37,7 @@ public class IndexController {
     @GetMapping("/policies")
     public String policies(){return "Policies";}
 
+    @GetMapping("/admin")
+    public String admin(){return "Admin";}
+
 }
