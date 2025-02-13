@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mi Wallet</title>
+
   <!-- CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/static/css/stylesTodo.css">
@@ -13,14 +14,12 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="/static/js/layoutAnimations.js" defer></script>
 </head>
+
 <body>
 
-<!-- Importar layout -->
-<div th:replace="fragments/layout :: layout"></div>
-
-<!-- Contenido dinámico de la página -->
-<th:block th:fragment="content">
-  <div class="main-content d-flex flex-column vh-100">
+<!-- Importar layout con contenido dinámico -->
+<div th:replace="~{fragments/layout :: layout(~{::content})}">
+  <th:block th:fragment="content">
     <div class="container-fluid mt-4">
       <div class="row">
         <!-- Sección Historial -->
@@ -44,7 +43,7 @@
           <div class="card p-3 text-white" style="background: rgba(255, 255, 255, 0.1); border-radius: 10px;">
             <h5 class="fw-bold">TU MEJOR ACCIÓN</h5>
             <div class="text-center">
-              <img src="./ImagenWallet/tesla.png" alt="Tesla Icon">
+              <img src="/static/images/tesla.png" alt="Tesla Icon">
               <h4 class="text-white">TESLA</h4>
               <p class="text-success">+24.35%</p>
             </div>
@@ -52,7 +51,7 @@
           <div class="card mt-4 p-3 text-white" style="background: rgba(255, 255, 255, 0.1); border-radius: 10px;">
             <h5 class="fw-bold">TU PEOR ACCIÓN</h5>
             <div class="text-center">
-              <img src="./ImagenWallet/Microsoft.png" alt="Microsoft Icon">
+              <img src="/static/images/Microsoft.png" alt="Microsoft Icon">
               <h4 class="text-white">MICROSOFT</h4>
               <p class="text-danger">-12.46%</p>
             </div>
@@ -76,7 +75,6 @@
             <h6 class="text-center fw-bold text-warning">⚠️ IMPORTANTE ⚠️</h6>
             <p class="text-danger fw-bold">No trates estos fondos a la ligera.</p>
             <p>La mejor manera de aprender a invertir es gestionando tu capital con estrategia, como si fuera real.</p>
-            <p class="text-danger fw-bold">Evita depender de recargas constantes.</p>
           </div>
           <button type="button" class="btn btn-primary w-100" id="confirmButton" data-bs-dismiss="modal">
             Confirma tu solicitud
@@ -123,9 +121,8 @@
         </div>
       </div>
     </div>
-
-  </div>
-</th:block>
+  </th:block>
+</div>
 
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

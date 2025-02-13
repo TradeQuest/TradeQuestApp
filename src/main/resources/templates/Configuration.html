@@ -15,17 +15,15 @@
 </head>
 </head>
 
-<body>
+<body id="configuration">
 
-<!-- Importar layout -->
-<div th:replace="fragments/layout :: layout"></div>
+<!-- Importar layout con el contenido dinámico -->
+<div th:replace="~{fragments/layout :: layout(~{::content})}">
 
-<!-- Contenido dinámico de la página -->
-<th:block th:fragment="content">
-  <div class="main-content">
+  <th:block th:fragment="content">
     <div class="container mt-4">
       <div class="row">
-        <!-- 🏆 Sección de Perfil -->
+        <!-- 🏆 Sección de Perfil (Izquierda, más ancha) -->
         <div class="col-md-7">
           <div class="card p-5 shadow-lg" style="min-height: 550px;">
             <div class="text-center">
@@ -73,7 +71,6 @@
         </div>
       </div>
     </div>
-  </div>
 </th:block>
 
 <!-- Modal Confirmar Salida -->

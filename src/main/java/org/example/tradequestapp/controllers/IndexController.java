@@ -43,4 +43,7 @@ public class IndexController {
     @GetMapping("/admin")
     public String admin(){return "Admin";}
 
+    @GetMapping("/support")
+    public String support(){return "Support";}
+
 }

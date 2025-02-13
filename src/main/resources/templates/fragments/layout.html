@@ -9,7 +9,7 @@
     <script src="../static/js/layoutAnimations.js"></script>
 </head>
 <body>
-<div th:fragment="layout">
+<div th:fragment="layout(content)">
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="text-center mt-3">
@@ -31,6 +31,13 @@
                 <a th:href="@{/tutorials}"><li class="text-white mb-3"><img src="../static/images/IconoAprende.png"><p> APRENDE</p></li></a>
             </ul>
         </div>
+        <div class="mt-4 border-top border-white"></div>
+        <ul class="list-unstyled">
+            <a th:href="@{/support}"><li class="text-white mb-1"><img src="../static/images/IconoSoporte.png"><p> SOPORTE</p></li></a>
+            <a th:href="@{/faq}"><li class="text-white mb-1"><img src="../static/images/IconoFAQ.png"><p> FAQ</p></li></a>
+            <a th:href="@{/configuration}"><li class="text-white mb-1"><img src="../static/images/IconoSettings.png"><p> CONFIGURACION</p></li></a>
+            <a th:href="@{/logIn}" data-bs-toggle="modal" data-bs-target="#salirModal"><li class="text-white mb-1"><img src="../static/images/IconoLogOut-1.png"><p> SALIR</p></li></a>
+        </ul>
     </div>
 
     <!-- Navbar -->
@@ -49,7 +56,7 @@
 
     <!-- Contenido dinámico -->
     <div class="main-content">
-        <th:block th:insert="~{::content}" />
+        <th:replace th:insert="${content}" />
     </div>
 </div>
 </body>
