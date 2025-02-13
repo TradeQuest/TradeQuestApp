@@ -1,12 +1,5 @@
 $(document).ready(function () {
-    // Cargar navbar y sidebar dinámicamente
-    $.get("layout.html", function (data) {
-        $("#layout-container").html(data);
-        console.log("Layout cargado correctamente.");
-
-        // Esperar a que el DOM del layout se haya procesado antes de inicializar
-        setTimeout(initializeLayout, 100);
-    });
+    console.log("🔄 layoutAnimations.js cargado correctamente.");
 
     function initializeLayout() {
         let toggleButton = $("#NombrePag img");
@@ -14,8 +7,8 @@ $(document).ready(function () {
         let mainContent = $(".main-content");
 
         if (toggleButton.length === 0 || sidebar.length === 0 || mainContent.length === 0) {
-            console.warn("Elementos de layout no encontrados aún, reintentando...");
-            setTimeout(initializeLayout, 50); // Reintentar en 50ms si los elementos no están listos
+            console.warn("⏳ Elementos del layout no listos, reintentando...");
+            setTimeout(initializeLayout, 100);
             return;
         }
 
@@ -64,10 +57,11 @@ $(document).ready(function () {
             }
         });
 
-        // Ajuste de navbar y espaciado
         setTimeout(() => {
             $(".main-content").css("padding-top", "75px");
             $(".navbar").css("display", "flex");
         }, 50);
     }
+
+    initializeLayout();
 });
