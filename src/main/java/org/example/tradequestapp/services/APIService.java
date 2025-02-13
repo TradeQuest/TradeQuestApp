@@ -22,17 +22,18 @@ public class APIService {
     private static final String[] SYMBOLs = {
             "AAPL",  // Apple Inc.
             "MSFT",  // Microsoft Corporation
-            //"AMZN",  // Amazon.com Inc.
-            //"TSLA",  // Tesla Inc.
-            //"NFLX",  // Netflix Inc.
-            //"NVDA",  // NVIDIA Corporation
-            //"AMD",   // Advanced Micro Devices Inc.
-            //"INTC",  // Intel Corporation
-            //"IBM",   // International Business Machines Corporation
-            //"NKE",   // Nike Inc.
-            //"MCD"// McDonald's Corporation
+            "AMZN",  // Amazon.com Inc.
+            "TSLA",  // Tesla Inc.
+            "NFLX",  // Netflix Inc.
+            "NVDA",  // NVIDIA Corporation
+            "AMD",   // Advanced Micro Devices Inc.
+            "INTC",  // Intel Corporation
+            "IBM",   // International Business Machines Corporation
+            "NKE",   // Nike Inc.
+            "MCD"// McDonald's Corporation
     };
-    private static final String API_KEY = "RI1SFBDF2XGFS8MR";
+    //private static final String API_KEY = "RI1SFBDF2XGFS8MR";
+    private static final String API_KEY = "D6QAUXZ4THN28QPQ";
 
     private final WebClient webClient;
     private final CompanyRepository companyRepository;
@@ -90,12 +91,13 @@ public class APIService {
                 .bodyToMono(CompanyData.class).block();
     }
 
-    // @Scheduled(fixedRate = 86400000)
+    @Scheduled(fixedRate = 86400000)
     public void convertToCompany() {
         for (String symbol : SYMBOLs) {
             CompanyData companyData = getCompanyData(symbol);
 
             Company company = companyRepository.findBySymbol(companyData.getSymbol());
+
             if (company == null) {
                 Company company1 = new Company();
                 company1.setName(companyData.getName());
@@ -103,12 +105,17 @@ public class APIService {
                 company1.setOfficial_website(companyData.getOfficial_website());
                 companyRepository.save(company1);
             }else{
-                throw new RuntimeException("Company already exists");
+                //throw new RuntimeException("Company already exists");
             }
+
+            if (companyData != null) {
+
+            }
+
         }
+        convertToAsset();
     }
 
-    // @Scheduled(fixedRate = 86400000)
     public void convertToAsset() {
         for (String function : FUNCTIONs) {
             for (String symbol : SYMBOLs) {
@@ -138,7 +145,7 @@ public class APIService {
                         }
                     }
                 } else {
-                    throw new RuntimeException("Company not found for symbol: " + symbol);
+                    //throw new RuntimeException("Company not found for symbol: " + symbol);
                 }
             }
         }
