@@ -10,13 +10,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.time.LocalDate;
-import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
 public class APIService {
-    private static final int MAX_DAYS = 5;
+    private static final int MAX_DAYS = 31;
     private static final String[] FUNCTIONs = {"TIME_SERIES_DAILY", "TIME_SERIES_WEEKLY", "TIME_SERIES_MONTHLY"};
     private static final String FUNCTION_OVERVIEW = "OVERVIEW";
     private static final String[] SYMBOLs = {
@@ -91,7 +90,7 @@ public class APIService {
                 .bodyToMono(CompanyData.class).block();
     }
 
-    @Scheduled(fixedRate = 86400000)
+    //@Scheduled(fixedRate = 86400000)
     public void convertToCompany() {
         for (String symbol : SYMBOLs) {
             CompanyData companyData = getCompanyData(symbol);
