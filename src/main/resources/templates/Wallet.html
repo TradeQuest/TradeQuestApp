@@ -1,20 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mi Wallet</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="stylesTodo.css"> <!-- Estilos generales -->
-    <link rel="stylesheet" href="stylesLayout.css"> <!-- Estilos del layout -->
+  <link rel="stylesheet" href="stylesLayout.css"> <!-- Estilos del layout -->
 </head>
-
 <body>
-  <div id="layout-container"></div>
+
+<!-- Importar layout -->
+<div th:replace="fragments/layout :: layout"></div>
+
+<!-- Contenido dinámico de la página -->
+<th:block th:fragment="content">
   <div class="main-content d-flex flex-column vh-100">
     <div class="container-fluid mt-4">
       <div class="row">
+        <!-- Sección Historial -->
         <div class="col-md-8">
           <div class="card p-3 text-white" style="background: rgba(255, 255, 255, 0.1); border-radius: 10px;">
             <div class="d-flex justify-content-between align-items-center">
@@ -30,6 +34,7 @@
           </div>
         </div>
 
+        <!-- Sección Mejor y Peor Acción -->
         <div class="col-md-4">
           <div class="card p-3 text-white" style="background: rgba(255, 255, 255, 0.1); border-radius: 10px;">
             <h5 class="fw-bold">TU MEJOR ACCIÓN</h5>
@@ -50,6 +55,8 @@
         </div>
       </div>
     </div>
+
+    <!-- Modal Añadir Fondos -->
     <div class="modal fade" id="fondosModal" tabindex="-1" aria-labelledby="fondosModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content p-3">
@@ -60,17 +67,11 @@
           <div class="modal-body">
             <p class="text-center text-primary">Estás por agregar fondos ficticios</p>
             <p>Antes de continuar, piénsalo bien. <strong class="text-primary">El dinero virtual en TradeQuest es una
-                herramienta de aprendizaje</strong>, no un atajo para reiniciar sin consecuencias.</p>
+              herramienta de aprendizaje</strong>, no un atajo para reiniciar sin consecuencias.</p>
             <h6 class="text-center fw-bold text-warning">⚠️ IMPORTANTE ⚠️</h6>
             <p class="text-danger fw-bold">No trates estos fondos a la ligera.</p>
             <p>La mejor manera de aprender a invertir es gestionando tu capital con estrategia, como si fuera real.</p>
             <p class="text-danger fw-bold">Evita depender de recargas constantes.</p>
-            <p>Desafíate a tomar decisiones inteligentes con los recursos que tienes.</p>
-            <p class="text-danger fw-bold">Esto es práctica, no juego.</p>
-            <p>La bolsa real no permite segundas oportunidades con solo presionar un botón.</p>
-            <p class="text-danger fw-bold">Cada recarga es una oportunidad para reflexionar sobre tus decisiones
-              financieras.</p>
-            <p>¿Podrías haber gestionado mejor tu portafolio?</p>
           </div>
           <button type="button" class="btn btn-primary w-100" id="confirmButton" data-bs-dismiss="modal">
             Confirma tu solicitud
@@ -78,6 +79,8 @@
         </div>
       </div>
     </div>
+
+    <!-- Modal Recarga Exitosa -->
     <div class="modal fade" id="recargaModal" tabindex="-1" aria-labelledby="recargaModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content text-center p-4">
@@ -91,15 +94,13 @@
               <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="Checkmark" width="50">
             </div>
             <p>Tu wallet está lista para la acción. <strong class="text-primary">Recuerda, este capital es
-                limitado</strong>, así que úsalo con estrategia y simula una gestión realista.</p>
-            <p class="text-secondary"><em>¿Podrás hacerlo crecer sin depender de más recargas?</em></p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-primary w-100">Usar con estrategia</button>
+              limitado</strong>, así que úsalo con estrategia y simula una gestión realista.</p>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Modal Confirmar Salida -->
     <div class="modal fade" id="salirModal" tabindex="-1" aria-labelledby="salirModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -117,17 +118,21 @@
         </div>
       </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="script.js"></script>
-    <script>
-      // Abrir el segundo modal al confirmar
-      document.getElementById("confirmButton").addEventListener("click", function () {
-        const recargaModal = new bootstrap.Modal(document.getElementById("recargaModal"));
-        recargaModal.show();
-      });
-    </script>
+
+  </div>
+</th:block>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="script.js"></script>
+<script>
+  // Abrir el segundo modal al confirmar
+  document.getElementById("confirmButton").addEventListener("click", function () {
+    const recargaModal = new bootstrap.Modal(document.getElementById("recargaModal"));
+    recargaModal.show();
+  });
+</script>
 
 </body>
-
 </html>
