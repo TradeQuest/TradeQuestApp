@@ -61,8 +61,9 @@
                         <label class="form-check-label text-white" for="rememberMe">Manténme conectado por 30
                             días</label>
                     </div>
-                    <button class="gradient-button w-100 mb-3"
-                        onclick="window.location.href='./dashboard.html'">Ingresar</button>
+                    <button class="gradient-button w-100 mb-3" th:onclick="|window.location.href='@{/dashboard}'|">
+                        Ingresar
+                    </button>
                     <p class="text-center text-primary mb-3">¿Olvidaste la contraseña?</p>
                     <div class="d-flex justify-content-center align-items-center mb-3">
                         <div class="divider"></div>
