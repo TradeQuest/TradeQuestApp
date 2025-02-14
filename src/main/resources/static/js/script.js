@@ -1,3 +1,5 @@
+// script.js
+
 $(document).ready(function () {
 
     // Animación del ticker de la barra negra
@@ -27,28 +29,49 @@ $(document).ready(function () {
             to { transform: translateX(-33.3%); }
         }
     `).appendTo('head');
+
+    // Función para cargar los datos del mercado desde la API
+    function actualizarDatosMercado() {
+        fetch('/api/assets') // Endpoint de la API del backend
+            .then(response => response.json())
+            .then(data => {
+                let marketBar = $('.market-font .ticker-content');
+                marketBar.empty(); // Limpiar contenido anterior
+
+                data.forEach(asset => {
+                    let cambioClass = asset.change >= 0 ? 'text-success' : 'text-danger';
+                    let cambioSimbolo = asset.change >= 0 ? '▲' : '▼';
+                    let elemento = `<span>${asset.symbol} <span class="${cambioClass}">${cambioSimbolo}${asset.change}%</span></span>`;
+                    marketBar.append(elemento);
+                });
+            })
+            .catch(error => console.error('Error al obtener los datos del mercado:', error));
+    }
+
+    // Cargar datos del mercado al iniciar
+    actualizarDatosMercado();
+
+    // Actualizar cada 30 segundos para simular cambios en tiempo real
+    setInterval(actualizarDatosMercado, 30000);
 });
 
-/*Pagina de configuracion*/
-    function togglePassword() {
+/* Página de configuración */
+function togglePassword() {
     var passwordField = document.getElementById("password");
     var icon = event.target;
     if (passwordField.type === "password") {
-    passwordField.type = "text";
-
-} else {
-    passwordField.type = "password";
-
+        passwordField.type = "text";
+    } else {
+        passwordField.type = "password";
+    }
 }
-}
-/*Pagina de market*/
 
+/* Página de market */
 function increment() {
     const input = document.getElementById('cantidad');
     input.value = parseInt(input.value) + 1;
 }
 
-// Función para decrementar el valor
 function decrement() {
     const input = document.getElementById('cantidad');
     if (input.value > 1) {
@@ -69,4 +92,3 @@ function confirmarCompra() {
     // Mostrar el modal de confirmación
     confirmacionModal.show();
 }
-
