@@ -3,40 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <title th:text="${pageTitle} ?: 'TradeQuest'">TradeQuest</title>
-    <link rel="stylesheet" href="../static/css/styles.css">
-    <link rel="stylesheet" href="../static/css/stylesLayout.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/stylesLayout.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="../static/js/layoutAnimations.js"></script>
+    <script src="/js/layoutAnimations.js"></script>
 </head>
 <body>
 <div th:fragment="layout(content)">
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="text-center mt-3">
-            <img src="../static/images/LogoEmpresa.png" alt="Logo" class="img-fluid">
+            <img src="/images/LogoEmpresa.png" alt="Logo" class="img-fluid">
         </div>
         <div class="mt-4 text-center">
             <h5 class="text-white">TRADEQUEST</h5>
         </div>
         <div class="mt-4 text-center">
-            <img src="../static/images/LogoUser.png" alt="User Avatar" class="rounded-circle">
+            <img src="/images/LogoUser.png" alt="User Avatar" class="rounded-circle">
             <h6 class="text-white mt-2">USER#1325</h6>
             <p class="text-white">RANKING: #247</p>
         </div>
         <div class="mt-4">
             <ul class="list-unstyled">
-                <a th:href="@{/dashboard}"><li class="text-white mb-3"><img src="../static/images/IconoDashboard.png"><p> MI DASHBOARD</p></li></a>
-                <a th:href="@{/wallet}"><li class="text-white mb-3"><img src="../static/images/IconoWallet.png"><p> MI WALLET</p></li></a>
-                <a th:href="@{/market}"><li class="text-white mb-3"><img src="../static/images/IconoMarket.png"><p> MARKET</p></li></a>
-                <a th:href="@{/tutorial}"><li class="text-white mb-3"><img src="../static/images/IconoAprende.png"><p> APRENDE</p></li></a>
+                <a th:href="@{/dashboard}"><li class="text-white mb-3"><img src="/images/IconoDashboard.png" alt="Dashboard Icon"><p> MI DASHBOARD</p></li></a>
+                <a th:href="@{/wallet}"><li class="text-white mb-3"><img src="/images/IconoWallet.png" alt="Wallet Icon"><p> MI WALLET</p></li></a>
+                <a th:href="@{/market}"><li class="text-white mb-3"><img src="/images/IconoMarket.png" alt="Market Icon"><p> MARKET</p></li></a>
+                <a th:href="@{/tutorials}"><li class="text-white mb-3"><img src="/images/IconoAprende.png" alt="Learn Icon"><p> APRENDE</p></li></a>
             </ul>
         </div>
         <div class="mt-4 border-top border-white"></div>
         <ul class="list-unstyled">
-            <a th:href="@{/support}"><li class="text-white mb-1"><img src="../static/images/IconoSoporte.png"><p> SOPORTE</p></li></a>
-            <a th:href="@{/faq}"><li class="text-white mb-1"><img src="../static/images/IconoFAQ.png"><p> FAQ</p></li></a>
-            <a th:href="@{/configuration}"><li class="text-white mb-1"><img src="../static/images/IconoSettings.png"><p> CONFIGURACION</p></li></a>
-            <a th:href="@{/logIn}" data-bs-toggle="modal" data-bs-target="#salirModal"><li class="text-white mb-1"><img src="../static/images/IconoLogOut-1.png"><p> SALIR</p></li></a>
+            <a th:href="@{/support}"><li class="text-white mb-1"><img src="/images/IconoSoporte.png" alt="Support Icon"><p> SOPORTE</p></li></a>
+            <a th:href="@{/faq}"><li class="text-white mb-1"><img src="/images/IconoFAQ.png" alt="FAQ Icon"><p> FAQ</p></li></a>
+            <a th:href="@{/configuration}"><li class="text-white mb-1"><img src="/images/IconoSettings.png" alt="Settings Icon"><p> CONFIGURACION</p></li></a>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#salirModal"><li class="text-white mb-1"><img src="/images/IconoLogOut-1.png" alt="Log Out Icon"><p> SALIR</p></li></a>
         </ul>
     </div>
 
@@ -44,19 +44,73 @@
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container-fluid">
             <a id="NombrePag" class="navbar-brand d-flex align-items-center" href="#">
-                <img src="../static/images/LogoEsconder.png" alt="Menu Icon" class="me-2">
+                <img src="/images/LogoEsconder.png" alt="Menu Icon" class="me-2">
                 <h4 class="text-white m-0">Todo</h4>
             </a>
             <div class="d-flex">
-                <img src="../static/images/IconoMensajes.png" alt="Messages Icon" class="me-3">
-                <img src="../static/images/IconoLogOut.png" alt="Logout Icon">
+                <img src="/images/IconoMensajes.png" alt="Messages Icon" class="me-3" data-bs-toggle="modal" data-bs-target="#inboxModal">
+                <img src="/images/IconoLogOut.png" alt="Logout Icon" data-bs-toggle="modal" data-bs-target="#salirModal">
             </div>
         </div>
     </nav>
 
     <!-- Contenido dinámico -->
     <div class="main-content">
-        <th:replace th:insert="${content}" />
+        <th:block th:replace="${content}" />
+    </div>
+
+    <!-- Modal Confirmar Salida -->
+    <div class="modal fade" id="salirModal" tabindex="-1" aria-labelledby="salirModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="salirModalLabel">¿Seguro que quieres salir?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Si cierras sesión, tendrás que volver a iniciar sesión para acceder nuevamente.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">VOLVER</button>
+                    <a th:href="@{/logIn}" class="btn btn-danger">SÍ, SALIR</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Bandeja de Entrada -->
+    <div class="modal fade" id="inboxModal" tabindex="-1" aria-labelledby="inboxModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="inboxModalLabel">📩 Bandeja de Entrada</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="list-group" style="max-height: 300px; overflow-y: auto;">
+                        <li class="list-group-item">
+                            <strong>Juan Pérez:</strong> Hola, ¿cómo estás?
+                            <span class="badge bg-primary float-end">Nuevo</span>
+                        </li>
+                        <li class="list-group-item">
+                            <strong>María López:</strong> Recibí el pago, gracias.
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Carlos Díaz:</strong> ¿A qué hora nos vemos mañana?
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Ana Torres:</strong> ¡Feliz cumpleaños! 🎉
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Pedro Ramírez:</strong> Te envié los documentos por correo.
+                        </li>
+                    </ul>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 </body>
