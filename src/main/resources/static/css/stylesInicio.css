@@ -185,3 +185,13 @@ p {
 #registroModal .modal-footer {
     border: none; /* Elimina los bordes del header y footer */
 }
+
+.cardPolicie{
+    .cardPolicie {
+        height: 100%; /* Hace que todas las tarjetas tengan la misma altura */
+    }
+
+}
+.cardPolicie .card-body {
+    flex-grow: 1; /* Hace que el contenido crezca y ocupe todo el espacio disponible */
+}
