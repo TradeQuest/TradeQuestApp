@@ -32,14 +32,14 @@ public class AssetController {
     }
 
     @GetMapping("/assets/{company_symbol}")
-    public ResponseEntity<Asset> getAssetByCompanySymbol(@PathVariable String symbol, @PathVariable String date){
-        Optional<Asset> asset = Optional.ofNullable(assetService.getAssetBySymbolAndDate(symbol, date));
+    public ResponseEntity<Asset> getAssetByCompanySymbol(@PathVariable String company_symbol, @PathVariable String date){
+        Optional<Asset> asset = Optional.ofNullable(assetService.getAssetBySymbolAndDate(company_symbol, date));
         return asset.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/assets/{company_symbol}")
-    public ResponseEntity<String> deleteProduct(@PathVariable String symbol, @PathVariable String date){
-        assetService.deleteAsset(symbol, date);
+    public ResponseEntity<String> deleteProduct(@PathVariable String company_symbol, @PathVariable String date){
+        assetService.deleteAsset(company_symbol, date);
         return ResponseEntity.ok("Asset deleted successfully");
     }
 

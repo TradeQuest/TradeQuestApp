@@ -1,15 +1,18 @@
-// script.js
-
 $(document).ready(function () {
-
     // Animación del ticker de la barra negra
     let marketBar = $('.market-font');
     let tickerContent = marketBar.html();
 
-    // Duplicar contenido varias veces para evitar vacío al reiniciar
-    marketBar.html(`<div class='ticker-wrapper'><div class='ticker-content'>${tickerContent} &#160;&#160;&#160; ${tickerContent} &#160;&#160;&#160; ${tickerContent}</div></div>`);
+    // Efecto de ticker con contenido ficticio hasta recibir datos reales
+    marketBar.html(`
+        <div class='ticker-wrapper'>
+            <div class='ticker-content'>
+                ${tickerContent} &#160;&#160;&#160; ${tickerContent} &#160;&#160;&#160; ${tickerContent}
+            </div>
+        </div>
+    `);
 
-    // Aplicar estilos necesarios para el efecto
+    // Estilos del ticker
     $('<style>').text(`
         .ticker-wrapper {
             width: 100%;
@@ -30,29 +33,64 @@ $(document).ready(function () {
         }
     `).appendTo('head');
 
-    // Función para cargar los datos del mercado desde la API
+    // Función para actualizar los datos del mercado desde la API
     function actualizarDatosMercado() {
-        fetch('/api/assets') // Endpoint de la API del backend
-            .then(response => response.json())
+        let marketBar = $('.market-font');
+
+        // Mostrar mensaje de carga temporal
+        marketBar.html('<span class="text-warning">Cargando datos del mercado...</span>');
+
+        fetch('/assetApi/assets')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
-                let marketBar = $('.market-font .ticker-content');
-                marketBar.empty(); // Limpiar contenido anterior
+                console.log("Datos recibidos:", data);
+
+                if (!Array.isArray(data)) {
+                    console.error("La API no devuelve un array válido:", data);
+                    marketBar.html('<span class="text-danger">Error al cargar datos</span>');
+                    return;
+                }
+
+                let assetMap = {};
+                let newContent = '';
 
                 data.forEach(asset => {
-                    let cambioClass = asset.change >= 0 ? 'text-success' : 'text-danger';
-                    let cambioSimbolo = asset.change >= 0 ? '▲' : '▼';
-                    let elemento = `<span>${asset.symbol} <span class="${cambioClass}">${cambioSimbolo}${asset.change}%</span></span>`;
-                    marketBar.append(elemento);
+                    let changePercent = ((asset.close_value - asset.opening_value) / asset.opening_value) * 100;
+                    let cambioClass = changePercent >= 0 ? 'text-success' : 'text-danger';
+                    let cambioSimbolo = changePercent >= 0 ? '▲' : '▼';
+
+                    assetMap[asset.company_symbol] = {
+                        percent: changePercent.toFixed(2),
+                        class: cambioClass,
+                        symbol: cambioSimbolo
+                    };
+
+                    newContent += `<span>${asset.company_symbol} <span class="${cambioClass}">${cambioSimbolo}${changePercent.toFixed(2)}%</span></span> &#160;&#160;&#160;`;
                 });
+
+                // Reemplazar el contenido de la barra con los datos actualizados
+                marketBar.html(`
+                    <div class='ticker-wrapper'>
+                        <div class='ticker-content'>${newContent} ${newContent} ${newContent}</div>
+                    </div>
+                `);
             })
-            .catch(error => console.error('Error al obtener los datos del mercado:', error));
+            .catch(error => {
+                console.error("Error al obtener los datos del mercado:", error);
+                marketBar.html('<span class="text-danger">No se pudieron cargar los datos</span>');
+            });
     }
 
-    // Cargar datos del mercado al iniciar
+    // Cargar datos al iniciar
     actualizarDatosMercado();
 
-    // Actualizar cada 30 segundos para simular cambios en tiempo real
-    setInterval(actualizarDatosMercado, 30000);
+    // Actualizar cada 24 horas (86,400,000 ms)
+    setInterval(actualizarDatosMercado, 86400000);
 });
 
 /* Página de configuración */
