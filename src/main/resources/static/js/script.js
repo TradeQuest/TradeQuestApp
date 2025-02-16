@@ -1,13 +1,12 @@
 $(document).ready(function () {
     // Animación del ticker de la barra negra
     let marketBar = $('.market-font');
-    let tickerContent = marketBar.html();
 
     // Efecto de ticker con contenido ficticio hasta recibir datos reales
     marketBar.html(`
         <div class='ticker-wrapper'>
             <div class='ticker-content'>
-                ${tickerContent} &#160;&#160;&#160; ${tickerContent} &#160;&#160;&#160; ${tickerContent}
+                <span class="text-warning">Cargando datos del mercado...</span>
             </div>
         </div>
     `);
@@ -35,53 +34,53 @@ $(document).ready(function () {
 
     // Función para actualizar los datos del mercado desde la API
     function actualizarDatosMercado() {
-        let marketBar = $('.market-font');
-
-        // Mostrar mensaje de carga temporal
-        marketBar.html('<span class="text-warning">Cargando datos del mercado...</span>');
-
         fetch('/assetApi/assets')
             .then(response => {
-                if (!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
+                if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
                 return response.json();
             })
             .then(data => {
-                console.log("Datos recibidos:", data);
+                console.log("📥 Datos recibidos de la API:", JSON.stringify(data, null, 2));
 
-                if (!Array.isArray(data)) {
-                    console.error("La API no devuelve un array válido:", data);
-                    marketBar.html('<span class="text-danger">Error al cargar datos</span>');
+                if (!Array.isArray(data) || data.length === 0) {
+                    console.error("❌ La API no devuelve un array válido o está vacío:", data);
+                    marketBar.html('<span class="text-danger">No hay datos disponibles</span>');
                     return;
                 }
 
-                let assetMap = {};
+                let seenSymbols = new Set(); // Evitar duplicados
                 let newContent = '';
 
                 data.forEach(asset => {
-                    let changePercent = ((asset.close_value - asset.opening_value) / asset.opening_value) * 100;
-                    let cambioClass = changePercent >= 0 ? 'text-success' : 'text-danger';
-                    let cambioSimbolo = changePercent >= 0 ? '▲' : '▼';
+                    console.log(`🔍 Procesando: ${asset.company_symbol} - Fecha: ${asset.date}`);
 
-                    assetMap[asset.company_symbol] = {
-                        percent: changePercent.toFixed(2),
-                        class: cambioClass,
-                        symbol: cambioSimbolo
-                    };
+                    // Solo procesar símbolos únicos
+                    if (!seenSymbols.has(asset.company_symbol)) {
+                        seenSymbols.add(asset.company_symbol);
 
-                    newContent += `<span>${asset.company_symbol} <span class="${cambioClass}">${cambioSimbolo}${changePercent.toFixed(2)}%</span></span> &#160;&#160;&#160;`;
+                        let changePercent = ((asset.close_value - asset.opening_value) / asset.opening_value) * 100;
+                        let cambioClass = changePercent >= 0 ? 'text-success' : 'text-danger';
+                        let cambioSimbolo = changePercent >= 0 ? '▲' : '▼';
+
+                        newContent += `<span>${asset.company_symbol} <span class="${cambioClass}">${cambioSimbolo}${changePercent.toFixed(2)}%</span></span> &#160;&#160;&#160;`;
+                    }
                 });
 
+                console.log("✅ Símbolos finales mostrados:", seenSymbols);
+
                 // Reemplazar el contenido de la barra con los datos actualizados
-                marketBar.html(`
-                    <div class='ticker-wrapper'>
-                        <div class='ticker-content'>${newContent} ${newContent} ${newContent}</div>
-                    </div>
-                `);
+                if (newContent.trim().length > 0) {
+                    marketBar.html(`
+                        <div class='ticker-wrapper'>
+                            <div class='ticker-content'>${newContent} ${newContent} ${newContent}</div>
+                        </div>
+                    `);
+                } else {
+                    marketBar.html('<span class="text-danger">No se encontraron datos de activos</span>');
+                }
             })
             .catch(error => {
-                console.error("Error al obtener los datos del mercado:", error);
+                console.error("❌ Error al obtener los datos del mercado:", error);
                 marketBar.html('<span class="text-danger">No se pudieron cargar los datos</span>');
             });
     }
@@ -92,6 +91,7 @@ $(document).ready(function () {
     // Actualizar cada 24 horas (86,400,000 ms)
     setInterval(actualizarDatosMercado, 86400000);
 });
+
 
 /* Página de configuración */
 function togglePassword() {
