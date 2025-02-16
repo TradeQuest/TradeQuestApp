@@ -28,7 +28,19 @@ public class AssetService {
     }
 
     public List<Asset> getAllAssets(){
-        return assetRepository.findAll();
+
+        List<Asset> assets = assetRepository.findAll();
+
+        for (Asset a : assets){
+            if (a.getCompany() != null) {
+                a.getCompany().setAssets(null);
+            }
+        }
+
+        return assets;
+
+
+        //return assetRepository.findAll();
     }
 
     public List<Asset> getAssetsByCompanySymbol(String symbol){
