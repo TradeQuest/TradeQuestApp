@@ -90,27 +90,21 @@ public class APIService {
                 .bodyToMono(CompanyData.class).block();
     }
 
-    //@Scheduled(fixedRate = 86400000)
+    @Scheduled(fixedRate = 86400000)
     public void convertToCompany() {
         for (String symbol : SYMBOLs) {
             CompanyData companyData = getCompanyData(symbol);
 
-            Company company = companyRepository.findBySymbol(companyData.getSymbol());
-
-            if (company == null) {
-                Company company1 = new Company();
-                company1.setName(companyData.getName());
-                company1.setSymbol(symbol);
-                company1.setOfficial_website(companyData.getOfficial_website());
-                companyRepository.save(company1);
-            }else{
-                //throw new RuntimeException("Company already exists");
-            }
-
             if (companyData != null) {
-
+                Company company = companyRepository.findBySymbol(companyData.getSymbol());
+                if (company == null) {
+                    Company company1 = new Company();
+                    company1.setName(companyData.getName());
+                    company1.setSymbol(symbol);
+                    company1.setOfficial_website(companyData.getOfficial_website());
+                    companyRepository.save(company1);
+                }
             }
-
         }
         convertToAsset();
     }
