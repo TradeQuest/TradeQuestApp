@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Soporte</title>
+    <title>TRADEQUEST - Soporte</title>
 
     <!-- CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -24,7 +24,7 @@
         <div class="container mt-5 text-white position-relative d-flex justify-content-center">
             <div class="row w-100 justify-content-center" style="margin-top: 10%; margin-right: 30%;">
                 <div class="col-md-6 position-relative" style="z-index: 2;">
-                    <div class="card p-4 bg-transparent text-white">
+                    <div class="card p-4 bg-transparent text-white w-100" style="max-width: 800px; margin-top: -100px;">
                         <h2>¿Necesitas ayuda? Estamos aquí para ti. 🚀</h2>
                         <p>En TRADEQUEST queremos que tu experiencia sea fluida y sin complicaciones. Si tienes dudas,
                             problemas técnicos o simplemente necesitas orientación, nuestro equipo de soporte está listo
@@ -52,6 +52,7 @@
                 </div>
             </div>
         </div>
+
 
         <!-- Modal para enviar consultas -->
         <div class="modal fade" id="consultaModal" tabindex="-1" aria-labelledby="consultaModalLabel" aria-hidden="true">
@@ -95,24 +96,8 @@
             </div>
         </div>
 
-        <!-- Modal de confirmación de salida -->
-        <div class="modal fade" id="salirModal" tabindex="-1" aria-labelledby="salirModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="salirModalLabel">¿Seguro que quieres salir?</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Si cierras sesión, tendrás que volver a iniciar sesión para acceder nuevamente.</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">VOLVER</button>
-                        <a th:href="@{/logIn}" class="btn btn-danger">SÍ, SALIR</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+
+
     </th:block>
 </div>
 
@@ -121,6 +106,7 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="../static/js/script.js"></script>
+<script src="/static/js/VerificationScript.js"></script>
 
 </body>
 </html>

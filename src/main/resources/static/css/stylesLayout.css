@@ -149,3 +149,9 @@ body {
   margin-left: 60px;
   width: calc(100% - 60px);
 }
+
+
+#GrupoBandeja{
+  max-height: 300px;
+  overflow-y: auto;
+}

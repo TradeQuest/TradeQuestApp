@@ -18,17 +18,17 @@
         <div class="mt-4 text-center">
             <h5 class="text-white">TRADEQUEST</h5>
         </div>
-        <div class="mt-4 text-center">
+        <div class="mt-2 text-center">
             <img src="/images/LogoUser.png" alt="User Avatar" class="rounded-circle">
             <h6 class="text-white mt-2">USER#1325</h6>
             <p class="text-white">RANKING: #247</p>
         </div>
-        <div class="mt-4">
+        <div class="mt-2">
             <ul class="list-unstyled">
                 <a th:href="@{/dashboard}"><li class="text-white mb-3"><img src="/images/IconoDashboard.png" alt="Dashboard Icon"><p> MI DASHBOARD</p></li></a>
                 <a th:href="@{/wallet}"><li class="text-white mb-3"><img src="/images/IconoWallet.png" alt="Wallet Icon"><p> MI WALLET</p></li></a>
                 <a th:href="@{/market}"><li class="text-white mb-3"><img src="/images/IconoMarket.png" alt="Market Icon"><p> MARKET</p></li></a>
-                <a th:href="@{/tutorials}"><li class="text-white mb-3"><img src="/images/IconoAprende.png" alt="Learn Icon"><p> APRENDE</p></li></a>
+                <a th:href="@{/tutorial}"><li class="text-white mb-3"><img src="/images/IconoAprende.png" alt="Learn Icon"><p> APRENDE</p></li></a>
             </ul>
         </div>
         <div class="mt-4 border-top border-white"></div>
@@ -45,7 +45,7 @@
         <div class="container-fluid">
             <a id="NombrePag" class="navbar-brand d-flex align-items-center" href="#">
                 <img src="/images/LogoEsconder.png" alt="Menu Icon" class="me-2">
-                <h4 class="text-white m-0">Todo</h4>
+
             </a>
             <div class="d-flex">
                 <img src="/images/IconoMensajes.png" alt="Messages Icon" class="me-3" data-bs-toggle="modal" data-bs-target="#inboxModal">
@@ -87,22 +87,22 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    <ul class="list-group" style="max-height: 300px; overflow-y: auto;">
+                    <ul id="GrupoBandeja" class="list-group">
                         <li class="list-group-item">
-                            <strong>Juan Pérez:</strong> Hola, ¿cómo estás?
+                            <strong>TradeQuestBot:</strong> Porque invertir en Apple....
                             <span class="badge bg-primary float-end">Nuevo</span>
                         </li>
                         <li class="list-group-item">
-                            <strong>María López:</strong> Recibí el pago, gracias.
+                            <strong>TradeQuestBot:</strong> Te has dejado el tutorial a medias....
                         </li>
                         <li class="list-group-item">
-                            <strong>Carlos Díaz:</strong> ¿A qué hora nos vemos mañana?
+                            <strong>TradeQuestBot:</strong> Es el momento de invertir en ...
                         </li>
                         <li class="list-group-item">
-                            <strong>Ana Torres:</strong> ¡Feliz cumpleaños! 🎉
+                            <strong>TradeQuestBot:</strong> ¡Feliz cumpleaños! 🎉
                         </li>
                         <li class="list-group-item">
-                            <strong>Pedro Ramírez:</strong> Te envié los documentos por correo.
+                            <strong>TradeQuestBot:</strong> Formulario Enviado
                         </li>
                     </ul>
                 </div>
