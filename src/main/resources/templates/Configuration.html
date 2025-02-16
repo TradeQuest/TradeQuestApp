@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Configuración</title>
+  <title>TRADEQUEST - Configuracion</title>
   <!-- CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/static/css/stylesTodo.css">
@@ -24,7 +24,7 @@
       <div class="row">
         <!-- � Sección de Perfil (Izquierda, más ancha) -->
         <div class="col-md-7">
-          <div class="card p-5 shadow-lg" style="min-height: 550px;">
+          <div id="CardConf" class="card p-5 shadow-lg" >
             <div class="text-center">
               <img src="../static/images/LogoUser.png" alt="User Avatar" class="rounded-circle mb-4" width="150">
               <div class="input-group mb-4 w-50 mx-auto">
@@ -50,11 +50,11 @@
         <!-- 🔑 Sección Cuenta y Soporte -->
         <div class="col-md-5">
           <!-- Cuenta -->
-          <div class="card p-5 shadow-lg mb-4" style="min-height: 250px;">
+          <div id="CardAccount" class="card p-5 shadow-lg mb-4" >
             <h3 class="text-white text-center mb-4">Cuenta</h3>
             <label for="password" class="text-white fs-5">Gestionar cuenta</label>
             <div class="input-group mb-4">
-              <input type="password" id="password" class="form-control fs-4" value="********" >
+              <input type="password" id="password" class="form-control fs-4" value="MeGustaElQueso1" >
               <button class="btn btn-outline-secondary" type="button" onclick="togglePassword()">
                 Mostrar
               </button>
@@ -64,7 +64,7 @@
           </div>
 
           <!-- Soporte -->
-          <div class="card p-5 shadow-lg text-center" style="min-height: 250px;">
+          <div id="CardSupport" class="card p-5 shadow-lg text-center" >
             <h3 class="text-white">¿Necesitas Ayuda?</h3>
             <p class="text-white fs-5">Si tienes dudas o problemas, accede a nuestra página de soporte y envíanos tu
               solicitud</p>
@@ -76,59 +76,9 @@
   </th:block>
 </div>
 
-<!-- Modal Confirmar Salida -->
-<div class="modal fade" id="salirModal" tabindex="-1" aria-labelledby="salirModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="salirModalLabel">¿Seguro que quieres salir?</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <p>Si cierras sesión, tendrás que volver a iniciar sesión para acceder nuevamente.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">VOLVER</button>
-        <a th:href="@{/logIn}" class="btn-primary-custom ">SÍ, SALIR</a>
-      </div>
-    </div>
-  </div>
-</div>
 
-<!-- Modal Bandeja de Entrada -->
-<div class="modal fade" id="inboxModal" tabindex="-1" aria-labelledby="inboxModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="inboxModalLabel">📩 Bandeja de Entrada</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-      </div>
-      <div class="modal-body">
-        <ul class="list-group" style="max-height: 300px; overflow-y: auto;">
-          <li class="list-group-item">
-            <strong>Juan Pérez:</strong> Hola, ¿cómo estás?
-            <span class="badge bg-primary float-end">Nuevo</span>
-          </li>
-          <li class="list-group-item">
-            <strong>María López:</strong> Recibí el pago, gracias.
-          </li>
-          <li class="list-group-item">
-            <strong>Carlos Díaz:</strong> ¿A qué hora nos vemos mañana?
-          </li>
-          <li class="list-group-item">
-            <strong>Ana Torres:</strong> ¡Feliz cumpleaños! 🎉
-          </li>
-          <li class="list-group-item">
-            <strong>Pedro Ramírez:</strong> Te envié los documentos por correo.
-          </li>
-        </ul>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-      </div>
-    </div>
-  </div>
-</div>
+
+
 
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

@@ -28,7 +28,7 @@
                 <a th:href="@{/dashboard}"><li class="text-white mb-3"><img src="/images/IconoDashboard.png" alt="Dashboard Icon"><p> MI DASHBOARD</p></li></a>
                 <a th:href="@{/wallet}"><li class="text-white mb-3"><img src="/images/IconoWallet.png" alt="Wallet Icon"><p> MI WALLET</p></li></a>
                 <a th:href="@{/market}"><li class="text-white mb-3"><img src="/images/IconoMarket.png" alt="Market Icon"><p> MARKET</p></li></a>
-                <a th:href="@{/tutorials}"><li class="text-white mb-3"><img src="/images/IconoAprende.png" alt="Learn Icon"><p> APRENDE</p></li></a>
+                <a th:href="@{/tutorial}"><li class="text-white mb-3"><img src="/images/IconoAprende.png" alt="Learn Icon"><p> APRENDE</p></li></a>
             </ul>
         </div>
         <div class="mt-4 border-top border-white"></div>
@@ -45,7 +45,7 @@
         <div class="container-fluid">
             <a id="NombrePag" class="navbar-brand d-flex align-items-center" href="#">
                 <img src="/images/LogoEsconder.png" alt="Menu Icon" class="me-2">
-                <h4 class="text-white m-0">Todo</h4>
+
             </a>
             <div class="d-flex">
                 <img src="/images/IconoMensajes.png" alt="Messages Icon" class="me-3" data-bs-toggle="modal" data-bs-target="#inboxModal">
@@ -87,7 +87,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                 </div>
                 <div class="modal-body">
-                    <ul class="list-group" style="max-height: 300px; overflow-y: auto;">
+                    <ul id="GrupoBandeja" class="list-group">
                         <li class="list-group-item">
                             <strong>Juan Pérez:</strong> Hola, ¿cómo estás?
                             <span class="badge bg-primary float-end">Nuevo</span>
