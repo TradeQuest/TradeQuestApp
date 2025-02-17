@@ -90,7 +90,7 @@ public class APIService {
                 .bodyToMono(CompanyData.class).block();
     }
 
-    @Scheduled(fixedRate = 86400000)
+    //@Scheduled(fixedRate = 86400000)
     public void convertToCompany() {
         for (String symbol : SYMBOLs) {
             CompanyData companyData = getCompanyData(symbol);

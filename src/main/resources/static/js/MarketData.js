@@ -110,7 +110,7 @@ function renderizarGrafico(containerId, historicalData) {
 
         // Configurar el gráfico de CanvasJS
         let chart = new CanvasJS.Chart(container, {
-            backgroundColor: "#131722",
+            backgroundColor: "#1c253d",
             theme: "dark2",
             axisX: {
                 valueFormatString: "DD MMM",
@@ -122,8 +122,8 @@ function renderizarGrafico(containerId, historicalData) {
             },
             data: [{
                 type: "candlestick",
-                risingColor: "#26a69a",
-                fallingColor: "#ef5350",
+                risingColor: "#0bdc0f",
+                fallingColor: "#ce0e0b",
                 dataPoints: historicalData
             }]
         });
