@@ -1,17 +1,22 @@
 document.addEventListener("DOMContentLoaded", function () {
     const registerForm = document.querySelector("#registroModal form");
+    const loginButton = document.querySelector("#ingresarBtn");
 
-    document.getElementById("BotonCrear").addEventListener("click", async function (event) {
+
+    document.getElementById("BotonCrear").addEventListener("click", function (event) {
         event.preventDefault();
 
         const email = registerForm.querySelector("input[type='email']").value;
+
         const nickname = registerForm.querySelector("input[placeholder='Nombre de usuario']").value;
+
         const password = registerForm.querySelector("input[type='password']").value;
+
 
         const userData = {
             nickname: nickname,
-            name: nickname, // Opcional
-            surname: "", // Opcional
+            name: nickname, // Opcional, modificar según necesidad
+            surname: "", // Opcional, modificar según necesidad
             password: password,
             email: email,
             user_role: "STUDENT", // Por defecto como estudiante
@@ -19,64 +24,47 @@ document.addEventListener("DOMContentLoaded", function () {
             current_lesson: 0
         };
 
-        try {
-            // 1️⃣ Registrar Usuario
-            const userResponse = await fetch("/userApi/user", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(userData)
-            });
-
-            if (!userResponse.ok) {
-                const errorData = await userResponse.json();
-                throw new Error(errorData.message || "Error al registrar usuario");
-            }
-
-            const newUser = await userResponse.json();
-            const userId = newUser.user_id;
-
-            // 2️⃣ Crear Wallet para el usuario con saldo inicial
-            const walletData = {
-                balance: 10000,
-                user: { user_id: userId } // Asociar la wallet al usuario recién creado
-            };
-
-            const walletResponse = await fetch("/walletApi/wallet", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(walletData)
-            });
-
-            if (!walletResponse.ok) {
-                throw new Error("Error al crear la Wallet");
-            }
-
-            // 3️⃣ Asignar un tutorial inicial al usuario
-            const tutorialId = 1; // ID del tutorial inicial (asegúrate de que exista en la BD)
-            const assignTutorialResponse = await fetch(`/userApi/users/${userId}/assignTutorial/${tutorialId}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
+        fetch("/userApi/user", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(userData)
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Error al registrar usuario");
                 }
+                return response.json();
+            })
+            .then(data => {
+                alert("Usuario registrado con éxito");
+                registerForm.reset();
+                const modal = bootstrap.Modal.getInstance(document.querySelector("#registroModal"));
+                modal.hide();
+            })
+            .catch(error => {
+                alert("Hubo un error al registrar el usuario: " + error.message);
             });
+    });
 
-            if (!assignTutorialResponse.ok) {
-                throw new Error("Error al asignar el tutorial inicial");
-            }
+    loginButton.addEventListener("click", function () {
+        const username = document.querySelector("#username").value;
+        const password = document.querySelector("#password").value;
 
-            alert("Usuario, Wallet y Tutorial inicial creados con éxito");
-            registerForm.reset();
-
-            // Cerrar el modal de registro
-            const modal = bootstrap.Modal.getInstance(document.querySelector("#registroModal"));
-            modal.hide();
-
-        } catch (error) {
-            alert("Hubo un error: " + error.message);
-        }
+        fetch(`/userApi/users`)
+            .then(response => response.json())
+            .then(users => {
+                const userExists = users.some(user => user.nickname === username && user.password === password);
+                if (userExists) {
+                    alert("Inicio de sesión exitoso");
+                    // Redireccionar o manejar login exitoso
+                } else {
+                    alert("Usuario o contraseña incorrectos");
+                }
+            })
+            .catch(error => {
+                alert("Error al verificar el usuario: " + error.message);
+            });
     });
 });
