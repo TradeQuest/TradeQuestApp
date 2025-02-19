@@ -41,7 +41,7 @@ public class WebConfig implements WebMvcConfigurer {
                         .anyRequest()
                         .authenticated())
                 .formLogin(login -> login
-                        .loginPage(LOGIN_PAGE)
+                        .loginPage(LOGIN_PAGE).usernameParameter("correo").passwordParameter("contra")
                         .defaultSuccessUrl("/dashboard", true)
                         .permitAll());
         return http.build();

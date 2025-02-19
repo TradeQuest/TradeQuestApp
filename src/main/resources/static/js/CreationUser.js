@@ -49,8 +49,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     loginButton.addEventListener("click", function () {
-        const username = document.querySelector("#correo").value;
-        const password = document.querySelector("#contra").value;
+        const username = document.querySelector("#username").value;
+        const password = document.querySelector("#password").value;
 
         fetch(`/userApi/users`)
             .then(response => response.json())
