@@ -26,7 +26,7 @@ public class Wallet {
 
     //CONSTRUCTOR
     public Wallet() {
-        this.balance = 10000;
+        this.balance = 0;
     }
 
     //GETTER Y SETTER

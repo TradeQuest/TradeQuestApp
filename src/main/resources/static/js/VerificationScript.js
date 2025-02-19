@@ -34,8 +34,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Validación del formulario de inicio de sesión
     document.getElementById('ingresarBtn').addEventListener('click', function () {
-        const correo = document.getElementById('username');
-        const contra = document.getElementById('password');
+        const correo = document.getElementById('correo');
+        const contra = document.getElementById('contra');
 
         // Verifica que los datos ingresados sean válidos
         const esValido = validarFormulario(document, [
