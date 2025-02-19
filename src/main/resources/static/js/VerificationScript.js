@@ -32,22 +32,8 @@ document.addEventListener('DOMContentLoaded', function () {
         return valido;
     }
 
-    // Validación del formulario de inicio de sesión
-    document.getElementById('ingresarBtn').addEventListener('click', function () {
-        const correo = document.getElementById('correo');
-        const contra = document.getElementById('contra');
 
-        // Verifica que los datos ingresados sean válidos
-        const esValido = validarFormulario(document, [
-            { input: correo, regex: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/, mensaje: 'Por favor, ingresa un correo válido.' },
-            { input: contra, regex: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/, mensaje: 'Contraseña incorrecta' }
-        ]);
 
-        // Si los datos son válidos, redirige al usuario al dashboard
-        if (esValido) {
-            window.location.href = '/dashboard';
-        }
-    });
 
     // Validación del formulario de registro
     document.querySelector('#registroModal form').addEventListener('submit', function (event) {

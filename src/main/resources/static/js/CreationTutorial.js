@@ -1,20 +1,38 @@
-document.getElementById("tutorialForm").addEventListener("submit", function(event) {
+document.getElementById("addTutorialForm").addEventListener("submit", async function (event) {
     event.preventDefault();
 
+    const name = document.getElementById("tutorialName").value;
+    const description = document.getElementById("tutorialDescription").value;
+    const videoUrl = document.getElementById("tutorialVideoUrl").value;
+
+    if (!name || !description || !videoUrl) {
+        alert("Por favor, completa todos los campos.");
+        return;
+    }
+
     const tutorialData = {
-        name: document.getElementById("name").value,
-        description: document.getElementById("description").value,
-        video_url: document.getElementById("video_url").value
+        name: name,
+        description: description,
+        video_url: videoUrl
     };
 
-    fetch("/tutorialApi/tutorial", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(tutorialData)
-    })
-        .then(response => response.json())
-        .then(tutorialData => alert("Tutorial añadido con éxito"))
-        .catch(error => console.error("Error:", error));
+    try {
+        const response = await fetch("/tutorialApi/tutorial", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(tutorialData)
+        });
+
+        if (!response.ok) {
+            throw new Error("Error al guardar el tutorial");
+        }
+
+        alert("Tutorial añadido exitosamente");
+        window.location.reload();
+    } catch (error) {
+        console.error("Error al añadir el tutorial", error);
+        alert("Ocurrió un error. Intenta nuevamente.");
+    }
 });
