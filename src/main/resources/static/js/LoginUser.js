@@ -1,40 +1,29 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const loginButton = document.getElementById("ingresarBtn");
+document.getElementById("ingresarBtn").addEventListener("click", async function () {
+    const email = document.getElementById("correo").value;
+    const password = document.getElementById("contra").value;
 
-    loginButton.addEventListener("click", async function () {
-        const nickname = document.getElementById("correo").value;
-        const password = document.getElementById("contra").value;
+    if (!email || !password) {
+        alert("Por favor, completa todos los campos.");
+        return;
+    }
 
-        if (!nickname || !password) {
-            alert("Por favor, completa todos los campos.");
-            return;
+    try {
+        const response = await fetch(`/userApi/users`);
+        if (!response.ok) {
+            throw new Error("Error al obtener los usuarios");
         }
 
-        const loginData = {
-            nickname: nickname,
-            password: password
-        };
+        const users = await response.json();
+        const user = users.find(user => user.email === email && user.password === password);
 
-        try {
-            const response = await fetch("http://localhost:8080/userApi/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(loginData)
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                localStorage.setItem("user", JSON.stringify(data));
-                alert("Inicio de sesión exitoso");
-                window.location.href = "home.html"; // Redirigir a la página de inicio
-            } else {
-                alert("Usuario o contraseña incorrectos");
-            }
-        } catch (error) {
-            console.error("Error al intentar iniciar sesión:", error);
-            alert("Ocurrió un error. Inténtalo de nuevo más tarde.");
+        if (user) {
+            alert("Inicio de sesión exitoso");
+            window.location.href = "/dashboard"; // Redirigir al dashboard
+        } else {
+            alert("Usuario o contraseña incorrectos");
         }
-    });
+    } catch (error) {
+        console.error("Error en la autenticación", error);
+        alert("Ocurrió un error. Intenta nuevamente.");
+    }
 });
