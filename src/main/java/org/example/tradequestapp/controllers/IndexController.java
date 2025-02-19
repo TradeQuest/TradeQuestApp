@@ -1,6 +1,9 @@
 package org.example.tradequestapp.controllers;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
@@ -41,7 +44,15 @@ public class IndexController {
     public String policies(){return "Policies";}
 
     @GetMapping("/admin")
-    public String admin(){return "Admin";}
+    public String admin(Model model){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        String userRol = authentication.getAuthorities().toString();
+
+        model.addAttribute("userName", userName);
+        model.addAttribute("userRol", userRol);
+        return "Admin";
+    }
 
     @GetMapping("/support")
     public String support(){return "Support";}
