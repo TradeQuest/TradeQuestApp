@@ -4,9 +4,11 @@ import org.example.tradequestapp.entities.User;
 import org.example.tradequestapp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -37,6 +39,11 @@ public class UserController {
     public ResponseEntity<String> deleteUser(@PathVariable Long id){
         userService.deleteUser(id);
         return ResponseEntity.ok("User deleted successfully");
+    }
+
+    @GetMapping("/oauth")
+    public Map<String, Object> currentUser(OAuth2AuthenticationToken auth2AuthenticationToken){
+        return auth2AuthenticationToken.getPrincipal().getAttributes();
     }
 
 }
