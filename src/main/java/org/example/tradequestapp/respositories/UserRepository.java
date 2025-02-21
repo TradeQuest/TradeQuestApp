@@ -9,4 +9,6 @@ import java.util.Optional;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     void deleteById(Long id);
+
+    Optional<User> findByOauth2Id(String oauth2Id);
 }

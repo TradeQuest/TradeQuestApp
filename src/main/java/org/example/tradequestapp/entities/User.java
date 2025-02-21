@@ -24,6 +24,9 @@ public class User {
     @Column(name = "nickname", unique = true)
     private String nickname;
 
+    @Column(name = "oauth2Id", unique = true)
+    private String oauth2Id;
+
     @Column(name = "name")
     private String name;
 
@@ -157,5 +160,13 @@ public class User {
 
     public void setWallet(Wallet wallet) {
         this.wallet = wallet;
+    }
+
+    public String getOauth2Id() {
+        return oauth2Id;
+    }
+
+    public void setOauth2Id(String oauth2Id) {
+        this.oauth2Id = oauth2Id;
     }
 }
