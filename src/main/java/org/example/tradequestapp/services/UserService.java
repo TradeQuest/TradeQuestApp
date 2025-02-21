@@ -3,6 +3,7 @@ package org.example.tradequestapp.services;
 import org.example.tradequestapp.entities.User;
 import org.example.tradequestapp.respositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +25,4 @@ public class UserService{
     public Optional<User> getUserById(Long id){return userRepository.findById(id);}
 
     public void deleteUser(Long id){userRepository.deleteById(id);}
-
-
 }
