@@ -32,7 +32,7 @@ jobs:
           host: ${{ secrets.EC2_HOST }} # Dirección IP de la instancia EC2
           username: ${{ secrets.EC2_USERNAME }} # Nombre usuario EC2
           key: ${{ secrets.EC2_PRIVATE_KEY }} # Clave privada SSH
-          source: target/demo-0.0.1-SNAPSHOT.war # Ruta del archivo .war
+          source: target/TradeQuestApp-0.0.1-SNAPSHOT.war # Ruta del archivo .war
           target: /home/ubuntu/ # Carpeta destino en EC2
           strip_components: 1 # Elimina directorios
 
@@ -45,10 +45,10 @@ jobs:
           key: ${{ secrets.EC2_PRIVATE_KEY }} # Clave privada SSH
           script: |
             # Mover el archivo .war a la carpeta de despliegue de Tomcat.
-            sudo mv /home/ubuntu/demo-0.0.1-SNAPSHOT.war /var/lib/tomcat10/webapps/demo.war
+            sudo mv /home/ubuntu/TradeQuestApp-0.0.1-SNAPSHOT.war /var/lib/tomcat10/webapps/TradeQuestApp.war
             # Cambiar el propietario del archivo a "tomcat" para que el servicio tenga acceso.
-            sudo chown tomcat:tomcat /var/lib/tomcat10/webapps/demo.war
+            sudo chown tomcat:tomcat /var/lib/tomcat10/webapps/TradeQuestApp.war
             # Cambiar los permisos del archivo para que sea ejecutable.
-            sudo chmod 755 /var/lib/tomcat10/webapps/demo.war
+            sudo chmod 755 /var/lib/tomcat10/webapps/TradeQuestApp.war
             # Reiniciar el servicio Tomcat para cargar el nuevo archivo .war.
             sudo systemctl restart tomcat10
