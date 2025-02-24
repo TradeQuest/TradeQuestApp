@@ -24,6 +24,9 @@ public class Wallet {
     @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Trade> transactions = new ArrayList<>();
 
+    @OneToMany(mappedBy = "wallet", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Asset> assets = new ArrayList<>();
+
     //CONSTRUCTOR
     public Wallet() {
         this.balance = 0;

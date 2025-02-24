@@ -47,6 +47,10 @@ public class Asset {
     @JoinColumn(name = "company_id", nullable = false)
     private Company company;
 
+    @ManyToOne
+    @JoinColumn(name = "wallet_id")
+    private Wallet wallet;
+
     //CONSTRUCTOR
     public Asset(float opening_value, float lowest_value, float highest_value, float volume) {//Porque no podemos coger el valor in real time
         this.opening_value = opening_value;
