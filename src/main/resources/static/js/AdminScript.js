@@ -1,6 +1,8 @@
+/*Asegura que el código dentro del evento se ejecute cuando el HTML de la página se haya cargado y esté listo para ser manipulado.*/
 document.addEventListener("DOMContentLoaded", function () {
     const usersTableBody = document.querySelector("#usersTable tbody");
 
+    // Función para obtener la lista de usuarios desde la API y mostrarlos en una tabla
     function fetchUsers() {
         fetch("/userApi/users")
             .then(response => response.json())
