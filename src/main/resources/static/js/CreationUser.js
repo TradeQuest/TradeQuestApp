@@ -1,88 +1,83 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const registerForm = document.querySelector("#registroModal form");
-    const createButton = document.getElementById("BotonCrear");
-    const messageModal = new bootstrap.Modal(document.getElementById("messageModal"));
-    const messageModalTitle = document.getElementById("messageModalTitle");
-    const messageModalBody = document.getElementById("messageModalBody");
+$(document).ready(function () {
+    // Obtiene referencias a los elementos del formulario de registro
+    const registerForm = $("#registroModal form");
+    const createButton = $("#BotonCrear");
 
-    if (!registerForm || !createButton) {
+    // Obtiene referencias a los elementos del modal de mensajes
+    const messageModal = new bootstrap.Modal($("#messageModal")[0]);
+    const messageModalTitle = $("#messageModalTitle");
+    const messageModalBody = $("#messageModalBody");
+
+    // Verifica si los elementos del formulario existen en el DOM
+    if (registerForm.length === 0 || createButton.length === 0) {
         console.error("Elementos del formulario no encontrados en el DOM");
         return;
     }
 
-    createButton.addEventListener("click", function (event) {
-        event.preventDefault();
+    // Agrega un evento al botón de registro para manejar el envío del formulario
+    createButton.click(function (event) {
+        event.preventDefault(); // Evita que el formulario se envíe automáticamente
 
-        if (!window.validarFormulario(registerForm)) {
+        // Valida el formulario antes de continuar
+        if (!window.validarFormulario(registerForm[0])) {
             return;
         }
 
-        const email = registerForm.querySelector("input[type='email']").value;
-        const nickname = registerForm.querySelector("input[placeholder='Nombre de usuario']").value;
-        const password = registerForm.querySelector("input[type='password']").value;
+        // Obtiene los valores ingresados en el formulario
+        const email = registerForm.find("input[type='email']").val();
+        const nickname = registerForm.find("input[placeholder='Nombre de usuario']").val();
+        const password = registerForm.find("input[type='password']").val();
 
+        // Crea un objeto con los datos del usuario para enviarlo al servidor
         const userData = {
             nickname: nickname,
             name: nickname,
-            surname: "",
+            surname: "", // No se captura el apellido, se deja vacío
             password: password,
             email: email,
-            user_role: "STUDENT",
-            level: 0,
-            current_lesson: 0
+            user_role: "STUDENT", // Rol por defecto para el usuario registrado
+            level: 0, // Nivel inicial del usuario
+            current_lesson: 0 // Lección inicial del usuario
         };
 
-        fetch("http://localhost:8080/userApi/user", {
+        // Enviar la solicitud para registrar un nuevo usuario
+        $.ajax({
+            url: "http://localhost:8080/userApi/user",
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(userData)
-        })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Error al registrar usuario");
-                }
-                return response.json();
-            })
-            .then(data => {
-                return fetch("http://localhost:8080/walletApi/wallet", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ balance: 10000, user: { user_id: data.user_id } })
-                });
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error("Error al crear la wallet");
-                }
-                return response.json();
-            })
-            .then(() => {
-                //  Mostrar mensaje de éxito en el modal de mensaje
-                messageModalTitle.textContent = "Registro exitoso";
-                messageModalBody.innerHTML = "Bienvenido Astronauta";
-                messageModal.show();
-
-                //  Reiniciar el formulario después del registro
-                registerForm.reset();
-
-                //  Obtener la instancia existente del modal de registro y cerrarlo
-                const modalElement = document.getElementById("registroModal");
-                const modalInstance = bootstrap.Modal.getInstance(modalElement);
-                if (modalInstance) {
-                    modalInstance.hide();
-                }
-            })
-            .catch(error => {
-                //  Mostrar mensaje de error en el modal de mensaje
-                messageModalTitle.textContent = "Error en el registro";
-                messageModalBody.innerHTML = "Hubo un error: " + error.message;
-                messageModal.show();
+            contentType: "application/json",
+            data: JSON.stringify(userData)
+        }).done(function (data) {
+            // Una vez registrado el usuario, se crea su billetera con saldo inicial
+            return $.ajax({
+                url: "http://localhost:8080/walletApi/wallet",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ balance: 10000, user: { user_id: data.user_id } })
             });
+        }).done(function () {
+            // Mostramos resultado en un modal
+            messageModalTitle.text("Registro exitoso");
+            messageModalBody.html("Bienvenido Astronauta");
+            messageModal.show();
+
+            // Reinicia el formulario después del registro exitoso
+            registerForm[0].reset();
+
+            // Cierra el modal de registro después de completar el proceso
+            const modalInstance = bootstrap.Modal.getInstance($("#registroModal")[0]);
+            if (modalInstance) {
+                modalInstance.hide();
+            }
+        }).fail(function (error) {
+            // Si ocurre un error en el proceso, muestra un mensaje de error en el modal
+            messageModalTitle.text("Error en el registro");
+            messageModalBody.html("Hubo un error: " + error.responseText);
+            messageModal.show();
+        });
     });
 
-    //  Agregar un evento que resetea el modal de registro al cerrarlo
-    const modalElement = document.getElementById("registroModal");
-    modalElement.addEventListener("hidden.bs.modal", function () {
-        registerForm.reset();
+    // Agrega un evento para limpiar el formulario cuando el modal de registro se cierra
+    $("#registroModal").on("hidden.bs.modal", function () {
+        registerForm[0].reset();
     });
 });

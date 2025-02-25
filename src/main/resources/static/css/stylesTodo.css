@@ -127,3 +127,18 @@ body {
   max-width: none; /* Evitar restricciones de Bootstrap */
   opacity: 0.5; /* Opcional: Hacerlo más sutil */
 }
+.modal {
+  z-index: 1055 !important; /* Asegura que el modal está por encima de otros elementos */
+  backdrop-filter: blur(5px) !important; /* Reducir el blur si está interfiriendo */
+}
+
+.modal-backdrop {
+  display: none !important; /* Evita que el fondo del modal bloquee la página */
+}
+
+
+.modal-content {
+  background: rgba(255, 255, 255, 0.85) !important; /* Mejor visibilidad del modal */
+  border-radius: 10px;
+}
+

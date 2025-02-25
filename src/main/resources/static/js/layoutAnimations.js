@@ -1,3 +1,25 @@
+
+// Recuperar usuario desde sessionStorage
+const loggedUser = JSON.parse(sessionStorage.getItem("loggedUser"));
+
+if (loggedUser) {
+    console.log("Usuario autenticado:", loggedUser);
+
+    // Mostrar el usuario en la interfaz
+
+    // Seleccionar el elemento donde se mostrará el nickname
+    const nicknameElement = document.getElementById("Nickname");
+    if (nicknameElement) {
+        nicknameElement.innerText = loggedUser.nickname; // Reemplaza el texto con el nickname del usuario
+    }
+
+
+} else {
+    // Si no hay usuario en sessionStorage, redirigir al login
+    window.location.href = "/login";
+}
+
+
 $(document).ready(function () {
     console.log("🔄 layoutAnimations.js cargado correctamente.");
 
