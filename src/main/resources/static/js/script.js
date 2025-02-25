@@ -1,42 +1,48 @@
 $(document).ready(function () {
+    // Inicializa BlackTickerBar si está disponible
     if (typeof BlackTickerBar !== "undefined") {
         BlackTickerBar.init();
     }
+
+    /* Página de configuración */
+
+    // Función para alternar la visibilidad de la contraseña en un campo de entrada.
+    window.togglePassword = function () {
+        let passwordField = $("#password");
+        passwordField.attr("type", passwordField.attr("type") === "password" ? "text" : "password");
+    };
+
+    /* Página de market */
+
+    // Incrementa el valor del campo de entrada 'cantidad'.
+    window.increment = function () {
+        let input = $("#cantidad");
+        input.val(parseInt(input.val()) + 1);
+    };
+
+    // Decrementa el valor del campo de entrada 'cantidad' si es mayor que 1.
+    window.decrement = function () {
+        let input = $("#cantidad");
+        if (parseInt(input.val()) > 1) {
+            input.val(parseInt(input.val()) - 1);
+        }
+    };
+
+    /**
+     * Función para confirmar la compra.
+     * Cierra el modal de compra si está abierto y muestra el modal de confirmación.
+     */
+    window.confirmarCompra = function () {
+        let compraModal = $("#compraModal");
+        let confirmacionModal = new bootstrap.Modal($("#confirmacionModal")[0]);
+
+        // Obtiene la instancia del modal de compra si existe
+        let bootstrapModal = bootstrap.Modal.getInstance(compraModal[0]);
+        if (bootstrapModal) {
+            bootstrapModal.hide(); // Cierra el modal de compra
+        }
+
+        // Muestra el modal de confirmación
+        confirmacionModal.show();
+    };
 });
-
-/* Página de configuración */
-function togglePassword() {
-    var passwordField = document.getElementById("password");
-    if (passwordField.type === "password") {
-        passwordField.type = "text";
-    } else {
-        passwordField.type = "password";
-    }
-}
-
-/* Página de market */
-function increment() {
-    const input = document.getElementById('cantidad');
-    input.value = parseInt(input.value) + 1;
-}
-
-function decrement() {
-    const input = document.getElementById('cantidad');
-    if (input.value > 1) {
-        input.value = parseInt(input.value) - 1;
-    }
-}
-
-function confirmarCompra() {
-    const compraModal = document.getElementById('compraModal');
-    const confirmacionModal = new bootstrap.Modal(document.getElementById('confirmacionModal'));
-
-    // Intentar cerrar el modal de compra si está activo
-    const bootstrapModal = bootstrap.Modal.getInstance(compraModal);
-    if (bootstrapModal) {
-        bootstrapModal.hide();
-    }
-
-    // Mostrar el modal de confirmación
-    confirmacionModal.show();
-}

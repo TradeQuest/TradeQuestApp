@@ -1,42 +1,55 @@
-/*Asegura que el código dentro del evento se ejecute cuando el HTML de la página se haya cargado y esté listo para ser manipulado.*/
-document.addEventListener("DOMContentLoaded", function () {
-    const usersTableBody = document.querySelector("#usersTable tbody");
+$(document).ready(function () {
+    const usersTableBody = $("#usersTable tbody");
+    const deleteModal = new bootstrap.Modal(document.getElementById("deleteModal"));
+    let userIdToDelete = null;
 
-    // Función para obtener la lista de usuarios desde la API y mostrarlos en una tabla
+    // Función para obtener la lista de usuarios y mostrarlos en la tabla
     function fetchUsers() {
-        fetch("/userApi/users")
-            .then(response => response.json())
-            .then(users => {
-                usersTableBody.innerHTML = ""; // Limpiar la tabla
-                users.forEach(user => {
-                    const row = document.createElement("tr");
-                    row.innerHTML = `
+        $.getJSON("/userApi/users")
+            .done(function (users) {
+                usersTableBody.empty(); // Limpiar la tabla
+                $.each(users, function (index, user) {
+                    const row = $("<tr>").html(`
                         <td>${user.user_id}</td>
                         <td>${user.nickname}</td>
                         <td>${user.email}</td>
                         <td>
-                            <button class="btn btn-danger btn-sm" onclick="deleteUser(${user.user_id})">Eliminar</button>
+                            <button class="btn btn-danger btn-sm" onclick="confirmDeleteUser(${user.user_id})">Eliminar</button>
                         </td>
-                    `;
-                    usersTableBody.appendChild(row);
+                    `);
+                    usersTableBody.append(row);
                 });
             })
-            .catch(error => console.error("Error al obtener usuarios:", error));
+            .fail(function (error) {
+                console.error("Error al obtener usuarios:", error);
+            });
     }
 
-    window.deleteUser = function (userId) {
-        if (confirm("¿Seguro que deseas eliminar este usuario?")) {
-            fetch(`/userApi/users/${userId}`, { method: "DELETE" })
-                .then(response => {
-                    if (response.ok) {
-                        fetchUsers(); // Refrescar la tabla tras la eliminación
-                    } else {
-                        alert("Error al eliminar el usuario");
-                    }
-                })
-                .catch(error => console.error("Error al eliminar usuario:", error));
-        }
+    // Función para abrir el modal de confirmación antes de eliminar
+    window.confirmDeleteUser = function (userId) {
+        userIdToDelete = userId; // Guardar ID del usuario a eliminar
+        deleteModal.show(); // Mostrar modal de confirmación
     };
+
+    // Evento para confirmar la eliminación del usuario
+    $("#confirmDeleteButton").click(function () {
+        if (userIdToDelete !== null) {
+            $.ajax({
+                url: `/userApi/users/${userIdToDelete}`,
+                type: "DELETE",
+                success: function () {
+                    fetchUsers(); // Refrescar la tabla tras la eliminación
+                },
+                error: function () {
+                    alert("Error al eliminar el usuario");
+                },
+                complete: function () {
+                    deleteModal.hide(); // Cerrar modal tras la acción
+                    userIdToDelete = null; // Reiniciar variable
+                }
+            });
+        }
+    });
 
     fetchUsers(); // Cargar usuarios al iniciar
 });
