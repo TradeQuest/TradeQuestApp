@@ -20,8 +20,8 @@ public class IndexController {
         return "Dashboard";
     }
 
-    @GetMapping("/landingPage")
-    public String landingPage(){return "LandingPage";}
+    /*@GetMapping("/landingpage")
+    public String landingPage(){return "LandingPage";}*/
 
     @GetMapping("/logIn")
     public String logIn(){
