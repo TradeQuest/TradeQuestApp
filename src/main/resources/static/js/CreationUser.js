@@ -32,12 +32,12 @@ $(document).ready(function () {
         const userData = {
             nickname: nickname,
             name: nickname,
-            surname: "", // No se captura el apellido, se deja vacío
+            surname: "",
             password: password,
             email: email,
-            user_role: "STUDENT", // Rol por defecto para el usuario registrado
-            level: 0, // Nivel inicial del usuario
-            current_lesson: 0 // Lección inicial del usuario
+            user_role: "STUDENT",
+            level: 0,
+            current_lesson: 0
         };
 
         // Enviar la solicitud para registrar un nuevo usuario

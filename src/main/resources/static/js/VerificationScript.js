@@ -6,7 +6,7 @@ $(document).ready(function () {
             errorMensaje = $("<div>").addClass("error-text text-danger small").text(mensaje);
             input.parent().append(errorMensaje);
         }
-        input.addClass("border-danger"); // Resaltar el campo con borde rojo
+        input.addClass("border-danger");
     }
 
     // Función para limpiar mensajes de error antes de una nueva validación

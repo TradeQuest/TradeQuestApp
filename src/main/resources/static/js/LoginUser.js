@@ -1,28 +1,30 @@
-// Espera a que el DOM esté completamente cargado antes de ejecutar el código
-document.addEventListener('DOMContentLoaded', function () {
+$(document).ready(function () {
 
     function mostrarError(input, mensaje) {
-        let errorMensaje = input.nextElementSibling;
-        if (!errorMensaje || !errorMensaje.classList.contains('error-text')) {
-            errorMensaje = document.createElement('div');
-            errorMensaje.classList.add('error-text', 'text-danger', 'small');
-            input.insertAdjacentElement("afterend", errorMensaje);
+        let errorMensaje = $(input).next('.error-text');
+        if (errorMensaje.length === 0) {
+            errorMensaje = $('<div>', {
+                class: 'error-text text-danger small',
+                text: mensaje
+            });
+            $(input).after(errorMensaje);
+        } else {
+            errorMensaje.text(mensaje);
         }
-        input.classList.add('border-danger');
-        errorMensaje.textContent = mensaje;
+        $(input).addClass('border-danger');
     }
 
     function limpiarErrores(form) {
-        form.querySelectorAll('.error-text').forEach(error => error.remove());
-        form.querySelectorAll('.border-danger').forEach(input => input.classList.remove('border-danger'));
+        $(form).find('.error-text').remove();
+        $(form).find('.border-danger').removeClass('border-danger');
     }
 
-    document.getElementById("ingresarBtn").addEventListener("click", async function () {
-        const form = document.querySelector('.glass-card');
-        const emailInput = document.getElementById("correo");
-        const passwordInput = document.getElementById("contra");
-        const email = emailInput.value.trim();
-        const password = passwordInput.value.trim();
+    $('#ingresarBtn').on('click', async function () {
+        const form = $('.glass-card');
+        const emailInput = $('#correo');
+        const passwordInput = $('#contra');
+        const email = emailInput.val().trim();
+        const password = passwordInput.val().trim();
 
         limpiarErrores(form);
 
@@ -38,16 +40,13 @@ document.addEventListener('DOMContentLoaded', function () {
             const user = users.find(user => user.email === email && user.password === password);
 
             if (user) {
-                // 📌 Guardar usuario autenticado en sessionStorage
                 sessionStorage.setItem("loggedUser", JSON.stringify(user));
-
-                // Redirigir al usuario al dashboard
                 window.location.href = "/dashboard";
             } else {
                 mostrarError(emailInput, "Usuario o contraseña incorrectos.");
                 mostrarError(passwordInput, "Usuario o contraseña incorrectos.");
-                emailInput.value = "";
-                passwordInput.value = "";
+                emailInput.val("");
+                passwordInput.val("");
             }
         } catch (error) {
             mostrarError(emailInput, "Ocurrió un error. Intenta nuevamente.");
