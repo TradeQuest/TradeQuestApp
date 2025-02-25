@@ -11,149 +11,99 @@
 </head>
 
 <body>
-    <div class="container vh-100 d-flex justify-content-center align-items-center position-relative">
-        <h1 class="text-white text-center position-absolute top-0 start-50 translate-middle-x mt-4">Bienvenido a TRADEQUEST</h1>
+<div class="container vh-100 d-flex flex-column justify-content-center align-items-center">
+    <h1 class="text-white text-center mt-0 mb-7 fs-1 fs-md-1 fs-lg-display-1" style="margin-top: -20px; margin-bottom: 100px;">Bienvenido a TRADEQUEST</h1>
 
-        <div class="d-flex justify-content-between align-items-center w-100 px-5 gap-5">
-            <!-- Sección "Cómo Funciona" -->
-            <div class="col-md-5">
-                <h2 class="text-white text-center mb-4">Cómo Funciona</h2>
-                <div class="d-flex align-items-center mb-4">
-                    <img src="../static/images/Number1.png" alt="1" class="Numero me-3" >
-                    <div>
-                        <h4 class="text-white mb-1">Crea tu Perfil de Trader</h4>
-                        <p class="text-white-50 mb-0">Define tu nivel y establece tus objetivos financieros.</p>
-                    </div>
-                </div>
-
-                <div class="d-flex align-items-center mb-3">
-                    <img src="../static/images/Number2.png" alt="2" class="Numero me-3">
-                    <div>
-                        <h4 class="text-white mb-2">Juega y Aprende</h4>
-                        <p class="text-white-50 mb-1">Completa misiones y estrategias mientras interactúas con
-                            datos reales.</p>
-                    </div>
-                </div>
-
-
-                <div class="d-flex align-items-center mb-2" >
-                    <img src="../static/images/Number3.png" alt="3" class="Numero me-3">
-                    <div>
-                        <h5 class="text-white mb-3">Sigue tu Progreso</h5>
-                        <p class="text-white-50 mb-2">Revisa tus resultados, mejora tus habilidades y prepárate
-                            para el mercado real.</p>
-                    </div>
+    <div class="row w-100 px-md-3 px-sm-2 mt-4">
+        <!-- Sección "Cómo Funciona" -->
+        <div class="col-lg-5 col-md-6 col-sm-12 text-center text-md-start mb-4 mt-5">
+            <h2 class="text-white text-center mb-4">Cómo Funciona</h2>
+            <div class="d-flex align-items-center mb-3">
+                <img src="../static/images/Number1.png" alt="1" class="Numero img-fluid me-3">
+                <div>
+                    <h4 class="text-white mb-1">Crea tu Perfil de Trader</h4>
+                    <p class="text-white-50 mb-0">Define tu nivel y establece tus objetivos financieros.</p>
                 </div>
             </div>
-
-            <!-- Sección de Inicio de Sesión a la derecha -->
-            <div class="col-md-5">
-                <div class="glass-card p-4">
-                    <h2 class="text-white text-center mb-4">Inicia Sesión</h2>
-                    <div class="mb-3">
-                        <input id="correo" name="Correo" type="text" class="input-field w-100" placeholder="Nombre de usuario">
-                    </div>
-                    <div class="mb-3">
-                        <input id="contra" name="contra" type="password" class="input-field w-100" placeholder="Contraseña">
-                    </div>
-                    <div class="form-check mb-3">
-                        <input class="form-check-input" type="checkbox" id="rememberMe">
-                        <label class="form-check-label text-white" for="rememberMe">Manténme conectado por 30 días</label>
-                    </div>
-                    <button id="ingresarBtn" class="gradient-button w-100 mb-3">Ingresar</button>
-                    <p class="text-center text-primary mb-3">¿Olvidaste la contraseña?</p>
-                    <div class="d-flex justify-content-center align-items-center mb-3">
-                        <div class="divider"></div>
-                        <span class="text-white mx-2">O</span>
-                        <div class="divider"></div>
-                    </div>
-                    <a th:href="@{/dashboard}">
-                    <button class="social-button mb-3">
-                        <img src="../static/images/google.png" alt="Google">
-                        Conectar con Google
-                    </button></a>
-                    <button class="social-button">
-                        <img src="../static/images/discord.png" alt="Discord">
-                        Conectar con Discord
-                    </button>
-                    <p class="text-white">¿No tienes cuenta? <a href="#" class="text-primary" data-bs-toggle="modal" data-bs-target="#registroModal">Regístrate</a></p>
+            <div class="d-flex align-items-center mb-3">
+                <img src="../static/images/Number2.png" alt="2" class="Numero img-fluid me-3">
+                <div>
+                    <h4 class="text-white mb-1">Juega y Aprende</h4>
+                    <p class="text-white-50 mb-0">Completa misiones y estrategias con datos reales.</p>
                 </div>
             </div>
-            <!-- Modal de Registro -->
-            <div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="registroModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content p-4"
-                        style="border-radius: 15px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);">
-                        <div class="modal-header border-0">
-                            <h5 class="modal-title w-100 text-center fw-bold" id="registroModalLabel">Únete a <span
-                                    class="text-primary">TRADEQUEST</span></h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Cerrar"></button>
-                        </div>
-                        <div class="modal-body">
-                            <button
-                                class="btn w-100 d-flex align-items-center justify-content-center border rounded-pill p-2 mb-3"
-                                >
-                                <img src="../static/images/google.png" alt="Google" width="20" class="GoogleConect me-2">
-                                Conectar con Google
-                            </button>
-
-                            <hr>
-
-                            <form>
-                                <div class="mb-3">
-                                    <input type="email" class="form-control rounded-pill p-3"
-                                        placeholder="Correo electrónico">
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control rounded-pill p-3"
-                                        placeholder="Nombre de usuario">
-                                </div>
-                                <div class="mb-3">
-                                    <input type="password" class="form-control rounded-pill p-3"
-                                        placeholder="Contraseña">
-                                </div>
-
-                                <div class="form-check mb-2">
-                                    <input type="checkbox" class="form-check-input" id="terms">
-                                    <label class="form-check-label small" for="terms">Acepto los <strong
-                                            class="text-primary">Términos y condiciones </strong> de TRADEQUEST</label>
-                                </div>
-
-                                <div class="form-check mb-4">
-                                    <input type="checkbox" class="form-check-input" id="privacy">
-                                    <label class="form-check-label small" for="privacy">Acepto que mi información se
-                                        utilizará conforme a la <strong class="text-primary">Política de privacidad
-                                        </strong> y la <strong class="text-primary">Política de cookies </strong>
-                                    </label>
-                                </div>
-
-                                <button id="BotonCrear" type="submit" class="btn w-100 p-3 rounded-pill fw-bold text-white">Crear una cuenta</button>
-                            </form>
-                        </div>
-                        <div class="modal-footer border-0 text-center w-100">
-                            <p class="w-100 m-0">¿Ya tienes una cuenta? <a href="#" class="text-primary fw-bold">Inicia
-                                    sesión</a></p>
-                        </div>
-                    </div>
+            <div class="d-flex align-items-center mb-3">
+                <img src="../static/images/Number3.png" alt="3" class="Numero img-fluid me-3">
+                <div>
+                    <h4 class="text-white mb-1">Sigue tu Progreso</h4>
+                    <p class="text-white-50 mb-0">Mejora tus habilidades y prepárate para el mercado real.</p>
                 </div>
             </div>
+        </div>
 
-
+        <!-- Sección de Inicio de Sesión -->
+        <div class="col-lg-5 col-md-6 col-sm-12 mx-auto">
+            <div class="glass-card p-4">
+                <h2 class="text-white text-center mb-3">Inicia Sesión</h2>
+                <input id="correo" name="Correo" type="text" class="input-field w-100 mb-3" placeholder="Nombre de usuario">
+                <input id="contra" name="contra" type="password" class="input-field w-100 mb-3" placeholder="Contraseña">
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="rememberMe">
+                    <label class="form-check-label text-white" for="rememberMe">Manténme conectado</label>
+                </div>
+                <button id="ingresarBtn" class="gradient-button w-100 mb-3">Ingresar</button>
+                <p class="text-center"><a href="#" class="text-highlight">¿Olvidaste la contraseña?</a></p>
+                <div class="d-flex justify-content-center align-items-center mb-3">
+                    <div class="divider"></div>
+                    <span class="text-white mx-2">O</span>
+                    <div class="divider"></div>
+                </div>
+                <button class="social-button mb-3 w-100" style="background: rgba(200, 200, 200, 0.5); border-radius: 20px;">
+                    <img src="../static/images/google.png" alt="Google"> Conectar con Google
+                </button>
+                <p class="text-white">¿No tienes cuenta? <a href="#" class="text-highlight" data-bs-toggle="modal" data-bs-target="#registroModal">Regístrate</a></p>
+            </div>
         </div>
     </div>
 
+    <!-- Modal de Registro -->
+    <div class="modal fade" id="registroModal" tabindex="-1" aria-labelledby="registroModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-4" style="background: rgba(255, 255, 255, 0.2) !important; backdrop-filter: blur(20px); border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title w-100 text-center fw-bold" id="registroModalLabel">Únete a <span class="fw-bold" style="color: #4800EF;">TRADEQUEST</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <button class="social-button mb-3 w-100" style="background: rgba(200, 200, 200, 0.5); border-radius: 20px;">
+                        <img src="../static/images/google.png" alt="Google" width="20" class="GoogleConect me-2">
+                        Conectar con Google
+                    </button>
+                    <hr>
+                    <form>
+                        <div class="mb-3">
+                            <input type="email" class="form-control rounded-pill p-3" placeholder="Correo electrónico">
+                        </div>
+                        <div class="mb-3">
+                            <input type="text" class="form-control rounded-pill p-3" placeholder="Nombre de usuario">
+                        </div>
+                        <div class="mb-3">
+                            <input type="password" class="form-control rounded-pill p-3" placeholder="Contraseña">
+                        </div>
+                        <div class="mb-3">
+                            <input type="password" class="form-control rounded-pill p-3" placeholder="Repetir contraseña">
+                        </div>
+                        <button id="BotonCrear" type="submit" class="btn w-100 p-3 rounded-pill fw-bold text-white">Crear una cuenta</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-
-    <script src="../static/js/CreationUser.js"></script>
-    <script src="../static/js/LoginUser.js"></script>
-    <script src="../static/js/VerificationScript.js"></script>
-
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
+<script src="../static/js/CreationUser.js"></script>
+<script src="../static/js/LoginUser.js"></script>
+<script src="../static/js/VerificationScript.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>
