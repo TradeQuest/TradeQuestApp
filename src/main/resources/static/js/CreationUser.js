@@ -1,9 +1,11 @@
 document.addEventListener("DOMContentLoaded", function () {
     const registerForm = document.querySelector("#registroModal form");
-    const loginButton = document.querySelector("#ingresarBtn");
     const createButton = document.getElementById("BotonCrear");
+    const messageModal = new bootstrap.Modal(document.getElementById("messageModal"));
+    const messageModalTitle = document.getElementById("messageModalTitle");
+    const messageModalBody = document.getElementById("messageModalBody");
 
-    if (!registerForm || !createButton || !loginButton) {
+    if (!registerForm || !createButton) {
         console.error("Elementos del formulario no encontrados en el DOM");
         return;
     }
@@ -11,14 +13,13 @@ document.addEventListener("DOMContentLoaded", function () {
     createButton.addEventListener("click", function (event) {
         event.preventDefault();
 
+        if (!window.validarFormulario(registerForm)) {
+            return;
+        }
+
         const email = registerForm.querySelector("input[type='email']").value;
         const nickname = registerForm.querySelector("input[placeholder='Nombre de usuario']").value;
         const password = registerForm.querySelector("input[type='password']").value;
-
-        if (!email || !nickname || !password) {
-            alert("Por favor, completa todos los campos");
-            return;
-        }
 
         const userData = {
             nickname: nickname,
@@ -33,9 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         fetch("http://localhost:8080/userApi/user", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(userData)
         })
             .then(response => {
@@ -47,9 +46,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .then(data => {
                 return fetch("http://localhost:8080/walletApi/wallet", {
                     method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
+                    headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ balance: 10000, user: { user_id: data.user_id } })
                 });
             })
@@ -60,19 +57,32 @@ document.addEventListener("DOMContentLoaded", function () {
                 return response.json();
             })
             .then(() => {
-                alert("Usuario y wallet creados con éxito");
+                //  Mostrar mensaje de éxito en el modal de mensaje
+                messageModalTitle.textContent = "Registro exitoso";
+                messageModalBody.innerHTML = "Bienvenido Astronauta";
+                messageModal.show();
+
+                //  Reiniciar el formulario después del registro
                 registerForm.reset();
-                const modalElement = document.querySelector("#registroModal");
-                if (modalElement) {
-                    const modal = new bootstrap.Modal(modalElement);
-                    modal.hide();
+
+                //  Obtener la instancia existente del modal de registro y cerrarlo
+                const modalElement = document.getElementById("registroModal");
+                const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                if (modalInstance) {
+                    modalInstance.hide();
                 }
             })
             .catch(error => {
-                alert("Hubo un error: " + error.message);
-                console.error(error);
+                //  Mostrar mensaje de error en el modal de mensaje
+                messageModalTitle.textContent = "Error en el registro";
+                messageModalBody.innerHTML = "Hubo un error: " + error.message;
+                messageModal.show();
             });
     });
 
-
+    //  Agregar un evento que resetea el modal de registro al cerrarlo
+    const modalElement = document.getElementById("registroModal");
+    modalElement.addEventListener("hidden.bs.modal", function () {
+        registerForm.reset();
+    });
 });
