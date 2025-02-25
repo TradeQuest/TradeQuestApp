@@ -10,35 +10,39 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/stylesTodo.css">
     <link rel="stylesheet" href="/static/css/stylesLayout.css">
+    <link rel="stylesheet" href="/static/css/stylesMarket.css">
 
-    <!-- Scripts de jQuery y animaciones -->
+    <!-- Scripts (jQuery, Animations, CanvasJS) -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/static/js/layoutAnimations.js" defer></script>
     <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
-
 </head>
 
 <body>
 
-<!-- Importar layout con contenido dinámico -->
+<!-- Layout dinámico -->
 <div th:replace="~{fragments/layout :: layout(~{::content})}">
     <th:block th:fragment="content">
-        <div class="container-lg mt-4">
-            <h1 class="text-white text-center mb-4">📈 Mercado de Valores</h1>
+        <div class="container-fluid mt-4">
+            <h1 class="text-white text-center mb-4">MARKET</h1>
             <div class="row">
-                <div class="col-md-8 mx-auto">
+                <div class="col-md-12">
                     <div class="card p-3 bg-transparent border-0">
-                        <table class="table text-center custom-table">
+                        <table class="table text-center market-table">
                             <thead>
                             <tr>
-                                <th class="text-white">Nombre</th>
-                                <th class="text-white">Precio actual</th>
-                                <th class="text-white">Cambio</th>
-                                <th class="text-white">Comprar</th>
+                                <th>Nombre</th>
+                                <th>Símbolo (NASDAQ)</th>
+                                <th>Precio actual</th>
+                                <th>Cambio</th>
+                                <th>Comprar</th>
+                                <th>Gráfico Histórico</th>
                             </tr>
                             </thead>
                             <tbody id="marketTableBody">
-                            <tr><td colspan="4" class="text-warning text-center">Cargando datos del mercado...</td></tr>
+                            <tr>
+                                <td colspan="6" class="text-warning">Cargando datos del mercado...</td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -54,7 +58,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title text-primary" id="compraModalLabel">COMPRA DE ACCIÓN</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body text-center">
                 <p><strong>SALDO DISPONIBLE:</strong></p>
@@ -79,7 +83,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title text-success">¡TRANSACCIÓN COMPLETADA!</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body text-center">
                 <img src="https://cdn-icons-png.flaticon.com/512/845/845646.png" alt="Confirmación" style="width: 80px; margin: 20px auto;">
@@ -87,25 +91,6 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal">CERRAR</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- MODAL: Confirmar Salida -->
-<div class="modal fade" id="salirModal" tabindex="-1" aria-labelledby="salirModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="salirModalLabel">¿Seguro que quieres salir?</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <p>Si cierras sesión, tendrás que volver a iniciar sesión para acceder nuevamente.</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">VOLVER</button>
-                <a href="./IniciarSesion.html" class="btn btn-danger">SÍ, SALIR</a>
             </div>
         </div>
     </div>

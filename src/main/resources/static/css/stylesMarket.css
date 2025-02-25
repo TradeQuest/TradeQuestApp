@@ -1,0 +1,265 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Exa&family=Lexend+Zetta&family=Lexend+Peta&family=Handjet:wght@220&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Lexend Exa', sans-serif;
+    background-image: url('../images/Fondo.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 13px;
+    border: 1px solid #999595;
+    backdrop-filter: blur(20px);
+}
+
+.text-white {
+    color: white !important;
+}
+
+.text-green {
+    color: #00FF26 !important;
+}
+
+.text-red {
+    color: #F90004 !important;
+}
+
+#NombrePag {
+    display: flex;
+    flex-direction: row;
+}
+
+.market-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    background: transparent;
+}
+
+.market-table th,
+.market-table td {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    text-align: center;
+    vertical-align: middle;
+    padding: 10px;
+    color: white;
+}
+
+.market-table th {
+    background: rgba(255, 255, 255, 0.2);
+    height: auto;
+}
+
+.market-row {
+    height: 300px;
+}
+
+.market-row:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.market-chart {
+    width: 100%;
+    height: 280px;
+    max-height: 280px;
+    overflow: hidden;
+}
+
+.market-chart-cell {
+    width: 60%;
+    padding: 0;
+    vertical-align: middle;
+}
+
+.company-info-cell,
+.symbol-cell,
+.price-cell,
+.change-cell,
+.buy-cell {
+    width: 8%;
+}
+
+.spacer td {
+    padding: 5px;
+    background: transparent;
+}
+
+.custom-table {
+    background: transparent !important;
+    color: white;
+}
+
+.custom-table th,
+.custom-table td {
+    background: transparent !important;
+    border-color: rgba(255, 255, 255, 0.5);
+    border-left: none;
+    border-right: none;
+}
+
+.custom-table thead th {
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+.market-font {
+    font-family: 'Handjet', sans-serif;
+    font-weight: 300;
+    font-size: 2.7rem;
+    text-transform: uppercase;
+    height: 40px;
+    line-height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.market-title {
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    text-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.apple-logo-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.apple-logo {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+#CardConf {
+    min-height: 550px;
+}
+
+#CardAccount {
+    min-height: 250px;
+}
+
+#CardSupport {
+    min-height: 250px;
+}
+
+#CardGlobal {
+    flex: 1;
+}
+
+#stockChart {
+    height: 300px;
+}
+
+.astronaut-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.astronaut-bg img {
+    width: 100%;
+    height: auto;
+    max-width: none;
+    opacity: 0.5;
+}
+
+.market-chart-container {
+    padding: 0;
+    height: 300px;
+}
+
+.market-chart-row {
+    display: table-row;
+}
+
+@media (max-width: 768px) {
+    .market-table,
+    .market-table tbody,
+    .market-table th,
+    .market-table td,
+    .market-table tr {
+        display: block;
+        width: 100%;
+    }
+
+    .market-table thead {
+        display: none;
+    }
+
+    .market-row {
+        height: auto;
+        margin-bottom: 15px;
+    }
+
+    .market-table td {
+        padding: 5px 10px;
+        text-align: left;
+        position: relative;
+    }
+
+    .company-info-cell {
+        font-size: 1.1rem;
+        font-weight: bold;
+        padding-bottom: 40px;
+    }
+
+    .symbol-cell,
+    .price-cell,
+    .change-cell {
+        display: inline-block;
+        width: auto;
+        margin-right: 10px;
+    }
+
+    .buy-cell {
+        display: block;
+        margin-top: 10px;
+        padding-left: 0;
+    }
+
+    .market-chart-cell {
+        display: none;
+    }
+
+    .market-chart-row {
+        display: none;
+        width: 100%;
+        padding: 0;
+    }
+
+    .market-chart-row.active {
+        display: block;
+    }
+
+    .market-chart-container {
+        height: 250px;
+        width: 100%;
+    }
+
+    .market-chart {
+        height: 250px;
+    }
+
+    .btn-toggle-chart,
+    .buy-cell button {
+        width: 100%;
+        margin-top: 5px;
+    }
+}
