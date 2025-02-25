@@ -50,6 +50,14 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }} # Nombre de usuario de EC2
           key: ${{ secrets.EC2_PRIVATE_KEY }} # Clave privada SSH
           script: |
+            # 1️⃣ Configurar variables de entorno en el archivo /etc/environment para persistencia.
+            echo "export DB_ENDPOINT=${{ secrets.DB_ENDPOINT }}" | sudo tee -a /etc/environment
+            echo "export DB_USERNAME=${{ secrets.DB_USERNAME }}" | sudo tee -a /etc/environment
+            echo "export DB_PASSWORD=${{ secrets.DB_PASSWORD }}" | sudo tee -a /etc/environment
+
+            # 2️⃣ Recargar las variables de entorno en la sesión actual.
+            source /etc/environment
+
             # Mover el archivo .war a la carpeta de despliegue de Tomcat.
             sudo mv /home/ubuntu/TradeQuestApp-0.0.1-SNAPSHOT.war /var/lib/tomcat10/webapps/ROOT.war
             # Cambiar el propietario del archivo a "tomcat" para que el servicio tenga acceso.
