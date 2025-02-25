@@ -4,6 +4,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.tradequestapp.entities.User;
+import org.example.tradequestapp.entities.UserRole;
 import org.example.tradequestapp.respositories.UserRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -40,8 +41,7 @@ public class CustomOAuth2SuccessHandler implements AuthenticationSuccessHandler 
             newUser.setOauth2Id(oauth2Id);
             newUser.setEmail(email);
             newUser.setName(name);
-            newUser.setNickname(name);
-            newUser.setUser_role("STUDENT");
+            newUser.setUser_role(UserRole.STUDENT);
             newUser.setLevel(0);
             newUser.setCurrent_lesson(0);
             userRepository.save(newUser);

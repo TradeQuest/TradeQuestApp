@@ -12,17 +12,10 @@ import java.util.List;
 @Table(name = "Usuario")
 public class User {
 
-    /*public enum Role {
-        ADMIN, STUDENT
-    }*/
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id", unique = true)
     private Long user_id;
-
-    @Column(name = "nickname", unique = true)
-    private String nickname;
 
     @Column(name = "oauth2Id", unique = true)
     private String oauth2Id;
@@ -30,8 +23,8 @@ public class User {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "surname")
-    private String surname;
+    @Column(name = "username")
+    private String username;
 
     @Column(name = "password")
     private String password;
@@ -39,8 +32,9 @@ public class User {
     @Column(name = "email", unique = true)
     private String email;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    private String user_role;
+    private UserRole user_role;
 
     @Column(name = "level")
     private int level;
@@ -62,13 +56,12 @@ public class User {
     private Wallet wallet;
 
     //CONSTRUCTOR
-    public User(String nickname, String name, String surname, String password, String email) {
-        this.nickname = nickname;
+    public User(String name, String username, String password, String email) {
         this.name = name;
-        this.surname = surname;
+        this.username = username;
         this.password = password;
         this.email = email;
-        this.user_role = "STUDENT";
+        this.user_role = UserRole.STUDENT;
         this.level = 0;
         this.current_lesson = 0;
     }
@@ -82,14 +75,6 @@ public class User {
         this.user_id = user_id;
     }
 
-    public String getNickname() {
-        return nickname;
-    }
-
-    public void setNickname(String nickname) {
-        this.nickname = nickname;
-    }
-
     public String getName() {
         return name;
     }
@@ -98,12 +83,12 @@ public class User {
         this.name = name;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getUsername() {
+        return username;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -122,11 +107,11 @@ public class User {
         this.email = email;
     }
 
-    public String getUser_role() {
+    public UserRole getUser_role() {
         return user_role;
     }
 
-    public void setUser_role(String user_role) {
+    public void setUser_role(UserRole user_role) {
         this.user_role = user_role;
     }
 
@@ -169,4 +154,5 @@ public class User {
     public void setOauth2Id(String oauth2Id) {
         this.oauth2Id = oauth2Id;
     }
+
 }
