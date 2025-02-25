@@ -207,3 +207,34 @@ p {
 #BotonCrear{
     background: #4B1EFF;
 }
+
+/* Estilos para el botón de Conectar con Google en ambos formularios */
+.social-button {
+    background: rgba(200, 200, 200, 0.5) !important;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    text-align: center;
+    color: black;
+}
+
+/* Estilos para los enlaces "Regístrate" y "¿Olvidaste la contraseña?" */
+.text-highlight {
+    color: #4800EF !important;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.text-highlight:hover {
+    text-decoration: underline;
+}
+
+/* Asegurar que la imagen de Google no tenga fondo ni borde */
+.GoogleConect {
+    background: transparent !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+}
