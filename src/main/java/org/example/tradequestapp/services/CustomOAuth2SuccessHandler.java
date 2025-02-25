@@ -41,6 +41,7 @@ public class CustomOAuth2SuccessHandler implements AuthenticationSuccessHandler 
             newUser.setEmail(email);
             newUser.setName(name);
             newUser.setNickname(name);
+            newUser.setUser_role("STUDENT");
             newUser.setLevel(0);
             newUser.setCurrent_lesson(0);
             userRepository.save(newUser);

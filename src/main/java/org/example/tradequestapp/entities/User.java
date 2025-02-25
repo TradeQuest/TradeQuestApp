@@ -12,9 +12,9 @@ import java.util.List;
 @Table(name = "Usuario")
 public class User {
 
-    enum Role {
+    /*public enum Role {
         ADMIN, STUDENT
-    }
+    }*/
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +40,7 @@ public class User {
     private String email;
 
     @Column(name = "role")
-    private Role user_role;
+    private String user_role;
 
     @Column(name = "level")
     private int level;
@@ -68,7 +68,7 @@ public class User {
         this.surname = surname;
         this.password = password;
         this.email = email;
-        this.user_role = Role.STUDENT;
+        this.user_role = "STUDENT";
         this.level = 0;
         this.current_lesson = 0;
     }
@@ -122,11 +122,11 @@ public class User {
         this.email = email;
     }
 
-    public Role getUser_role() {
+    public String getUser_role() {
         return user_role;
     }
 
-    public void setUser_role(Role user_role) {
+    public void setUser_role(String user_role) {
         this.user_role = user_role;
     }
 
