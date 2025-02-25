@@ -1,11 +1,10 @@
 const BlackTickerBar = (function () {
     let marketBar = null;
 
-    // Inicializar la barra de mercado
     function init() {
         marketBar = $('.market-font');
 
-        // Establecer mensaje de carga inicial
+        // Mensaje de carga inicial
         marketBar.html(`
             <div class='ticker-wrapper'>
                 <div class='ticker-content'>
@@ -14,17 +13,10 @@ const BlackTickerBar = (function () {
             </div>
         `);
 
-        // Aplicar estilos del ticker
         applyStyles();
-
-        // Cargar datos del mercado
         actualizarDatosMercado();
-
-        // Actualizar cada 24 horas (86,400,000 ms)
-        setInterval(actualizarDatosMercado, 86400000);
     }
 
-    // Aplicar estilos del ticker
     function applyStyles() {
         $('<style>').text(`
             .ticker-wrapper {
@@ -47,35 +39,38 @@ const BlackTickerBar = (function () {
         `).appendTo('head');
     }
 
-    // Guardar y obtener cookies
-    function setCookie(name, value, days) {
-        let date = new Date();
-        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-        document.cookie = `${name}=${encodeURIComponent(value)}; expires=${date.toUTCString()}; path=/`;
+    function guardarEnLocalStorage(clave, valor, expiracionHoras) {
+        const expiracionMs = expiracionHoras * 60 * 60 * 1000;
+        const datosConExpiracion = {
+            valor,
+            expiracion: Date.now() + expiracionMs
+        };
+        localStorage.setItem(clave, JSON.stringify(datosConExpiracion));
     }
 
-    function getCookie(name) {
-        let nameEQ = name + "=";
-        let cookies = document.cookie.split(";");
-        for (let i = 0; i < cookies.length; i++) {
-            let c = cookies[i].trim();
-            if (c.indexOf(nameEQ) === 0) return decodeURIComponent(c.substring(nameEQ.length));
+    function obtenerDeLocalStorage(clave) {
+        const datosGuardados = localStorage.getItem(clave);
+        if (!datosGuardados) return null;
+
+        const { valor, expiracion } = JSON.parse(datosGuardados);
+        if (Date.now() > expiracion) {
+            localStorage.removeItem(clave); // Eliminar si está vencido
+            return null;
         }
-        return null;
+
+        return valor;
     }
 
-    // Actualizar datos del mercado
     function actualizarDatosMercado() {
-        // Revisar si ya hay datos en cookies
-        let marketDataCookie = getCookie("marketData");
-        if (marketDataCookie) {
-            console.log("📌 Cargando datos desde cookie...");
-            renderizarDatos(JSON.parse(marketDataCookie));
+        let marketData = obtenerDeLocalStorage("marketData");
+
+        if (marketData) {
+            console.log("📌 Cargando datos desde LocalStorage...");
+            renderizarDatos(marketData);
             return;
         }
 
         console.log("🌐 Llamando a la API para obtener datos frescos...");
-
         fetch('/assetApi/assets')
             .then(response => {
                 if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
@@ -83,14 +78,15 @@ const BlackTickerBar = (function () {
             })
             .then(data => {
                 console.log("📥 Datos recibidos de la API:", data);
+
                 if (!Array.isArray(data) || data.length === 0) {
                     console.error("❌ La API no devuelve un array válido o está vacío:", data);
                     marketBar.html('<span class="text-danger">No hay datos disponibles</span>');
                     return;
                 }
 
-                // Guardar los datos en una cookie por 1 día
-                setCookie("marketData", JSON.stringify(data), 1);
+                // Guardar los datos en localStorage por 24 horas
+                guardarEnLocalStorage("marketData", data, 24);
 
                 // Renderizar datos
                 renderizarDatos(data);
@@ -101,7 +97,6 @@ const BlackTickerBar = (function () {
             });
     }
 
-    // Renderizar datos en la barra negra
     function renderizarDatos(data) {
         let seenSymbols = new Set();
         let newContent = '';
@@ -118,7 +113,7 @@ const BlackTickerBar = (function () {
             }
         });
 
-        // Actualizar la barra
+        // Actualizar la barra de mercado
         marketBar.html(`
             <div class='ticker-wrapper'>
                 <div class='ticker-content'>${newContent} ${newContent} ${newContent}</div>
