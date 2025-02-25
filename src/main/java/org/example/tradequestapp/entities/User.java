@@ -62,7 +62,7 @@ public class User {
     private Wallet wallet;
 
     //CONSTRUCTOR
-    public User(String nickname, String name, String surname, String password, String email, Role user_role, int level, String current_lesson) {
+    public User(String nickname, String name, String surname, String password, String email) {
         this.nickname = nickname;
         this.name = name;
         this.surname = surname;
