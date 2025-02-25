@@ -1,13 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Lexend+Exa&family=Lexend+Zetta&family=Lexend+Peta&family=Handjet:wght@220&display=swap');
-
 /* Estilos específicos para layout.html */
-body {
+html, body {
   margin: 0;
+  padding: 0;
   font-family: 'Lexend Exa';
   background-image: url('../images/Fondo.png');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
 }
 
 /* Sidebar fijo a la izquierda */
@@ -15,7 +17,7 @@ body {
   position: fixed;
   left: 0;
   top: 0;
-  width: 240px;
+  width: 216px;
   height: 100vh;
   background: linear-gradient(0deg, rgba(217, 217, 217, 0.40) 0%, rgba(85, 85, 85, 0.40) 51%, rgba(0, 0, 0, 0.40) 100%);
   box-shadow: 4px 10px 20px rgba(0, 0, 0, 0.25);
@@ -24,99 +26,41 @@ body {
   flex-direction: column;
   justify-content: space-between;
   transition: width 0.7s ease-in-out;
-  padding: 15px;
-  align-items: center;
-}
-
-.sidebar.collapsed {
-  width: 60px;
-  overflow: hidden;
-}
-
-/* Ajustar iconos y textos dentro del sidebar */
-.sidebar ul {
-  padding: 0;
-  margin: 0;
-  width: 100%;
-}
-
-.sidebar ul li {
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  gap: 10px;
   padding: 10px;
-  transition: all 0.7s ease-in-out;
-  cursor: pointer;
-  white-space: nowrap;
-  font-size: 13px;
-  position: relative;
-  overflow: hidden;
+  align-items: center;
+  z-index: 10;
+}
+
+/* Ajustar tamaño de los enlaces dentro del sidebar para que el icono y el texto estén en la misma línea */
+.sidebar ul li {
+  font-size: 12px;
+  padding: 8px;
+  gap: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .sidebar ul li img {
-  width: 40px;
-  height: 40px;
-  transition: width 0.7s ease-in-out, height 0.7s ease-in-out;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
 }
 
 .sidebar ul li p {
-  transform: translateX(-100%);
-  opacity: 0;
-  transition: transform 0.7s ease-in-out, opacity 0.7s ease-in-out;
-}
-
-.sidebar.collapsed ul li {
-  justify-content: center;
-}
-
-.sidebar.collapsed ul li img {
-  width: 50px;
-  height: 50px;
-}
-
-.sidebar.collapsed ul li p {
-  transform: translateX(-100%);
-  opacity: 0;
-}
-
-.sidebar:not(.collapsed) ul li p {
-  transform: translateX(0);
-  opacity: 1;
-}
-
-.sidebar img.rounded-circle {
-  width: 100px;
-  height: 100px;
-  display: block;
-  margin: 0 auto;
-  transition: width 0.7s ease-in-out, height 0.7s ease-in-out;
-}
-
-.sidebar.collapsed img.rounded-circle {
-  width: 50px;
-  height: 50px;
-}
-
-.sidebar .user-section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  transition: all 0.7s ease-in-out;
-}
-
-.sidebar.collapsed .user-section {
-  align-items: center;
-  text-align: center;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* Navbar fija en la parte superior, pegada al sidebar con animación */
 .navbar {
   position: fixed;
   top: 0;
-  left: 240px; /* Pegada al sidebar */
-  width: calc(100% - 240px);
+  left: 216px;
+  right: 0;
+  width: calc(100% - 216px);
   height: 75px;
   background: linear-gradient(270deg, rgba(217, 217, 217, 0.40) 0%, rgba(0, 0, 0, 0.40) 100%);
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -124,34 +68,38 @@ body {
   display: flex;
   align-items: center;
   padding: 0 20px;
-  z-index: 1000;
   transition: left 0.7s ease-in-out, width 0.7s ease-in-out;
+  z-index: 5;
 }
 
-.navbar img {
-  cursor: pointer;
-}
-
-/* Ajustar el contenido para que no quede detrás de la navbar */
+/* El contenido principal ocupa el espacio restante sin márgenes ni padding */
 .main-content {
-  margin-left: 240px;
-  padding-top: 75px; /* Espacio para la navbar fija */
-  transition: margin-left 0.7s ease-in-out;
+  position: fixed;
+  top: 0px;
+  left: 216px;
+  right: 0;
+  bottom: 0;
+  width: calc(100% - 216px);
+  height: calc(100vh - 75px);
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  transition: left 0.5s ease-in-out, width 0.5s ease-in-out;
+  z-index: 0;
 }
 
-/* Ajustes cuando el sidebar está colapsado con animación en la navbar y main-content */
+/* Ajustes cuando el sidebar está colapsado */
+.sidebar.collapsed {
+  width: 54px;
+}
+
 .sidebar.collapsed + .navbar {
-  left: 60px;
-  width: calc(100% - 60px);
+  left: 54px;
+  width: calc(100% - 54px);
 }
 
 .sidebar.collapsed + .main-content {
-  margin-left: 60px;
-  width: calc(100% - 60px);
-}
-
-
-#GrupoBandeja{
-  max-height: 300px;
-  overflow-y: auto;
+  left: 54px;
+  width: calc(100% - 54px);
+  top: 0;
 }
