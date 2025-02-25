@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +37,13 @@ public class AssetController {
         Optional<Asset> asset = Optional.ofNullable(assetService.getAssetBySymbolAndDate(company_symbol, date));
         return asset.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
+
+    /*@GetMapping("/assets/bestWeekly")
+    public List<Asset> getBestCompanyWeeklyAssets(){
+
+
+        return new ArrayList<>();
+    }*/
 
     @DeleteMapping("/assets/{company_symbol}")
     public ResponseEntity<String> deleteProduct(@PathVariable String company_symbol, @PathVariable String date){
