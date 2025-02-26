@@ -12,7 +12,7 @@ $(document).ready(function () {
     // Función para limpiar mensajes de error antes de una nueva validación
     function limpiarErrores(form) {
         form.find(".error-text").remove(); // Elimina mensajes previos
-        form.find(".border-danger").removeClass("border-danger"); // Quita el borde rojo
+        form.find(".border-danger").removeClass("border-danger");
     }
 
     // Función para validar el formulario
