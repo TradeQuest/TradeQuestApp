@@ -1,10 +1,16 @@
-// MarketData.js (Actualizado con jQuery)
+// MarketData.js (Totalmente comentado y optimizado con jQuery)
 
 $(document).ready(function () {
+    // Inicializa la carga de datos cuando el documento está listo
     initMarketData();
-    $(window).resize(manejarCambioPantalla);
+    $(window).resize(manejarCambioPantalla); // Maneja cambios en la pantalla
 });
 
+/**
+ * Inicializa la obtención de datos del mercado.
+ * Si los datos están en localStorage y no han expirado, los usa.
+ * Si no, hace una petición a la API.
+ */
 function initMarketData() {
     const marketData = obtenerDeLocalStorage("marketData");
 
@@ -17,6 +23,10 @@ function initMarketData() {
     }
 }
 
+/**
+ * Obtiene datos del mercado desde la API y los almacena en localStorage.
+ * En caso de fallo, muestra un error en la consola.
+ */
 function cargarDatosMercado() {
     $.getJSON('/assetApi/assets')
         .done(data => {
@@ -29,12 +39,17 @@ function cargarDatosMercado() {
         });
 }
 
+/**
+ * Procesa los datos del mercado y los muestra en la tabla.
+ * También genera gráficos para cada empresa.
+ */
 function procesarDatosMercado(data) {
     const $marketTable = $("#marketTableBody");
-    $marketTable.empty();
+    $marketTable.empty(); // Limpia la tabla antes de insertar nuevos datos
 
     const companiesData = {};
 
+    // Agrupa datos históricos por empresa
     data.forEach(asset => {
         if (!companiesData[asset.company_symbol]) {
             companiesData[asset.company_symbol] = {
@@ -48,15 +63,17 @@ function procesarDatosMercado(data) {
         });
     });
 
+    // Recorre cada empresa y genera una fila con su información y gráficos
     $.each(companiesData, (symbol, companyData) => {
         companyData.historicalData.sort((a, b) => a.x - b.x);
-        const lastData = companyData.historicalData.slice(-1)[0];
+        const lastData = companyData.historicalData.slice(-1)[0]; // Último dato de la empresa
         const changePercent = ((lastData.y[3] - lastData.y[0]) / lastData.y[0]) * 100;
         const changeClass = changePercent >= 0 ? 'text-success' : 'text-danger';
         const changeSymbol = changePercent >= 0 ? '▲' : '▼';
         const chartId = `chart-${symbol}`;
         const mobileChartId = `mobile-chart-${symbol}`;
 
+        // Genera la fila de la empresa con sus botones y gráficos
         const rowHTML = `
             <tr class="market-row">
                 <td class="company-info-cell text-white">${companyData.name}
@@ -84,19 +101,21 @@ function procesarDatosMercado(data) {
         `;
         $marketTable.append(rowHTML);
 
-        // Renderizar gráficos inmediatamente
+        // Renderizar gráficos de escritorio y móviles
         renderizarGrafico(chartId, companyData.historicalData);
         renderizarGrafico(mobileChartId, companyData.historicalData);
     });
 
-    $(".market-chart-row").hide();
+    $(".market-chart-row").hide(); // Oculta los gráficos móviles por defecto
 
+    // Agrega evento a los botones de mostrar/ocultar gráficos
     $(".btn-toggle-chart").on("click", function () {
         const targetId = $(this).data("target");
         const $chartRow = $(targetId).closest(".market-chart-row");
-        $chartRow.toggle();
+        $chartRow.toggle(); // Alterna la visibilidad del gráfico
         $(this).text($chartRow.is(":visible") ? "Ocultar Gráfico" : "Mostrar Gráfico");
 
+        // Renderiza el gráfico si se hace visible
         if ($chartRow.is(":visible")) {
             const chart = CanvasJS.Chart.getChartByContainer($(targetId)[0]);
             chart.render();
@@ -104,6 +123,11 @@ function procesarDatosMercado(data) {
     });
 }
 
+/**
+ * Renderiza un gráfico en el contenedor especificado.
+ * @param {string} containerId - ID del contenedor donde se mostrará el gráfico.
+ * @param {Array} historicalData - Datos históricos de la empresa.
+ */
 function renderizarGrafico(containerId, historicalData) {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -138,6 +162,10 @@ function renderizarGrafico(containerId, historicalData) {
     chart.render();
 }
 
+/**
+ * Maneja el cambio de pantalla.
+ * Oculta gráficos móviles y ajusta el tamaño de gráficos de escritorio.
+ */
 function manejarCambioPantalla() {
     $(".market-chart-row").hide();
     $(".btn-toggle-chart").text("Mostrar Gráfico");
@@ -147,6 +175,12 @@ function manejarCambioPantalla() {
     });
 }
 
+/**
+ * Guarda datos en localStorage con un tiempo de expiración definido.
+ * @param {string} clave - Clave de almacenamiento en localStorage.
+ * @param {Object} valor - Datos a guardar.
+ * @param {number} [expiracionHoras=24] - Tiempo de expiración en horas.
+ */
 function guardarEnLocalStorage(clave, valor, expiracionHoras = 24) {
     const expiracionMs = expiracionHoras * 60 * 60 * 1000;
     const datosConExpiracion = {
@@ -156,6 +190,11 @@ function guardarEnLocalStorage(clave, valor, expiracionHoras = 24) {
     localStorage.setItem(clave, JSON.stringify(datosConExpiracion));
 }
 
+/**
+ * Obtiene datos de localStorage y verifica si han expirado.
+ * @param {string} clave - Clave de almacenamiento en localStorage.
+ * @returns {Object|null} - Retorna los datos si no han expirado, de lo contrario null.
+ */
 function obtenerDeLocalStorage(clave) {
     const datosGuardados = localStorage.getItem(clave);
     if (!datosGuardados) return null;
