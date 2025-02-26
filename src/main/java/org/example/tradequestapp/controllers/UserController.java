@@ -4,6 +4,7 @@ import org.example.tradequestapp.entities.User;
 import org.example.tradequestapp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,14 +15,18 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(UserService userService){this.userService = userService;}
+    public UserController(UserService userService, PasswordEncoder passwordEncoder){this.userService = userService;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @PostMapping("/user")
     public ResponseEntity<User> saveUser(@RequestBody User user){
-        User newUser = userService.saveUser(user);
-        return ResponseEntity.ok(newUser);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user = userService.saveUser(user);
+        return ResponseEntity.ok(user);
     }
 
     @GetMapping("/users")

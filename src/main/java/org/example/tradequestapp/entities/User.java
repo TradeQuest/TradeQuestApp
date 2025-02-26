@@ -1,5 +1,6 @@
 package org.example.tradequestapp.entities;
 
+import com.nimbusds.oauth2.sdk.TokenIntrospectionSuccessResponse;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
 
