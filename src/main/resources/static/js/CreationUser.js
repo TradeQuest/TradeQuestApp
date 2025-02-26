@@ -30,24 +30,14 @@ $(document).ready(function () {
             oauth2Id: null // Si es necesario en la base de datos
         };
 
+        // 🔥 Solo registramos el usuario (sin crear la wallet aquí)
         $.ajax({
-            url: "/userApi/user",
+            url: "/userApi/register", // Asegúrate de que este endpoint maneja la creación de la wallet
             method: "POST",
             contentType: "application/json",
             data: JSON.stringify(userData)
-        }).done(function (data) {
-            // Creación de la billetera con saldo inicial
-            return $.ajax({
-                url: "/walletApi/wallet",
-                method: "POST",
-                contentType: "application/json",
-                data: JSON.stringify({
-                    balance: 10000,
-                    user: { user_id: data.user_id }
-                })
-            });
         }).done(function () {
-            // Mostrar éxito en el modal
+            // ✅ Mostrar éxito en el modal
             messageModalTitle.text("Registro exitoso");
             messageModalBody.html("Bienvenido Astronauta");
             messageModal.show();
@@ -60,10 +50,17 @@ $(document).ready(function () {
             if (modalInstance) {
                 modalInstance.hide();
             }
-        }).fail(function (error) {
-            // Manejo de errores
+        }).fail(function (jqXHR) {
+            // ❌ Manejo de errores mejorado
+            let errorMessage = "Hubo un error desconocido";
+            if (jqXHR.responseJSON && jqXHR.responseJSON.message) {
+                errorMessage = jqXHR.responseJSON.message;
+            } else if (jqXHR.responseText) {
+                errorMessage = jqXHR.responseText;
+            }
+
             messageModalTitle.text("Error en el registro");
-            messageModalBody.html("Hubo un error: " + error.responseText);
+            messageModalBody.html("Hubo un error: " + errorMessage);
             messageModal.show();
         });
     });

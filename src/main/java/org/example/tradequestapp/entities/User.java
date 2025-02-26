@@ -1,5 +1,6 @@
 package org.example.tradequestapp.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nimbusds.oauth2.sdk.TokenIntrospectionSuccessResponse;
 import jakarta.persistence.*;
 import lombok.NoArgsConstructor;
@@ -15,8 +16,8 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id", unique = true)
-    private Long user_id;
+    @Column(name = "user_id", nullable = false, unique = true)
+    private Long userId;
 
     @Column(name = "oauth2Id", unique = true)
     private String oauth2Id;
@@ -54,6 +55,7 @@ public class User {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "wallet_id", referencedColumnName = "wallet_id")
+    @JsonIgnore  // 👈 Esto evita que se serialice la wallet del usuario en JSON
     private Wallet wallet;
 
     //CONSTRUCTOR
@@ -69,11 +71,11 @@ public class User {
 
     //GETTER Y SETTER
     public Long getUser_id() {
-        return user_id;
+        return userId;
     }
 
     public void setUser_id(Long user_id) {
-        this.user_id = user_id;
+        this.userId = user_id;
     }
 
     public String getName() {

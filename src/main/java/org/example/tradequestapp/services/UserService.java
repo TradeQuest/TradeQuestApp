@@ -1,36 +1,55 @@
 package org.example.tradequestapp.services;
 
 import org.example.tradequestapp.entities.User;
+import org.example.tradequestapp.entities.Wallet;
 import org.example.tradequestapp.respositories.UserRepository;
+import org.example.tradequestapp.respositories.WalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-
-import static org.springframework.security.core.userdetails.User.builder;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+    private final WalletRepository walletRepository;
 
     @Autowired
-    public UserService(UserRepository userRepository){this.userRepository = userRepository;}
+    public UserService(UserRepository userRepository, WalletRepository walletRepository) {
+        this.userRepository = userRepository;
+        this.walletRepository = walletRepository;
+    }
 
-    public User saveUser(User user){return userRepository.save(user);}
+    public User saveUser(User user) {
+        // ✅ Crear una Wallet para el usuario nuevo
+        Wallet newWallet = new Wallet();
+        newWallet.setBalance(10000); // Balance inicial ficticio
 
-    public List<User> getAllUsers(){return userRepository.findAll();}
+        // ✅ Guardamos la Wallet en la BD antes de asignarla al usuario
+        walletRepository.save(newWallet);
 
-    public Optional<User> getUserById(Long id){return userRepository.findById(id);}
+        // ✅ Asignamos la Wallet al usuario
+        user.setWallet(newWallet);
 
-    public Optional<User> getUserByEmail(String email){return userRepository.findByEmail(email);}
+        // ✅ Guardamos el usuario con la Wallet asignada
+        return userRepository.save(user);
+    }
 
-    public void deleteUser(Long id){userRepository.deleteById(id);}
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
 
+    public Optional<User> getUserById(Long id) {
+        return userRepository.findById(id);
+    }
+
+    public Optional<User> getUserByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
+    }
 }

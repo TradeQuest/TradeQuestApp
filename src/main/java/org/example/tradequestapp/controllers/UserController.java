@@ -20,31 +20,35 @@ public class UserController {
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(UserService userService, PasswordEncoder passwordEncoder){this.userService = userService;
+    public UserController(UserService userService, PasswordEncoder passwordEncoder) {
+        this.userService = userService;
         this.passwordEncoder = passwordEncoder;
     }
 
-    @PostMapping("/user")
-    public ResponseEntity<User> saveUser(@RequestBody User user) {
-        // ⚠️ Se ha eliminado la codificación de la contraseña
-        userService.saveUser(user);
-        return ResponseEntity.ok(user);
+    @PostMapping("/register")
+    public ResponseEntity<User> registerUser(@RequestBody User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword())); // ✅ Codificar la contraseña
+        User newUser = userService.saveUser(user);
+        return ResponseEntity.ok(newUser);
     }
 
     @GetMapping("/users")
-    public List<User> getAllUsers(){return userService.getAllUsers();}
+    public List<User> getAllUsers() {
+        return userService.getAllUsers();
+    }
 
     @GetMapping("/users/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id){
+    public ResponseEntity<User> getUserById(@PathVariable Long id) {
         Optional<User> user = userService.getUserById(id);
         return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable Long id){
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.ok("User deleted successfully");
     }
+
     @PostMapping("/login")
     public ResponseEntity<?> loginUser(@RequestBody Map<String, String> credentials) {
         String email = credentials.get("email");
@@ -52,8 +56,8 @@ public class UserController {
 
         Optional<User> user = userService.getUserByEmail(email);
 
-        if (user.isPresent() && user.get().getPassword().equals(password)) { // ⚠️ Asegúrate de que no estás codificando la contraseña
-            return ResponseEntity.ok(user.get()); // Devuelve el usuario si las credenciales son correctas
+        if (user.isPresent() && passwordEncoder.matches(password, user.get().getPassword())) { // ✅ Comparar contraseña encriptada
+            return ResponseEntity.ok(user.get()); // ✅ Devolver el usuario si las credenciales son correctas
         }
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario o contraseña incorrectos.");

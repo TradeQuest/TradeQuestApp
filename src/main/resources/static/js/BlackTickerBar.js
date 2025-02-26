@@ -39,7 +39,7 @@ const BlackTickerBar = (function () {
             .ticker-content {
                 display: inline-block;
                 white-space: nowrap;
-                animation: scrollTicker 15s linear infinite;
+                animation: scrollTicker 60s linear infinite;
             }
             .ticker-content span {
                 padding: 0 30px;

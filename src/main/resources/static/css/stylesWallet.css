@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Exa&display=swap');
+
+body {
+    font-family: 'Lexend Exa', sans-serif;
+    background-image: url('../images/Fondo.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+/* Estilos de las tarjetas */
+.wallet-card {
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.25);
+}
+
+.wallet-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.wallet-balance {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: white;
+}
+
+/* Sección Mejor y Peor Acción */
+.wallet-stock-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+}
+
+.wallet-stock-card img {
+    width: 50px;
+    height: 50px;
+}
+
+/* Lista de activos */
+.wallet-assets {
+    list-style: none;
+    padding: 0;
+}
+
+.wallet-assets li {
+    background: rgba(255, 255, 255, 0.1);
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+/* Modales */
+.modal-content {
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 10px;
+}
+
+.modal-header, .modal-footer {
+    border: none;
+}
+
+.modal-backdrop {
+    display: none;
+}
