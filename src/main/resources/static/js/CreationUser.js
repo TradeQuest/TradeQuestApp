@@ -31,14 +31,14 @@ $(document).ready(function () {
         };
 
         $.ajax({
-            url: "http://localhost:8080/userApi/user",
+            url: "/userApi/user",
             method: "POST",
             contentType: "application/json",
             data: JSON.stringify(userData)
         }).done(function (data) {
             // Creación de la billetera con saldo inicial
             return $.ajax({
-                url: "http://localhost:8080/walletApi/wallet",
+                url: "/walletApi/wallet",
                 method: "POST",
                 contentType: "application/json",
                 data: JSON.stringify({
