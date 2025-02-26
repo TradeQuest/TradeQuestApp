@@ -22,7 +22,7 @@ public class UserController {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @PostMapping("/user")
+    @PostMapping(value = "/user", consumes = "application/json")
     public ResponseEntity<User> saveUser(@RequestBody User user){
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user = userService.saveUser(user);
