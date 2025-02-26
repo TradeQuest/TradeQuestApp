@@ -6,11 +6,7 @@ $(document).ready(function () {
 
     /* Página de configuración */
 
-    // Función para alternar la visibilidad de la contraseña en un campo de entrada.
-    window.togglePassword = function () {
-        let passwordField = $("#password");
-        passwordField.attr("type", passwordField.attr("type") === "password" ? "text" : "password");
-    };
+
 
     /* Página de market */
 

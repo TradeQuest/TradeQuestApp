@@ -1,22 +1,33 @@
 
-// Recuperar usuario desde sessionStorage
-const loggedUser = JSON.parse(sessionStorage.getItem("loggedUser"));
+// Función para obtener el valor de una cookie por su nombre
+function getCookie(name) {
+    const cookies = document.cookie.split('; ');
+    for (let cookie of cookies) {
+        let [key, value] = cookie.split('=');
+        if (key === name) {
+            return decodeURIComponent(value);
+        }
+    }
+    return null;
+}
 
-if (loggedUser) {
+// Recuperar usuario desde las cookies
+const loggedUserCookie = getCookie("loggedUser");
+
+if (loggedUserCookie) {
+    // Convertir la cadena JSON a un objeto JavaScript
+    const loggedUser = JSON.parse(loggedUserCookie);
     console.log("Usuario autenticado:", loggedUser);
 
     // Mostrar el usuario en la interfaz
-
-    // Seleccionar el elemento donde se mostrará el nickname
     const nicknameElement = document.getElementById("Nickname");
     if (nicknameElement) {
         nicknameElement.innerText = loggedUser.username; // Reemplaza el texto con el nickname del usuario
     }
 
-
 } else {
-    // Si no hay usuario en sessionStorage, redirigir al login
-    window.location.href = "/login";
+    // Si no hay usuario en cookies, redirigir al login
+    window.location.href = "/logIn";
 }
 
 
