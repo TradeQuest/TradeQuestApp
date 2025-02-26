@@ -27,13 +27,13 @@ public class UserService {
         Wallet newWallet = new Wallet();
         newWallet.setBalance(10000); // Balance inicial ficticio
 
-        // ✅ Guardamos la Wallet en la BD antes de asignarla al usuario
-        walletRepository.save(newWallet);
+        // ✅ Asignar el usuario a la wallet
+        newWallet.setUser(user);
 
-        // ✅ Asignamos la Wallet al usuario
+        // ✅ Asignar la Wallet al usuario
         user.setWallet(newWallet);
 
-        // ✅ Guardamos el usuario con la Wallet asignada
+        // ✅ Guardamos el usuario (esto guardará la wallet automáticamente debido a la relación OneToOne)
         return userRepository.save(user);
     }
 

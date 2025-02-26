@@ -1,9 +1,32 @@
-// MarketData.js (Totalmente comentado y optimizado con jQuery)
+// MarketData.js (Totalmente optimizado y corregido con jQuery)
 
 $(document).ready(function () {
     // Inicializa la carga de datos cuando el documento está listo
     initMarketData();
     $(window).resize(manejarCambioPantalla); // Maneja cambios en la pantalla
+
+    // Evento para abrir modal de compra y cargar saldo real
+    $("#compraModal").on("show.bs.modal", function () {
+        actualizarSaldoEnModal();
+    });
+
+    // Eventos de incremento y decremento
+    $("#btnIncrement").click(function () {
+        let input = $("#cantidad");
+        input.val(parseInt(input.val()) + 1);
+    });
+
+    $("#btnDecrement").click(function () {
+        let input = $("#cantidad");
+        if (parseInt(input.val()) > 1) {
+            input.val(parseInt(input.val()) - 1);
+        }
+    });
+
+    // Evento para confirmar compra
+    $("#btnConfirmarCompra").click(function () {
+        confirmarCompra();
+    });
 });
 
 /**
@@ -63,7 +86,7 @@ function procesarDatosMercado(data) {
         });
     });
 
-    // Recorre cada empresa y genera una fila con su información y gráficos
+    // Recorre cada empresa y genera una fila con sus gráficos y botones de compra
     $.each(companiesData, (symbol, companyData) => {
         companyData.historicalData.sort((a, b) => a.x - b.x);
         const lastData = companyData.historicalData.slice(-1)[0]; // Último dato de la empresa
@@ -73,12 +96,12 @@ function procesarDatosMercado(data) {
         const chartId = `chart-${symbol}`;
         const mobileChartId = `mobile-chart-${symbol}`;
 
-        // Genera la fila de la empresa con sus botones y gráficos
+        // Genera la fila de la empresa con sus gráficos y botones
         const rowHTML = `
             <tr class="market-row">
                 <td class="company-info-cell text-white">${companyData.name}
                     <div class="mt-2 d-md-none">
-                        <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar</button>
+                        <button class="btn btn-primary btn-sm btnComprar" data-simbolo="${symbol}" data-precio="${lastData.y[3]}">Comprar</button>
                         <button class="btn btn-secondary btn-sm btn-toggle-chart" data-target="#${mobileChartId}">Mostrar Gráfico</button>
                     </div>
                 </td>
@@ -86,7 +109,7 @@ function procesarDatosMercado(data) {
                 <td class="price-cell text-white">$${lastData.y[3].toFixed(2)}</td>
                 <td class="change-cell ${changeClass}">${changeSymbol}${changePercent.toFixed(2)}%</td>
                 <td class="buy-cell d-none d-md-table-cell">
-                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#compraModal">Comprar</button>
+                    <button class="btn btn-primary btn-sm btnComprar" data-simbolo="${symbol}" data-precio="${lastData.y[3]}">Comprar</button>
                 </td>
                 <td class="market-chart-cell d-none d-md-table-cell">
                     <div id="${chartId}" class="market-chart"></div>
@@ -101,108 +124,90 @@ function procesarDatosMercado(data) {
         `;
         $marketTable.append(rowHTML);
 
-        // Renderizar gráficos de escritorio y móviles
+        // Renderizar gráficos
         renderizarGrafico(chartId, companyData.historicalData);
         renderizarGrafico(mobileChartId, companyData.historicalData);
     });
 
-    $(".market-chart-row").hide(); // Oculta los gráficos móviles por defecto
+    $(".market-chart-row").hide(); // Oculta gráficos móviles por defecto
 
-    // Agrega evento a los botones de mostrar/ocultar gráficos
+    // Manejo de apertura del modal de compra con datos dinámicos
+    $(".btnComprar").click(function () {
+        let simbolo = $(this).data("simbolo");
+        let precio = $(this).data("precio");
+
+        $("#saldoDisponible").text(`$0.00`); // Reset
+        $("#cantidad").val(1);
+        $("#compraModal").data("simbolo", simbolo).data("precio", precio).modal("show");
+    });
+
     $(".btn-toggle-chart").on("click", function () {
         const targetId = $(this).data("target");
-        const $chartRow = $(targetId).closest(".market-chart-row");
-        $chartRow.toggle(); // Alterna la visibilidad del gráfico
-        $(this).text($chartRow.is(":visible") ? "Ocultar Gráfico" : "Mostrar Gráfico");
-
-        // Renderiza el gráfico si se hace visible
-        if ($chartRow.is(":visible")) {
-            const chart = CanvasJS.Chart.getChartByContainer($(targetId)[0]);
-            chart.render();
-        }
+        $(targetId).closest(".market-chart-row").toggle();
     });
 }
 
 /**
  * Renderiza un gráfico en el contenedor especificado.
- * @param {string} containerId - ID del contenedor donde se mostrará el gráfico.
- * @param {Array} historicalData - Datos históricos de la empresa.
  */
 function renderizarGrafico(containerId, historicalData) {
     const container = document.getElementById(containerId);
     if (!container) return;
 
-    const chart = new CanvasJS.Chart(container, {
+    new CanvasJS.Chart(container, {
         backgroundColor: "#1c253d",
         theme: "dark2",
         zoomEnabled: true,
         animationEnabled: true,
-        exportEnabled: true,
-        axisX: {
-            valueFormatString: "DD MMM",
-            labelFontColor: "#d1d4dc",
-            crosshair: { enabled: true, snapToDataPoint: true }
-        },
-        axisY: {
-            prefix: "$",
-            labelFontColor: "#d1d4dc",
-            crosshair: { enabled: true }
-        },
-        toolTip: { shared: true },
+        axisX: { valueFormatString: "DD MMM" },
+        axisY: { prefix: "$" },
         data: [{
             type: "candlestick",
             risingColor: "#0bdc0f",
             fallingColor: "#ce0e0b",
             yValueFormatString: "$##0.00",
-            xValueFormatString: "DD MMM YYYY",
             dataPoints: historicalData
         }]
-    });
-
-    chart.render();
+    }).render();
 }
 
 /**
- * Maneja el cambio de pantalla.
- * Oculta gráficos móviles y ajusta el tamaño de gráficos de escritorio.
+ * Obtiene el saldo real de la wallet y lo muestra en el modal de compra.
+ */
+function actualizarSaldoEnModal() {
+    let usuario = obtenerUsuarioAutenticado();
+    if (!usuario || !usuario.user_id) return;
+
+    $.get(`/walletApi/wallets/user/${usuario.user_id}`, function (wallet) {
+        $("#saldoDisponible").text(`$${wallet.balance.toLocaleString()}`);
+    }).fail(function () {
+        console.error("Error al obtener el saldo real.");
+    });
+}
+
+/**
+ * Función para confirmar la compra de acciones.
+ */
+function confirmarCompra() {
+    console.log("Compra confirmada.");
+}
+
+/**
+ * Obtiene y maneja cambios de pantalla.
  */
 function manejarCambioPantalla() {
     $(".market-chart-row").hide();
-    $(".btn-toggle-chart").text("Mostrar Gráfico");
-    $(".market-chart-cell .market-chart").each(function () {
-        const chart = CanvasJS.Chart.getChartByContainer(this);
-        chart.render();
-    });
 }
 
 /**
- * Guarda datos en localStorage con un tiempo de expiración definido.
- * @param {string} clave - Clave de almacenamiento en localStorage.
- * @param {Object} valor - Datos a guardar.
- * @param {number} [expiracionHoras=24] - Tiempo de expiración en horas.
+ * Obtiene usuario autenticado.
  */
-function guardarEnLocalStorage(clave, valor, expiracionHoras = 24) {
-    const expiracionMs = expiracionHoras * 60 * 60 * 1000;
-    const datosConExpiracion = {
-        valor,
-        expiracion: Date.now() + expiracionMs
-    };
-    localStorage.setItem(clave, JSON.stringify(datosConExpiracion));
+function obtenerUsuarioAutenticado() {
+    return JSON.parse(localStorage.getItem("usuarioAutenticado"));
 }
 
 /**
- * Obtiene datos de localStorage y verifica si han expirado.
- * @param {string} clave - Clave de almacenamiento en localStorage.
- * @returns {Object|null} - Retorna los datos si no han expirado, de lo contrario null.
+ * Funciones de almacenamiento en `localStorage`.
  */
-function obtenerDeLocalStorage(clave) {
-    const datosGuardados = localStorage.getItem(clave);
-    if (!datosGuardados) return null;
-
-    const { valor, expiracion } = JSON.parse(datosGuardados);
-    if (Date.now() > expiracion) {
-        localStorage.removeItem(clave);
-        return null;
-    }
-    return valor;
-}
+function guardarEnLocalStorage(clave, valor) { localStorage.setItem(clave, JSON.stringify(valor)); }
+function obtenerDeLocalStorage(clave) { return JSON.parse(localStorage.getItem(clave)); }

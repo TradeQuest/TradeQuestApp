@@ -61,17 +61,17 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body text-center">
-                <p><strong>SALDO DISPONIBLE:</strong></p>
-                <h4 class="text-success">$160.61</h4>
-                <p><strong>CANTIDAD:</strong></p>
+                <p><strong>Saldo Disponible:</strong></p>
+                <h4 class="text-success" id="saldoDisponible">$0.00</h4>
+                <p><strong>Cantidad:</strong></p>
                 <div class="d-flex justify-content-center align-items-center">
-                    <button type="button" class="btn btn-secondary me-2" onclick="decrement()">-</button>
+                    <button type="button" class="btn btn-secondary me-2" id="btnDecrement">-</button>
                     <input type="number" id="cantidad" value="1" class="form-control text-center" style="width: 60px;" min="1">
-                    <button type="button" class="btn btn-secondary ms-2" onclick="increment()">+</button>
+                    <button type="button" class="btn btn-secondary ms-2" id="btnIncrement">+</button>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary w-100" onclick="confirmarCompra()">ACEPTAR</button>
+                <button type="button" class="btn btn-primary w-100" id="btnConfirmarCompra">ACEPTAR</button>
             </div>
         </div>
     </div>

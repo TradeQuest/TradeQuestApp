@@ -62,49 +62,46 @@ public class WalletController {
         return ResponseEntity.ok("Wallet deleted successfully");
     }
 
+    // Endpoint para añadir fondos a la Wallet
+    @PutMapping("/wallets/{id}/addFunds")
+    public ResponseEntity<Wallet> addFunds(@PathVariable Long id, @RequestParam float amount) {
+        Optional<Wallet> walletOpt = walletService.getWalletById(id);
+
+        if (walletOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Wallet wallet = walletOpt.get();
+        wallet.setBalance(wallet.getBalance() + amount);
+        walletService.saveWallet(wallet);
+
+        return ResponseEntity.ok(wallet);
+    }
+
     // Comprar acción
     @PostMapping("/wallets/{id}/comprar")
     public ResponseEntity<?> comprarAccion(@PathVariable Long id, @RequestBody Trade trade) {
         Optional<Wallet> walletOpt = walletService.getWalletById(id);
-
         if (walletOpt.isEmpty()) {
-            return ResponseEntity.notFound().build(); // Retornar error si la Wallet no existe
+            return ResponseEntity.notFound().build();
         }
 
         Wallet wallet = walletOpt.get();
-        float totalCost = trade.getUnit_price() * trade.getAsset_amount(); // Cálculo del costo total de la compra
+        float totalCost = trade.getUnit_price() * trade.getAsset_amount();
 
         if (wallet.getBalance() < totalCost) {
-            return ResponseEntity.badRequest().body("Fondos insuficientes!"); // Verificar si hay suficiente saldo
+            return ResponseEntity.badRequest().body("Fondos insuficientes!");
         }
 
-        // Crear nuevo Asset para la Wallet
-        Asset asset = new Asset();
-        asset.setCompany_symbol(trade.getAsset().getCompany_symbol());
-        asset.setOpening_value(trade.getUnit_price());
-        asset.setClose_value(trade.getUnit_price());
-        asset.setWallet(wallet);
+        // Restar saldo de la wallet
+        wallet.setBalance(wallet.getBalance() - totalCost);
+        walletService.saveWallet(wallet);
 
-        // Guardar Asset en la base de datos
-        assetRepository.save(asset);
-
-        // Asignar el Asset a la transacción y guardarla
+        // Crear y guardar transacción de compra
         trade.setWallet(wallet);
-        trade.setAsset(asset);
         tradeRepository.save(trade);
 
-        // Restar saldo y actualizar Wallet
-        wallet.getTransactions().add(trade);
-
-        // Asegurar que la lista de assets no sea null antes de agregar
-        if (wallet.getAssets() == null) {
-            wallet.setAssets(new java.util.ArrayList<>());
-        }
-        wallet.getAssets().add(asset);
-        wallet.setBalance(wallet.getBalance() - totalCost);
-
-        walletService.saveWallet(wallet); // Guardar cambios en la base de datos
-
-        return ResponseEntity.ok(wallet); // Retornar la Wallet actualizada
+        return ResponseEntity.ok(wallet);
     }
+
 }

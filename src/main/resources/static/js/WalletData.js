@@ -53,18 +53,35 @@ function actualizarInterfazWallet(wallet) {
     });
 }
 
-// ✅ Agrega fondos ficticios (mantiene funcionalidad anterior)
+// ✅ Agregar fondos ficticios y actualizar en la base de datos
 $("#confirmButton").on("click", function () {
-    let wallet = obtenerDeLocalStorage("wallet");
-    wallet.balance += 10000;
-    guardarEnLocalStorage("wallet", wallet);
-    actualizarInterfazWallet(wallet);
+    let usuario = obtenerUsuarioAutenticado();
+    if (!usuario || !usuario.user_id) {
+        console.error("Usuario no autenticado.");
+        return;
+    }
 
-    // Mostrar modal de confirmación
-    setTimeout(() => {
-        const recargaModal = new bootstrap.Modal(document.getElementById("recargaModal"));
-        recargaModal.show();
-    }, 500);
+    const userId = usuario.user_id;
+    const amount = 10000;
+
+    $.ajax({
+        url: `/walletApi/wallets/${userId}/addFunds`,
+        method: "PUT",
+        data: { amount: amount },
+        success: function (updatedWallet) {
+            guardarEnLocalStorage("wallet", updatedWallet);
+            actualizarInterfazWallet(updatedWallet);
+
+            // Mostrar modal de confirmación
+            setTimeout(() => {
+                const recargaModal = new bootstrap.Modal(document.getElementById("recargaModal"));
+                recargaModal.show();
+            }, 500);
+        },
+        error: function (error) {
+            console.error("Error al agregar fondos:", error.responseText);
+        }
+    });
 });
 
 // ✅ Obtiene usuario autenticado desde localStorage

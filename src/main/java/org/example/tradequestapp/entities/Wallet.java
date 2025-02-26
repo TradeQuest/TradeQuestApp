@@ -19,7 +19,7 @@ public class Wallet {
 
     // ✅ Relaciones
     @OneToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id", nullable = true)
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @JsonIgnore
     private User user;
 

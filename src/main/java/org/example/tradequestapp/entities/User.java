@@ -55,7 +55,7 @@ public class User {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "wallet_id", referencedColumnName = "wallet_id")
-    @JsonIgnore  // 👈 Esto evita que se serialice la wallet del usuario en JSON
+    @JsonIgnore
     private Wallet wallet;
 
     //CONSTRUCTOR
