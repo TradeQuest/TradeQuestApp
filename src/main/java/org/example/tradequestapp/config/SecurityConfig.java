@@ -1,4 +1,4 @@
-package org.example.tradequestapp;
+package org.example.tradequestapp.config;
 
 import org.example.tradequestapp.services.CustomOAuth2SuccessHandler;
 import org.springframework.context.annotation.Bean;
@@ -31,7 +31,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
 //                .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/static/**", "/css/**", "/js/**", "/images/**", "/logIn", "/oauth2/**").permitAll()
+                        .requestMatchers("/", "/static/**", "/css/**", "/js/**", "/images/**", "/logIn", "/oauth2/**", "/login", "/fragments/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .oauth2Login(oauth2 -> oauth2
