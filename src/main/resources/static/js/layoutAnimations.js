@@ -10,7 +10,7 @@ if (loggedUser) {
     // Seleccionar el elemento donde se mostrará el nickname
     const nicknameElement = document.getElementById("Nickname");
     if (nicknameElement) {
-        nicknameElement.innerText = loggedUser.nickname; // Reemplaza el texto con el nickname del usuario
+        nicknameElement.innerText = loggedUser.username; // Reemplaza el texto con el nickname del usuario
     }
 
 

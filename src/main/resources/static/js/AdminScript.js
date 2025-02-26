@@ -11,7 +11,7 @@ $(document).ready(function () {
                 $.each(users, function (index, user) {
                     const row = $("<tr>").html(`
                         <td>${user.user_id}</td>
-                        <td>${user.nickname}</td>
+                        <td>${user.username}</td>
                         <td>${user.email}</td>
                         <td>
                             <button class="btn btn-danger btn-sm" onclick="confirmDeleteUser(${user.user_id})">Eliminar</button>
