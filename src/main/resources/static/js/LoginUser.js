@@ -1,4 +1,13 @@
 $(document).ready(function () {
+    function setCookie(name, value, days) {
+        let expires = "";
+        if (days) {
+            let date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + encodeURIComponent(value) + expires + "; path=/";
+    }
 
     function mostrarError(input, mensaje) {
         let errorMensaje = $(input).next('.error-text');
@@ -48,6 +57,7 @@ $(document).ready(function () {
             }
 
             const user = await response.json(); // Recibir usuario autenticado
+            setCookie("loggedUser", JSON.stringify(user), 7);
             sessionStorage.setItem("loggedUser", JSON.stringify(user)); // Guarda usuario en sesión
             window.location.href = "/dashboard"; // Redirige al dashboard
 
