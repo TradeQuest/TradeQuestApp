@@ -37,16 +37,11 @@ public class SecurityConfig {
                 .oauth2Login(oauth2 -> oauth2
                         .defaultSuccessUrl("/dashboard", true)
                         .successHandler(customOAuth2SuccessHandler)
-                        .authorizationEndpoint(authorization ->
-                                authorization.baseUri("/oauth2/authorization")
-                        )
-                        .redirectionEndpoint(redirection ->
-                                redirection.baseUri("/login/oauth2/code/google")
-                        )
                 )
                 .logout(logout -> logout
                         .logoutSuccessUrl("/").permitAll()
-                );
+                )
+                .formLogin(AbstractHttpConfigurer::disable);
 
         return http.build();
     }
