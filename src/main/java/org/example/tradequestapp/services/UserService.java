@@ -16,7 +16,7 @@ import java.util.Optional;
 import static org.springframework.security.core.userdetails.User.builder;
 
 @Service
-public class UserService  implements UserDetailsService {
+public class UserService {
 
     private final UserRepository userRepository;
 
@@ -31,18 +31,4 @@ public class UserService  implements UserDetailsService {
 
     public void deleteUser(Long id){userRepository.deleteById(id);}
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByEmail(email);
-        if(user.isPresent()){
-
-            var userObj = user.get();
-            return org.springframework.security.core.userdetails.User.builder()
-                    .username(userObj.getUsername())
-                    .password(userObj.getPassword())
-                    .build();
-        }else {
-            throw new UsernameNotFoundException("User not found" + email);
-        }
-    }
 }
