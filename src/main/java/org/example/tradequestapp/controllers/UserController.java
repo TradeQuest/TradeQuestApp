@@ -3,11 +3,13 @@ package org.example.tradequestapp.controllers;
 import org.example.tradequestapp.entities.User;
 import org.example.tradequestapp.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -23,8 +25,8 @@ public class UserController {
     }
 
     @PostMapping("/user")
-    public ResponseEntity<User> saveUser(@RequestBody User user){
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    public ResponseEntity<User> saveUser(@RequestBody User user) {
+        // ⚠️ Se ha eliminado la codificación de la contraseña
         userService.saveUser(user);
         return ResponseEntity.ok(user);
     }
@@ -42,5 +44,18 @@ public class UserController {
     public ResponseEntity<String> deleteUser(@PathVariable Long id){
         userService.deleteUser(id);
         return ResponseEntity.ok("User deleted successfully");
+    }
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody Map<String, String> credentials) {
+        String email = credentials.get("email");
+        String password = credentials.get("password");
+
+        Optional<User> user = userService.getUserByEmail(email);
+
+        if (user.isPresent() && user.get().getPassword().equals(password)) { // ⚠️ Asegúrate de que no estás codificando la contraseña
+            return ResponseEntity.ok(user.get()); // Devuelve el usuario si las credenciales son correctas
+        }
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Usuario o contraseña incorrectos.");
     }
 }
