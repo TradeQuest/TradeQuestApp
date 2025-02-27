@@ -1,6 +1,9 @@
 $(document).ready(function () {
 
-    // Función para alternar la visibilidad de la contraseña en un campo de entrada.
+    // Expresión regular para validar la contraseña
+    const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+
+    // Función para alternar la visibilidad de la contraseña
     window.togglePassword = function () {
         let passwordField = $("#password");
         passwordField.attr("type", passwordField.attr("type") === "password" ? "text" : "password");
@@ -18,8 +21,42 @@ $(document).ready(function () {
         return null;
     }
 
+    // Función para establecer una cookie
+    function setCookie(name, value, days) {
+        let expires = "";
+        if (days) {
+            let date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + encodeURIComponent(value) + expires + "; path=/";
+    }
+
+    // Función para cambiar la contraseña
+    window.changePassword = function () {
+        let passwordField = document.getElementById("password");
+        let feedbackMessage = document.getElementById("passwordFeedback");
+        let newPassword = passwordField.value.trim(); // Obtener el valor del campo
+
+        // Validar la contraseña con la expresión regular
+        if (!passwordRegex.test(newPassword)) {
+            feedbackMessage.innerText = "La contraseña debe tener al menos 8 caracteres, incluyendo letras y números.";
+            feedbackMessage.style.color = "red";
+            return;
+        }
+
+        // Si la contraseña es válida, guardarla en la cookie y mostrar mensaje de éxito
+        setCookie("contrasenia", newPassword, 30);
+        feedbackMessage.innerText = "Contraseña actualizada correctamente.";
+        feedbackMessage.style.color = "green";
+
+        // Recargar la página después de un breve retraso
+        setTimeout(() => location.reload(), 1500);
+    };
+
     // Obtener usuario desde sessionStorage o desde la cookie
     let loggedUser = JSON.parse(sessionStorage.getItem("loggedUser")) || null;
+    let contraCookie = getCookie("contrasenia"); // Obtener la contraseña guardada
 
     if (!loggedUser) {
         const userCookie = getCookie("loggedUser");
@@ -45,12 +82,9 @@ $(document).ready(function () {
 
         // Mostrar la contraseña en el campo de contraseña si existe en la cookie
         const passwordField = document.getElementById("password");
-        if (passwordField && loggedUser.password) {
-            passwordField.value = loggedUser.password;
+        if (passwordField) {
+            passwordField.value = contraCookie ? contraCookie : ""; // Mostrar la contraseña si está guardada
         }
-
-        // Evento para cambiar el nombre de usuario
-
 
     } else {
         // Si no hay usuario autenticado, redirigir al login

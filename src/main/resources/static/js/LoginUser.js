@@ -58,6 +58,8 @@ $(document).ready(function () {
 
             const user = await response.json(); // Recibir usuario autenticado
             setCookie("loggedUser", JSON.stringify(user), 7);
+            //Mañana presentacion  , no tiempo , Cualquier culpa Youssef se hace responsable
+            setCookie("contrasenia", passwordInput.val());
             sessionStorage.setItem("loggedUser", JSON.stringify(user)); // Guarda usuario en sesión
             window.location.href = "/dashboard"; // Redirige al dashboard
 

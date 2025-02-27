@@ -50,18 +50,27 @@
         <!-- Sección Cuenta y Soporte -->
         <div class="col-md-5">
           <!-- Cuenta -->
-          <div id="CardAccount" class="card p-5 shadow-lg mb-4" >
+          <div id="CardAccount" class="card p-5 shadow-lg mb-4">
             <h3 class="text-white text-center mb-4">Cuenta</h3>
+
             <label for="password" class="text-white fs-5">Gestionar cuenta</label>
-            <div class="input-group mb-4">
-              <input type="password" id="password" class="form-control fs-4" value="Contraseña" aria-label="Contraseña actual">
+
+            <div class="input-group mb-2">
+              <input type="password" id="password" class="form-control fs-4" aria-label="Contraseña actual">
               <button class="btn btn-outline-secondary" type="button" onclick="togglePassword()" aria-label="Mostrar u ocultar contraseña">
                 Mostrar
               </button>
             </div>
 
-            <button class="btn btn-danger w-100 fs-5" aria-label="Eliminar cuenta">Borrar Contraseña</button>
+            <!-- Mensaje de feedback (errores o éxito) -->
+            <p id="passwordFeedback" class="text-center mt-2" style="font-size: 14px;"></p>
+
+            <button class="btn btn-primary w-100 fs-5 mb-2" onclick="changePassword()" aria-label="Cambiar contraseña">
+              Cambiar Contraseña
+            </button>
           </div>
+
+
 
           <!-- Soporte -->
           <div id="CardSupport" class="card p-5 shadow-lg text-center" >

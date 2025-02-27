@@ -22,7 +22,7 @@
 <div th:replace="~{fragments/layout :: layout(~{::content})}">
     <th:block th:fragment="content">
         <div class="container mt-4">
-            <h1 class="text-white">Preguntas Frecuentes</h1>
+            <h1 class="text-white text-center">Preguntas Frecuentes</h1>
 
             <div class="accordion mt-4" id="faqAccordion">
 
@@ -166,6 +166,19 @@
                     <div id="collapse10" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
                         <div class="accordion-body">
                             ¡Sí! Puedes compartir tu ranking y logros con amigos en redes sociales y comparar tu desempeño con otros traders.
+                        </div>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapse11" aria-expanded="false" aria-controls="collapse11">
+                            11. No encuentras lo que buscas?
+                        </button>
+                    </h2>
+                    <div id="collapse11" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                        <div  class="text-center accordion-body">
+                            Contacta con nuestro soporte <a class="text-purple" th:href="@{/support}">aquí.</a>
                         </div>
                     </div>
                 </div>

@@ -90,13 +90,6 @@ body {
   min-height: 550px;
 }
 
-#CardAccount{
-  min-height: 250px;
-}
-
-#CardSupport{
-  min-height: 250px;
-}
 
 /*ID de la pagina de dashboard*/
 
@@ -104,29 +97,45 @@ body {
   flex: 1;
 }
 
+#usersTable {
+  width: 100%; /* La tabla ocupa el 100% del ancho disponible */
+  max-width: 100%; /* Evita que se expanda más allá del contenedor */
+  table-layout: fixed; /* Distribuye las columnas equitativamente */
+  overflow: hidden; /* Evita que el contenido se desborde */
+}
+
+/* Asegura que la tabla sea desplazable si hay muchos datos */
+#usersTable thead,
+#usersTable tbody {
+  display: block;
+  width: 100%;
+}
+
+/* Limita la altura del tbody para evitar que la tabla crezca demasiado */
+#usersTable tbody {
+  overflow-y: auto; /* Habilita el scroll vertical */
+  max-height: 250px; /* Ajusta el tamaño máximo del área de datos */
+  display: block;
+}
+
+/* Ajustes responsivos */
+@media (max-width: 768px) {
+  #usersTable {
+    font-size: 12px; /* Reduce el tamaño del texto en móviles */
+  }
+
+  #usersTable th,
+  #usersTable td {
+    padding: 5px; /* Reduce los espacios internos */
+    word-break: break-word; /* Permite el quiebre de palabras largas */
+  }
+}
+
 
 #stockChart{
   height: 300px;
 }
-.astronaut-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1; /* Mantenerlo detrás de la tarjeta */
-  display: flex;
-  justify-content: center; /* Centrar horizontalmente */
-  align-items: center; /* Centrar verticalmente */
-  overflow: hidden;
-}
 
-.astronaut-bg img {
-  width: 100%; /* Ocupar todo el ancho */
-  height: auto; /* Mantener la proporción */
-  max-width: none; /* Evitar restricciones de Bootstrap */
-  opacity: 0.5; /* Opcional: Hacerlo más sutil */
-}
 .modal {
   z-index: 1055 !important; /* Asegura que el modal está por encima de otros elementos */
   backdrop-filter: blur(5px) !important; /* Reducir el blur si está interfiriendo */
