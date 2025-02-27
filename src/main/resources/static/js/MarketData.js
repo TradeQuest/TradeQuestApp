@@ -3,6 +3,14 @@ $(document).ready(function () {
     // ✅ Inicializa la carga de datos del mercado
     initMarketData();
 
+
+
+
+
+
+
+
+
     // ✅ Evento para abrir modal de compra y cargar saldo real
     $("#compraModal").on("show.bs.modal", function () {
         actualizarSaldoEnModal();
@@ -63,17 +71,28 @@ $(document).ready(function () {
  * ✅ Función para actualizar el saldo en el modal de compra
  */
 function actualizarSaldoEnModal() {
-    let usuario = obtenerUsuarioAutenticado();
-    if (!usuario || !usuario.user_id) {
-        console.error("❌ Error: No se pudo obtener el usuario autenticado.");
-        return;
+    if (loggedUserCookie) {
+        // Convertir la cadena JSON a un objeto JavaScript
+        const loggedUser = JSON.parse(loggedUserCookie);
+        console.log("Usuario autenticado:", loggedUser);
+
+
+        $.get(`/walletApi/wallets/user/${loggedUser.user_id}`, function (wallet) {
+            $("#saldoDisponible").text(`$${wallet.balance.toLocaleString()}`);
+        }).fail(function () {
+            console.error("❌ Error al obtener el saldo real.");
+        });
+
+    } else {
+        // Si no hay usuario en cookies, redirigir al login
+        window.location.href = "/logIn";
     }
 
-    $.get(`/walletApi/wallets/user/${usuario.user_id}`, function (wallet) {
-        $("#saldoDisponible").text(`$${wallet.balance.toLocaleString()}`);
-    }).fail(function () {
-        console.error("❌ Error al obtener el saldo real.");
-    });
+
+
+
+
+
 }
 
 /**

@@ -4,26 +4,31 @@ $(document).ready(function () {
 
 // ✅ Obtiene la wallet real desde el backend
 function obtenerWalletDesdeServidor() {
-    const usuarioAutenticado = obtenerUsuarioAutenticado();
+    if (loggedUserCookie) {
+        // Convertir la cadena JSON a un objeto JavaScript
+        const loggedUser = JSON.parse(loggedUserCookie);
+        console.log("Usuario autenticado:", loggedUser);
 
-    if (!usuarioAutenticado || !usuarioAutenticado.user_id) {
-        console.error("No se encontró un usuario autenticado.");
-        return;
+
+
+        const userId = loggedUser.user_id;
+
+        $.ajax({
+            url: `/walletApi/wallets/user/${userId}`, // Nueva API para obtener la wallet
+            method: "GET",
+            dataType: "json"
+        }).done(function (wallet) {
+            console.log("Wallet obtenida:", wallet);
+            guardarEnLocalStorage("wallet", wallet);
+            actualizarInterfazWallet(wallet);
+        }).fail(function (error) {
+            console.error("Error al obtener la wallet:", error.responseText);
+        });
+
+    } else {
+        // Si no hay usuario en cookies, redirigir al login
+        window.location.href = "/logIn";
     }
-
-    const userId = usuarioAutenticado.user_id;
-
-    $.ajax({
-        url: `/walletApi/wallets/user/${userId}`, // Nueva API para obtener la wallet
-        method: "GET",
-        dataType: "json"
-    }).done(function (wallet) {
-        console.log("Wallet obtenida:", wallet);
-        guardarEnLocalStorage("wallet", wallet);
-        actualizarInterfazWallet(wallet);
-    }).fail(function (error) {
-        console.error("Error al obtener la wallet:", error.responseText);
-    });
 }
 
 // ✅ Actualiza la interfaz con los datos reales de la wallet
@@ -53,35 +58,68 @@ function actualizarInterfazWallet(wallet) {
     });
 }
 
-// ✅ Agregar fondos ficticios y actualizar en la base de datos
-$("#confirmButton").on("click", function () {
-    let usuario = obtenerUsuarioAutenticado();
-    if (!usuario || !usuario.user_id) {
-        console.error("Usuario no autenticado.");
-        return;
-    }
-
-    const userId = usuario.user_id;
-    const amount = 10000;
-
+// Función para obtener una wallet por ID
+function getWalletById(walletId, callback) {
     $.ajax({
-        url: `/walletApi/wallets/${userId}/addFunds`,
-        method: "PUT",
-        data: { amount: amount },
-        success: function (updatedWallet) {
-            guardarEnLocalStorage("wallet", updatedWallet);
-            actualizarInterfazWallet(updatedWallet);
-
-            // Mostrar modal de confirmación
-            setTimeout(() => {
-                const recargaModal = new bootstrap.Modal(document.getElementById("recargaModal"));
-                recargaModal.show();
-            }, 500);
+        url: `/wallets/${walletId}`,
+        type: "GET",
+        dataType: "json",
+        success: function(wallet) {
+            console.log("Wallet recibida:", wallet);
+            callback(null, wallet); // Llama al callback con la wallet recibida
         },
-        error: function (error) {
-            console.error("Error al agregar fondos:", error.responseText);
+        error: function(xhr, status, error) {
+            console.error("Error:", error);
+            callback(error, null); // Llama al callback con el error
         }
     });
+}
+
+
+
+
+// ✅ Agregar fondos ficticios y actualizar en la base de datos
+$("#confirmButton").on("click", function () {
+
+
+    if (loggedUserCookie){
+        // Convertir la cadena JSON a un objeto JavaScript
+        const loggedUser = JSON.parse(loggedUserCookie);
+        console.log("Usuario autenticado:", loggedUser);
+
+
+
+        const userId = loggedUser.user_id;
+        const amount = 10000;
+
+        const walletUUser = getWalletById(loggedUser.wallet_id);
+
+
+
+        $.ajax({
+            url: `/walletApi/wallets/${userId}/addFunds`,
+            method: "PUT",
+            data: { amount: amount },
+            success: function (updatedWallet) {
+                guardarEnLocalStorage("wallet", updatedWallet);
+                actualizarInterfazWallet(updatedWallet);
+                walletUUser.ba
+
+                // Mostrar modal de confirmación
+                setTimeout(() => {
+                    const recargaModal = new bootstrap.Modal(document.getElementById("recargaModal"));
+                    recargaModal.show();
+                }, 500);
+            },
+            error: function (error) {
+                console.error("Error al agregar fondos:", error.responseText);
+            }
+        });
+
+    } else {
+        // Si no hay usuario en cookies, redirigir al login
+        window.location.href = "/logIn";
+    }
 });
 
 // ✅ Obtiene usuario autenticado desde localStorage
