@@ -11,7 +11,6 @@
   <link rel="stylesheet" href="/static/css/stylesLayout.css">
   <link rel="stylesheet" href="/static/css/stylesWallet.css">
 
-
   <!-- Scripts de jQuery y animaciones -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="/static/js/layoutAnimations.js" defer></script>
@@ -26,33 +25,33 @@
       <div class="row">
         <!-- Sección Historial -->
         <div class="col-md-8">
-          <div class="card p-3 text-white" style="background: rgba(255, 255, 255, 0.1); border-radius: 10px;">
+          <div class="card p-3 text-white" style="background: rgba(255, 255, 255, 0.1); border-radius: 10px;" aria-labelledby="wallet-history-title">
             <div class="d-flex justify-content-between align-items-center">
-              <h3 class="fw-bold">Historial</h3>
+              <h3 class="fw-bold" id="wallet-history-title">Historial</h3>
               <div class="text-end">
                 <p class="mb-0">Créditos Totales</p>
-                <h4 class="fw-bold wallet-balance" id="walletBalance">$10,000.00</h4>
-                <button class="btn btn-success btn-sm mt-1" data-bs-toggle="modal" data-bs-target="#fondosModal">
+                <h4 class="fw-bold wallet-balance" id="walletBalance" aria-live="polite">$10,000.00</h4>
+                <button class="btn btn-success btn-sm mt-1" data-bs-toggle="modal" data-bs-target="#fondosModal" aria-label="Añadir fondos">
                   Añadir Fondos
                 </button>
               </div>
-              <ul id="walletAssets" class="wallet-assets"></ul>
+              <ul id="walletAssets" class="wallet-assets" aria-label="Lista de activos en la wallet"></ul>
             </div>
           </div>
         </div>
 
         <!-- Sección Mejor y Peor Acción -->
         <div class="col-md-4">
-          <div class="card p-3 text-white" style="background: rgba(255, 255, 255, 0.1); border-radius: 10px;">
-            <h5 class="fw-bold">TU MEJOR ACCIÓN</h5>
+          <div class="card p-3 text-white" style="background: rgba(255, 255, 255, 0.1); border-radius: 10px;" aria-labelledby="best-stock-title">
+            <h5 class="fw-bold" id="best-stock-title">TU MEJOR ACCIÓN</h5>
             <div class="text-center" id="mejorAccion">
-              <p class="text-white">Aún no tienes ninguna, <a href="Market.html" class="text-primary fw-bold">ve a MARKET</a> para comenzar tu viaje de inversión!</p>
+              <p class="text-white">Aún no tienes ninguna, <a href="Market.html" class="text-primary fw-bold" aria-label="Ir a Market">ve a MARKET</a> para comenzar tu viaje de inversión!</p>
             </div>
           </div>
-          <div class="card mt-4 p-3 text-white" style="background: rgba(255, 255, 255, 0.1); border-radius: 10px;">
-            <h5 class="fw-bold">TU PEOR ACCIÓN</h5>
+          <div class="card mt-4 p-3 text-white" style="background: rgba(255, 255, 255, 0.1); border-radius: 10px;" aria-labelledby="worst-stock-title">
+            <h5 class="fw-bold" id="worst-stock-title">TU PEOR ACCIÓN</h5>
             <div class="text-center" id="peorAccion">
-              <p class="text-white">Aún no tienes ninguna, <a href="Market.html" class="text-primary fw-bold">ve a MARKET</a> para comenzar tu viaje de inversión!</p>
+              <p class="text-white">Aún no tienes ninguna, <a href="Market.html" class="text-primary fw-bold" aria-label="Ir a Market">ve a MARKET</a> para comenzar tu viaje de inversión!</p>
             </div>
           </div>
         </div>
@@ -75,29 +74,9 @@
             <p class="text-danger fw-bold">No trates estos fondos a la ligera.</p>
             <p>La mejor manera de aprender a invertir es gestionando tu capital con estrategia, como si fuera real.</p>
           </div>
-          <button type="button" class="btn btn-primary w-100" id="confirmButton" data-bs-dismiss="modal">
+          <button type="button" class="btn btn-primary w-100" id="confirmButton" data-bs-dismiss="modal" aria-label="Confirmar adición de fondos">
             Confirma tu solicitud
           </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal Recarga Exitosa -->
-    <div class="modal fade" id="recargaModal" tabindex="-1" aria-labelledby="recargaModalLabel" aria-hidden="true">
-      <div class="modal-dialog">
-        <div class="modal-content text-center p-4">
-          <div class="modal-header">
-            <h5 class="modal-title fw-bold text-success" id="recargaModalLabel">¡RECARGA COMPLETADA!</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-          </div>
-          <div class="modal-body">
-            <h6>Se han añadido <strong class="text-primary">10,000 TQCs</strong> a tu wallet</h6>
-            <div class="my-3">
-              <img src="https://cdn-icons-png.flaticon.com/512/190/190411.png" alt="Checkmark" width="50">
-            </div>
-            <p>Tu wallet está lista para la acción. <strong class="text-primary">Recuerda, este capital es
-              limitado</strong>, así que úsalo con estrategia y simula una gestión realista.</p>
-          </div>
         </div>
       </div>
     </div>
