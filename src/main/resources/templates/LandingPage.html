@@ -20,11 +20,11 @@
         <div id="aurora-background"></div> <!-- Contenedor del fondo aurora -->
         <div class="text-center py-5 position-relative">
             <div class="container">
-                <img src="../static/images/LOGO.png" alt="TRADEQUEST" class="img-fluid my-4">
+                <img src="../static/images/LOGO.png" alt="Logo de TRADEQUEST" class="img-fluid my-4">
                 <h1 class="display-4 fw-bold">¡Conquista los Mercados con TRADEQUEST!</h1>
                 <p class="lead fw-bold mt-3">Aprende a Invertir Jugando con el Simulador de Bolsa Más Realista y
                     Divertido</p>
-                <a th:href="@{/logIn}">
+                <a th:href="@{/logIn}" aria-label="Ir a la página de inicio de sesión">
                     <button class="btn btn-primary-custom">Comienza Ahora</button>
                 </a>
             </div>
@@ -37,7 +37,7 @@
         <div class="row fila">
             <div class="col-md-6 mb-4">
                 <div class="card carta card-custom p-4">
-                    <img src="../static/images/joystick.png" alt="Gamificación" class="mx-auto mb-3 icon">
+                    <img src="../static/images/joystick.png" alt="Icono de Gamificación" class="mx-auto mb-3 icon">
                     <h3 class="text-center fw-bold">Gamificación Dinámica</h3>
                     <p class="text-center">Completa desafíos, desbloquea logros y sube de nivel mientras aprendes
                         estrategias reales de trading.</p>
@@ -45,7 +45,7 @@
             </div>
             <div class="col-md-6 mb-4">
                 <div class="card card-custom p-4">
-                    <img src="../static/images/barra-grafica.png" alt="Mercados" class="mx-auto mb-3 icon">
+                    <img src="../static/images/barra-grafica.png" alt="Icono de Mercados en Tiempo Real" class="mx-auto mb-3 icon">
                     <h3 class="text-center fw-bold">Mercados en Tiempo Real</h3>
                     <p class="text-center">Explora los movimientos de las bolsas más importantes del mundo gracias a
                         nuestra integración con APIs financieras avanzadas.</p>
@@ -53,7 +53,7 @@
             </div>
             <div class="col-md-6 mb-4">
                 <div class="card card-custom p-4">
-                    <img src="../static/images/trofeo.png" alt="Competencia" class="mx-auto mb-3 icon">
+                    <img src="../static/images/trofeo.png" alt="Icono de Competencia y Ranking" class="mx-auto mb-3 icon">
                     <h3 class="text-center fw-bold">Competencia y Ranking Global</h3>
                     <p class="text-center">Enfréntate a otros usuarios y demuestra quién es el mejor trader de la
                         comunidad.</p>
@@ -61,7 +61,7 @@
             </div>
             <div class="col-md-6 mb-4">
                 <div class="card card-custom p-4">
-                    <img src="../static/images/shield.png" alt="Seguro" class="mx-auto mb-3 icon">
+                    <img src="../static/images/shield.png" alt="Icono de Seguridad" class="mx-auto mb-3 icon">
                     <h3 class="text-center fw-bold">100% Seguro</h3>
                     <p class="text-center">Aprende a invertir sin arriesgar ni un centavo. ¡Todo es virtual, excepto tu
                         aprendizaje!</p>
@@ -71,8 +71,8 @@
     </div>
 
     <div class="cohete container-fluid vh-100 d-flex flex-column justify-content-center align-items-center text-center">
-        <img src="../static/images/cohete.png" alt="TRADEQUEST" class="img-fluid my-4">
-        <a th:href="@{/logIn}">
+        <img src="../static/images/cohete.png" alt="Imagen de cohete representando el progreso" class="img-fluid my-4">
+        <a th:href="@{/logIn}" aria-label="Ir a la página de inicio de sesión">
             <button class="btn btn-secondary-custom">Comienza Ahora</button>
         </a>
     </div>
@@ -85,13 +85,13 @@
             <img src="../static/images/instagram.png" alt="Instagram" class="icon">
             <img src="../static/images/linkedin.png" alt="LinkedIn" class="icon">
             <img src="../static/images/tiktok.png" alt="TikTok" class="icon">
-            <img src="../static/images/x.png" alt="X" class="icon">
-            <img src="../static/images/youtube.png" alt="Grupo" class="icon">
+            <img src="../static/images/x.png" alt="X, anteriormente Twitter" class="icon">
+            <img src="../static/images/youtube.png" alt="YouTube" class="icon">
         </div>
         <p class="mt-2">Síguenos</p>
         <p class="mt-4">Copyright © 2023 TRADEQUEST® España</p>
         <div class="d-flex justify-content-center gap-4 mt-3">
-            <a th:href="@{/policies}" class="text-white">Políticas y Contacto</a>
+            <a th:href="@{/policies}" class="text-white" aria-label="Ir a Políticas y Contacto">Políticas y Contacto</a>
         </div>
     </div>
 </div>

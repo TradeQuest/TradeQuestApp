@@ -22,15 +22,15 @@
   <th:block th:fragment="content">
     <div class="container mt-4">
       <div class="row">
-        <!-- � Sección de Perfil (Izquierda, más ancha) -->
+        <!-- Sección de Perfil (Izquierda, más ancha) -->
         <div class="col-md-7">
           <div id="CardConf" class="card p-5 shadow-lg" >
             <div class="text-center">
-              <img src="../static/images/LogoUser.png" alt="User Avatar" class="rounded-circle mb-4" width="150">
+              <img src="../static/images/LogoUser.png" alt="Avatar del usuario" class="rounded-circle mb-4" width="150">
               <div class="input-group mb-4 w-50 mx-auto">
-                <input id="UserNick" type="text" class="form-control text-center fs-4"  >
+                <input id="UserNick" type="text" class="form-control text-center fs-4" aria-label="Nombre de usuario">
                 <span class="input-group-text">
-                 <button class="z-1 btn btn-outline-secondary" type="button">
+                 <button class="z-1 btn btn-outline-secondary" type="button" aria-label="Cambiar nombre de usuario">
                     Cambiar
                     </button>
                 </span>
@@ -47,20 +47,20 @@
           </div>
         </div>
 
-        <!-- 🔑 Sección Cuenta y Soporte -->
+        <!-- Sección Cuenta y Soporte -->
         <div class="col-md-5">
           <!-- Cuenta -->
           <div id="CardAccount" class="card p-5 shadow-lg mb-4" >
             <h3 class="text-white text-center mb-4">Cuenta</h3>
             <label for="password" class="text-white fs-5">Gestionar cuenta</label>
             <div class="input-group mb-4">
-              <input type="password" id="password" class="form-control fs-4" value="Contraseña" >
-              <button class="btn btn-outline-secondary" type="button" onclick="togglePassword()">
+              <input type="password" id="password" class="form-control fs-4" value="Contraseña" aria-label="Contraseña actual">
+              <button class="btn btn-outline-secondary" type="button" onclick="togglePassword()" aria-label="Mostrar u ocultar contraseña">
                 Mostrar
               </button>
             </div>
 
-            <button class="btn btn-danger w-100 fs-5">Borrar Cuenta</button>
+            <button class="btn btn-danger w-100 fs-5" aria-label="Eliminar cuenta">Borrar Contraseña</button>
           </div>
 
           <!-- Soporte -->
@@ -68,7 +68,7 @@
             <h3 class="text-white">¿Necesitas Ayuda?</h3>
             <p class="text-white fs-5">Si tienes dudas o problemas, accede a nuestra página de soporte y envíanos tu
               solicitud</p>
-            <a th:href="@{/support}" class="btn btn-danger">🟢 SOPORTE</a>
+            <a th:href="@{/support}" class="btn btn-danger" aria-label="Ir a la página de soporte">🟢 SOPORTE</a>
           </div>
         </div>
       </div>
@@ -76,18 +76,11 @@
   </th:block>
 </div>
 
-
-
-
-
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="../static/js/script.js"></script>
 <script src="../static/js/ConfigurationScript.js"></script>
-
-
-
 
 </body>
 </html>

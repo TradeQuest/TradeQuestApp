@@ -20,21 +20,21 @@
         <div class="col-lg-5 col-md-6 col-sm-12 text-center text-md-start mb-4 mt-5">
             <h2 class="text-white text-center mb-4">Cómo Funciona</h2>
             <div class="d-flex align-items-center mb-3">
-                <img src="../static/images/Number1.png" alt="1" class="Numero img-fluid me-3">
+                <img src="../static/images/Number1.png" alt="Paso 1: Crear perfil de trader" class="Numero img-fluid me-3">
                 <div>
                     <h4 class="text-white mb-1">Crea tu Perfil de Trader</h4>
                     <p class="text-white-50 mb-0">Define tu nivel y establece tus objetivos financieros.</p>
                 </div>
             </div>
             <div class="d-flex align-items-center mb-3">
-                <img src="../static/images/Number2.png" alt="2" class="Numero img-fluid me-3">
+                <img src="../static/images/Number2.png" alt="Paso 2: Jugar y aprender" class="Numero img-fluid me-3">
                 <div>
                     <h4 class="text-white mb-1">Juega y Aprende</h4>
                     <p class="text-white-50 mb-0">Completa misiones y estrategias con datos reales.</p>
                 </div>
             </div>
             <div class="d-flex align-items-center mb-3">
-                <img src="../static/images/Number3.png" alt="3" class="Numero img-fluid me-3">
+                <img src="../static/images/Number3.png" alt="Paso 3: Seguimiento de progreso" class="Numero img-fluid me-3">
                 <div>
                     <h4 class="text-white mb-1">Sigue tu Progreso</h4>
                     <p class="text-white-50 mb-0">Mejora tus habilidades y prepárate para el mercado real.</p>
@@ -46,25 +46,25 @@
         <div class="col-lg-5 col-md-6 col-sm-12 mx-auto">
             <div class="glass-card p-4">
                 <h2 class="text-white text-center mb-3">Inicia Sesión</h2>
-                <input id="correo" name="Correo" type="text" class="input-field w-100 mb-3" placeholder="Correo Electronico">
-                <input id="contra" name="contra" type="password" class="input-field w-100 mb-3" placeholder="Contraseña">
+                <input id="correo" name="Correo" type="text" class="input-field w-100 mb-3" aria-label="Correo Electrónico" placeholder="Correo Electronico">
+                <input id="contra" name="contra" type="password" class="input-field w-100 mb-3" aria-label="Contraseña" placeholder="Contraseña">
                 <div class="form-check mb-3">
                     <input class="form-check-input" type="checkbox" id="rememberMe">
-                    <label class="form-check-label text-white" for="rememberMe">Manténme conectado</label>
+                    <label class="form-check-label text-white" for="rememberMe" aria-label="Mantener sesión iniciada">Manténme conectado</label>
                 </div>
-                <button id="ingresarBtn" type="button" class="gradient-button w-100 mb-3">Ingresar</button>
-                <p class="text-center"><a href="#" class="text-highlight">¿Olvidaste la contraseña?</a></p>
+                <button id="ingresarBtn" type="button" class="gradient-button w-100 mb-3" aria-label="Iniciar sesión">Ingresar</button>
+                <p class="text-center"><a href="#" class="text-highlight" aria-label="Recuperar contraseña">¿Olvidaste la contraseña?</a></p>
                 <div class="d-flex justify-content-center align-items-center mb-3">
                     <div class="divider"></div>
                     <span class="text-white mx-2">O</span>
                     <div class="divider"></div>
                 </div>
-                <a th:href="@{/login/oauth2/authorization/google}">
+                <a th:href="@{/login/oauth2/authorization/google}" aria-label="Iniciar sesión con Google">
                 <button class="social-button mb-3 w-100" style="background: rgba(200, 200, 200, 0.5); border-radius: 20px;">
                     <img src="../static/images/google.png" alt="Google"> Conectar con Google
                 </button>
                 </a>
-                <p class="text-white">¿No tienes cuenta? <a href="#" class="text-highlight" data-bs-toggle="modal" data-bs-target="#registroModal">Regístrate</a></p>
+                <p class="text-white">¿No tienes cuenta? <a href="#" class="text-highlight" data-bs-toggle="modal" data-bs-target="#registroModal" aria-label="Abrir registro">Regístrate</a></p>
             </div>
         </div>
     </div>
