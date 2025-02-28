@@ -25,18 +25,20 @@
     <th:block th:fragment="content">
         <div class="container-fluid mt-4">
             <h1 class="text-white text-center mb-4">MARKET</h1>
+
+            <!-- Tabla de Market -->
             <div class="row">
                 <div class="col-md-12">
                     <div class="card p-3 bg-transparent border-0">
                         <table class="table text-center market-table">
                             <thead>
                             <tr>
-                                <th>Nombre</th>
-                                <th>Símbolo (NASDAQ)</th>
-                                <th>Precio actual</th>
-                                <th>Cambio</th>
-                                <th>Comprar</th>
-                                <th>Gráfico Histórico</th>
+                                <th style="width: 20%;">Nombre</th>
+                                <th style="width: 10%;">Símbolo</th>
+                                <th style="width: 10%;">Precio</th>
+                                <th style="width: 10%;">Cambio</th>
+                                <th style="width: 10%;">Comprar</th>
+                                <th style="width: 50%;">Gráfico Histórico</th>
                             </tr>
                             </thead>
                             <tbody id="marketTableBody">
@@ -45,6 +47,7 @@
                             </tr>
                             </tbody>
                         </table>
+
                     </div>
                 </div>
             </div>
@@ -98,6 +101,7 @@
 
 <!-- Scripts -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../static/js/utils.js"></script>
 <script src="../static/js/MarketData.js"></script>
 <script src="../static/js/script.js"></script>
 

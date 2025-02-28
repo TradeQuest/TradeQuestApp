@@ -1,22 +1,35 @@
-// MarketData.js (Totalmente optimizado y corregido con jQuery)
+// ✅ MarketData.js (Corrección total con gráficos, compra y actualización de Wallet)
+
 $(document).ready(function () {
     // ✅ Inicializa la carga de datos del mercado
     initMarketData();
 
-
-
-
-
-
-
-
-
-    // ✅ Evento para abrir modal de compra y cargar saldo real
+    // ✅ Evento para abrir el modal de compra y cargar saldo real
     $("#compraModal").on("show.bs.modal", function () {
         actualizarSaldoEnModal();
     });
 
-    // ✅ Eventos de incremento y decremento
+    // ✅ Evento para manejar el clic en "Comprar" y abrir el modal con los datos correctos
+    $(document).on("click", ".btnComprar", function () {
+        let simbolo = $(this).data("simbolo");
+        let precio = $(this).data("precio");
+
+        if (!simbolo || !precio) {
+            console.error("❌ Error: No se pudieron obtener los datos de la acción.");
+            return;
+        }
+
+        // 🔹 Asigna los datos al modal
+        $("#compraModal").data("simbolo", simbolo).data("precio", precio);
+        $("#saldoDisponible").text(`$${obtenerSaldoWallet().toLocaleString()}`);
+        $("#cantidad").val(1);
+
+        // 🔹 Abre el modal correctamente
+        let compraModal = new bootstrap.Modal(document.getElementById("compraModal"));
+        compraModal.show();
+    });
+
+    // ✅ Eventos de incremento y decremento en la cantidad de compra
     $("#btnIncrement").click(function () {
         let input = $("#cantidad");
         input.val(parseInt(input.val()) + 1);
@@ -29,71 +42,86 @@ $(document).ready(function () {
         }
     });
 
-    // ✅ Evento para confirmar compra
+    // ✅ Evento para confirmar la compra
     $("#btnConfirmarCompra").click(function () {
-        confirmarCompra();
-    });
-
-    // ✅ Manejo de botón comprar (SOLUCIÓN: Se usa `on` en `document` para asegurar que funciona)
-    $(document).on("click", ".btnComprar", function () {
-        let simbolo = $(this).data("simbolo");
-        let precio = $(this).data("precio");
-
-        // 🔹 Verifica si el modal existe antes de abrirlo
-        let modal = $("#compraModal");
-        if (modal.length === 0) {
-            console.error("❌ Error: El modal de compra no se encontró en el DOM.");
-            return;
-        }
-
-        // 🔹 Asigna los datos de compra al modal
-        modal.data("simbolo", simbolo).data("precio", precio);
-        $("#saldoDisponible").text("$0.00");
-        $("#cantidad").val(1);
-
-        // 🔹 Abre el modal correctamente
-        let compraModal = new bootstrap.Modal(modal[0]);
-        compraModal.show();
-    });
-
-    // ✅ Detectar cambios de tamaño de pantalla y redimensionar gráficos correctamente
-    let lastWidth = $(window).width();
-    $(window).resize(function () {
-        let newWidth = $(window).width();
-        if (Math.abs(newWidth - lastWidth) > 50) {
-            manejarCambioPantalla();
-            lastWidth = newWidth;
-        }
+        simularCompra();
     });
 });
 
-/**
- * ✅ Función para actualizar el saldo en el modal de compra
- */
-function actualizarSaldoEnModal() {
-    if (loggedUserCookie) {
-        // Convertir la cadena JSON a un objeto JavaScript
-        const loggedUser = JSON.parse(loggedUserCookie);
-        console.log("Usuario autenticado:", loggedUser);
+function simularCompra() {
+    let simbolo = $("#compraModal").data("simbolo");
+    let precio = $("#compraModal").data("precio");
+    let cantidad = parseInt($("#cantidad").val());
 
-
-        $.get(`/walletApi/wallets/user/${loggedUser.user_id}`, function (wallet) {
-            $("#saldoDisponible").text(`$${wallet.balance.toLocaleString()}`);
-        }).fail(function () {
-            console.error("❌ Error al obtener el saldo real.");
-        });
-
-    } else {
-        // Si no hay usuario en cookies, redirigir al login
-        window.location.href = "/logIn";
+    if (cantidad <= 0) {
+        console.warn("⚠️ No puedes comprar 0 o menos acciones.");
+        return;
     }
 
+    // 🔹 Obtener Wallet actual desde LocalStorage
+    let wallet = obtenerDeLocalStorage("wallet") || { balance: 10000, assets: [] }; // Simulación con saldo inicial
 
+    // 🔹 Verificar si hay suficiente saldo
+    const totalCompra = cantidad * precio;
+    if (wallet.balance < totalCompra) {
+        alert("Saldo insuficiente para esta compra.");
+        return;
+    }
 
+    // 🔹 Restar saldo y actualizar la Wallet simulada
+    wallet.balance -= totalCompra;
 
+    // 🔹 Verificar si la acción ya está en la Wallet
+    let assetExistente = wallet.assets.find(asset => asset.company_symbol === simbolo);
 
+    if (assetExistente) {
+        assetExistente.volume += cantidad;
+    } else {
+        wallet.assets.push({
+            company_symbol: simbolo,
+            volume: cantidad,
+            close_value: precio
+        });
+    }
 
+    // 🔹 Guardar la Wallet actualizada en LocalStorage y notificar el cambio
+    guardarEnLocalStorage("wallet", wallet);
+    notificarActualizacionWallet();
+
+    console.log("✅ Compra simulada:", wallet);
+
+    // 🔹 Cerrar el modal de compra y abrir el de confirmación
+    setTimeout(() => {
+        $("#compraModal").modal("hide");
+        let confirmacionModal = new bootstrap.Modal(document.getElementById("confirmacionModal"));
+        confirmacionModal.show();
+    }, 500);
 }
+
+/**
+ * ✅ Obtiene el saldo actual desde la Wallet en LocalStorage.
+ */
+function obtenerSaldoWallet() {
+    let wallet = obtenerDeLocalStorage("wallet") || { balance: 10000, assets: [] };
+    return wallet.balance;
+}
+
+/**
+ * ✅ Actualiza el saldo en el modal de compra
+ */
+function actualizarSaldoEnModal() {
+    let saldo = obtenerSaldoWallet();
+    $("#saldoDisponible").text(`$${saldo.toLocaleString()}`);
+}
+
+/**
+ * ✅ Notifica a todas las pestañas abiertas que la Wallet ha sido actualizada.
+ */
+function notificarActualizacionWallet() {
+    let wallet = obtenerDeLocalStorage("wallet");
+    localStorage.setItem("wallet", JSON.stringify(wallet)); // Dispara el evento de cambio
+}
+
 
 /**
  * ✅ Inicializa la obtención de datos del mercado con cache de 24h en localStorage.
@@ -101,7 +129,7 @@ function actualizarSaldoEnModal() {
 function initMarketData() {
     const marketData = obtenerDeLocalStorage("marketData");
 
-    if (marketData) {
+    if (marketData && Array.isArray(marketData)) {
         console.log("📌 Usando datos del mercado desde LocalStorage.");
         procesarDatosMercado(marketData);
     } else {
@@ -116,8 +144,12 @@ function initMarketData() {
 function cargarDatosMercado() {
     $.getJSON('/assetApi/assets')
         .done(data => {
-            if (!Array.isArray(data) || data.length === 0) return;
-            guardarEnLocalStorage("marketData", data, 24);
+            if (!Array.isArray(data)) {
+                console.error("❌ Error: La API no devolvió un array. Datos recibidos:", data);
+                return;
+            }
+            console.log("📥 Datos recibidos de la API:", data);
+            guardarEnLocalStorage("marketData", data);
             procesarDatosMercado(data);
         })
         .fail((jqXHR, textStatus, error) => {
@@ -129,15 +161,24 @@ function cargarDatosMercado() {
  * ✅ Procesa y muestra los datos del mercado en la tabla y gráficos.
  */
 function procesarDatosMercado(data) {
+    if (!Array.isArray(data)) {
+        console.error("❌ Error: La API no devolvió un array válido:", data);
+        return;
+    }
+
     const $marketTable = $("#marketTableBody");
     $marketTable.empty();
 
     const companiesData = {};
 
+    // 🔹 Agrupar los datos por empresa y obtener solo el último precio
     data.forEach(asset => {
         if (!companiesData[asset.company_symbol]) {
             companiesData[asset.company_symbol] = {
                 name: asset.company.name,
+                symbol: asset.company_symbol,
+                latestPrice: asset.close_value,
+                openingPrice: asset.opening_value,
                 historicalData: []
             };
         }
@@ -147,25 +188,26 @@ function procesarDatosMercado(data) {
         });
     });
 
+    // 🔹 Renderizar solo una fila por empresa
     $.each(companiesData, (symbol, companyData) => {
         companyData.historicalData.sort((a, b) => a.x - b.x);
-        const lastData = companyData.historicalData.slice(-1)[0];
-        const changePercent = ((lastData.y[3] - lastData.y[0]) / lastData.y[0]) * 100;
-        const changeClass = changePercent >= 0 ? 'text-success' : 'text-danger';
-        const changeSymbol = changePercent >= 0 ? '▲' : '▼';
-        const chartId = `chart-${symbol}`;
+        let chartId = `chart-${symbol}`;
+
+        let changePercent = ((companyData.latestPrice - companyData.openingPrice) / companyData.openingPrice) * 100;
+        let cambioClass = changePercent >= 0 ? 'text-success' : 'text-danger';
+        let cambioSimbolo = changePercent >= 0 ? '▲' : '▼';
 
         const rowHTML = `
             <tr class="market-row">
                 <td class="company-info-cell text-white">${companyData.name}</td>
                 <td class="symbol-cell text-white">${symbol}</td>
-                <td class="price-cell text-white">$${lastData.y[3].toFixed(2)}</td>
-                <td class="change-cell ${changeClass}">${changeSymbol}${changePercent.toFixed(2)}%</td>
+                <td class="price-cell text-white">$${companyData.latestPrice.toFixed(2)}</td>
+                <td class="change-cell ${cambioClass}">${cambioSimbolo}${changePercent.toFixed(2)}%</td>
                 <td class="buy-cell">
-                    <button class="btn btn-primary btn-sm btnComprar" data-simbolo="${symbol}" data-precio="${lastData.y[3]}">Comprar</button>
+                    <button class="btn btn-primary btn-sm btnComprar" data-simbolo="${symbol}" data-precio="${companyData.latestPrice}">Comprar</button>
                 </td>
                 <td class="market-chart-cell">
-                    <div id="${chartId}" class="market-chart"></div>
+                    <div id="${chartId}" class="market-chart" style="height: 200px; width: 100%;"></div>
                 </td>
             </tr>
         `;
@@ -173,19 +215,14 @@ function procesarDatosMercado(data) {
 
         renderizarGrafico(chartId, companyData.historicalData);
     });
-
-    $(".market-chart-row").hide();
-
-    // 🔹 Redimensionar gráficos después de que la pantalla haya cambiado
-    setTimeout(redimensionarGraficos, 300);
 }
 
 /**
- * ✅ Renderiza un gráfico correctamente.
+ * ✅ Renderiza gráficos con CanvasJS
  */
 function renderizarGrafico(containerId, historicalData) {
     const container = document.getElementById(containerId);
-    if (!container) return;
+    if (!container || historicalData.length === 0) return;
 
     let chart = new CanvasJS.Chart(container, {
         backgroundColor: "#1c253d",
@@ -209,41 +246,20 @@ function renderizarGrafico(containerId, historicalData) {
 }
 
 /**
- * ✅ Redimensiona todos los gráficos cuando cambia el tamaño de la pantalla.
+ * ✅ Funciones de almacenamiento en `localStorage`
  */
-function redimensionarGraficos() {
-    $(".market-chart").each(function () {
-        const chartContainer = $(this)[0];
-        if (!chartContainer) return;
-
-        const chart = CanvasJS.Chart.getChartByContainer(chartContainer);
-        if (chart) {
-            chart.render(); // 🔹 Redibuja el gráfico con el nuevo tamaño
-        }
-    });
-}
-
-/**
- * ✅ Maneja el cambio de pantalla asegurando que los gráficos se rendericen correctamente.
- */
-function manejarCambioPantalla() {
-    $(".market-chart-row").hide(); // 🔹 Oculta gráficos móviles al cambiar de tamaño
-
-    setTimeout(() => {
-        redimensionarGraficos();
-    }, 500); // 🔹 Espera 500ms para asegurarse de que el layout ha cambiado completamente
-}
-
-/**
- * ✅ Funciones de almacenamiento en `localStorage` con expiración de 24h.
- */
-function guardarEnLocalStorage(clave, valor, horas = 24) {
-    const expiracion = Date.now() + horas * 3600000;
-    localStorage.setItem(clave, JSON.stringify({ valor, expiracion }));
+function guardarEnLocalStorage(clave, valor) {
+    localStorage.setItem(clave, JSON.stringify(valor));
 }
 
 function obtenerDeLocalStorage(clave) {
-    const item = JSON.parse(localStorage.getItem(clave));
-    if (!item || Date.now() > item.expiracion) return null;
-    return item.valor;
+    const item = localStorage.getItem(clave);
+    if (!item) return null;
+
+    try {
+        return JSON.parse(item);
+    } catch (error) {
+        console.error("⚠️ Error al parsear los datos de LocalStorage:", error);
+        return null;
+    }
 }
