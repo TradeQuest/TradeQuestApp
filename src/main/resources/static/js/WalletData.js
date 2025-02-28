@@ -39,7 +39,8 @@ function actualizarInterfazWallet(wallet) {
     $assetsList.empty();
 
     if (!wallet.assets || wallet.assets.length === 0) {
-        $assetsList.append("<li class='text-white text-center'>No tienes acciones aún.</li>");
+        $assetsList.append("<li class='text-white text-center'> APPL  <span class='text-danger' >-1,38%</span> &nbsp; Cantidad: 1.0  </p> </li> <li class='text-white text-center'> NASDAQ: NKE <span class='text-success' >+1,76%</span> &nbsp; Cantidad: 2.0  </p></li>");
+
         return;
     }
 
